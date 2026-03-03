@@ -1,4 +1,4 @@
-import { Utensils, Coffee, Apple, Sparkles, Wind } from "lucide-react";
+import { Utensils, Coffee, Apple, Sparkles, Wind, LucideIcon } from "lucide-react";
 import { AspectRatio } from "./ui/aspect-ratio";
 import kantineImg from "../../images/kantine.jpg";
 import cateringImg from "../../images/catering.jpg";
@@ -8,7 +8,14 @@ import inneklimaImg from "../../images/inneklima.jpg"
 import lunsjImg from "../../images/lunsj.jpg";
 
 
-const services = [
+type Service = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  image: string;
+};
+
+const services: Service[] = [
   {
     icon: Utensils,
     title: "Kantine",
