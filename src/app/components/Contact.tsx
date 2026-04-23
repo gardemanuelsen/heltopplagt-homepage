@@ -1,6 +1,19 @@
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+
+const services = ["Lunsj", "Katine", "Catering", "Frukt", "Inneklima", "Renhold"];
 
 export function Contact() {
+const [selectedServices, setSelectedServices] = useState<string[]>([]);
+
+    const toggleCheckbox = (value: string) => {
+    setSelectedServices(prev => 
+      prev.includes(value) 
+        ? prev.filter(item => item !== value) // Fjern hvis allerede valgt
+        : [...prev, value]                    // Legg til hvis ikke valgt
+    );
+  };
+
   return (
     <section id="kontakt" className="py-20 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,7 +86,7 @@ export function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8] bg-white"
                   placeholder="Ditt navn"
                 />
               </div>
@@ -86,7 +99,7 @@ export function Contact() {
                   type="text"
                   id="company"
                   name="company"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8] bg-white"
                   placeholder="Ditt firmanavn"
                 />
               </div>
@@ -99,7 +112,7 @@ export function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8] bg-white"
                   placeholder="din@epost.no"
                 />
               </div>
@@ -112,7 +125,7 @@ export function Contact() {
                   type="tel"
                   id="phone"
                   name="phone"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8] bg-white"
                   placeholder="+47 123 45 678"
                 />
               </div>
@@ -122,86 +135,28 @@ export function Contact() {
                   Jeg er interessert i
                 </label>
                 <div className="space-y-3">
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value="kantine"
-                        className="peer sr-only"
-                      />
-                      <div className="w-5 h-5 border-2 border-[#2a76b8] rounded peer-checked:bg-transparent peer-checked:border-[#2a76b8] transition-colors flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#2a76b8] hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <span className="text-gray-700">Kantine</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value="lunsj"
-                        className="peer sr-only"
-                      />
-                      <div className="w-5 h-5 border-2 border-[#2a76b8] rounded peer-checked:bg-transparent peer-checked:border-[#2a76b8] transition-colors flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#2a76b8] hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <span className="text-gray-700">Lunsj</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value="frukt"
-                        className="peer sr-only"
-                      />
-                      <div className="w-5 h-5 border-2 border-[#2a76b8] rounded peer-checked:bg-transparent peer-checked:border-[#2a76b8] transition-colors flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#2a76b8] hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <span className="text-gray-700">Frukt</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value="renhold"
-                        className="peer sr-only"
-                      />
-                      <div className="w-5 h-5 border-2 border-[#2a76b8] rounded peer-checked:bg-transparent peer-checked:border-[#2a76b8] transition-colors flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#2a76b8] hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <span className="text-gray-700">Renhold</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer group">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        name="services"
-                        value="inneklima"
-                        className="peer sr-only"
-                      />
-                      <div className="w-5 h-5 border-2 border-[#2a76b8] rounded peer-checked:bg-transparent peer-checked:border-[#2a76b8] transition-colors flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#2a76b8] hidden peer-checked:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <span className="text-gray-700">Inneklima</span>
-                  </label>
+ {services.map(service => (
+        <label key={service} className="flex items-center space-x-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={selectedServices.includes(service)}
+            onChange={() => toggleCheckbox(service)}
+          className="appearance-none w-5 h-5 border-2 border-[#2a76b8] rounded 
+                   checked:bg-[#2a76b8] checked:border-[#2a76b8]
+                   checked:bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%223%22%20d%3D%22m6%2010%203%203%206-6%22%2F%3E%3C%2Fsvg%3E')] 
+                   bg-center bg-no-repeat bg-[length:100%_100%]
+                   focus:outline-none transition-all"
+          />
+          <span className="text-gray-700">{service}</span>
+        </label>
+      ))}
+
+
+   
+   
+   
+
+
                 </div>
               </div>
 
@@ -213,14 +168,14 @@ export function Contact() {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2a76b8] bg-white"
                   placeholder="Beskriv dine behov..."
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#2a76b8] text-white px-8 py-3 rounded-md hover:bg-[#152643] transition-colors"
+                className="w-full bg-[#2a76b8] text-white px-8 py-3 rounded-md hover:bg-[#0062a3] transition-colors"
               >
                 Send melding
               </button>

@@ -1,9 +1,10 @@
 import { Hero } from "../components/Hero";
-import { References } from "../components/References";
 import { Services } from "../components/Services";
 import { About } from "../components/About";
-import { Reviews } from "../components/Reviews";
+import { CtaSection } from "../components/CtaSection";
 import { Contact } from "../components/Contact";
+import { References } from "../components/References";
+import { Reviews } from "../components/Reviews";
 
 export function HomePage() {
   return (
@@ -11,8 +12,8 @@ export function HomePage() {
       <Hero />
       <References />
       <Services />
-      <About />
       <Reviews />
+      <About />
       <Contact />
     </>
   );
