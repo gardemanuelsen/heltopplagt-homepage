@@ -187,7 +187,7 @@ function NotchedServiceCard({ service }: { service: Service }) {
               </div>
             </div>
             <p
-              className={`text-white/85 leading-relaxed ${
+              className={`text-white/85 leading-relaxed ${hovered ? '' : 'hidden'}  ${
                 service.size === 'featured'
                   ? 'text-sm md:text-base max-w-lg'
                   : 'text-sm line-clamp-2 max-w-md'
