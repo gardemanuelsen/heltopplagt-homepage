@@ -1,5 +1,6 @@
 import { Target, Users, Heart, Award } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+
+import heleGjengenImg from "../../images/hele_gjengen.jpg";
 
 const values = [
   {
@@ -45,11 +46,7 @@ export function OmOssPage() {
               </p>
             </div>
             <div className="aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1606836576983-8b458e75221d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjYW50ZWVuJTIwY2FmZXRlcmlhfGVufDF8fHx8MTc3MjUzMTAxNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Helt Opplagt team"
-                className="w-full h-full object-cover"
-              />
+              <img src={heleGjengenImg} alt="Hele gjengen" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>

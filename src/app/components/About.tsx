@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router";
-import lunsjImg from "../../images/lunsj.png";
+import lunsjImg from "../../images/lunsj/lunsj.png";
 
 const points = [
   "Pålitelig partner for over 200 bedrifter i Oslo",
