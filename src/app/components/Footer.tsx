@@ -2,7 +2,14 @@ import { Linkedin, Mail } from "lucide-react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
 
-const serviceLinks = ["Kantine", "Lunsj", "Frukt", "Renhold", "Inneklima", "Catering"];
+const serviceLinks = [
+  { label: "Kantine", to: "/tjenester/kantine" },
+  { label: "Lunsj", to: "/tjenester/lunsj" },
+  { label: "Frukt", to: "/tjenester/frukt" },
+  { label: "Renhold", to: "/tjenester/renhold" },
+  { label: "Inneklima", to: "/tjenester/inneklima" },
+  { label: "Catering", to: "/tjenester/catering" },
+];
 const companyLinks = [
   { label: "Om oss", to: "/om-oss" },
   { label: "Referanser", to: "/referanser" },
@@ -47,11 +54,11 @@ export function Footer() {
           <div className="flex flex-col gap-0.5">
             {serviceLinks.map((s) => (
               <Link
-                key={s}
-                to="/tjenester"
+                key={s.to}
+                to={s.to}
                 className="text-sm text-white/[0.52] hover:text-white transition-colors py-[5px]"
               >
-                {s}
+                {s.label}
               </Link>
             ))}
           </div>
@@ -81,8 +88,8 @@ export function Footer() {
             Kontakt
           </p>
           {[
-            { label: "E-post", val: "post@heltopplagt.no" },
-            { label: "Telefon", val: "+47 22 00 00 00" },
+            { label: "E-post", val: "bli@heltopplagt.no" },
+            { label: "Telefon", val: "02346" },
             { label: "Adresse", val: "Oslo, Norge" },
           ].map((item, i) => (
             <div key={i} className="mb-4">

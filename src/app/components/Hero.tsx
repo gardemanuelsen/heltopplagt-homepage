@@ -16,12 +16,12 @@ export function Hero() {
 
       <div className="max-w-[1280px] mx-auto px-8 grid lg:grid-cols-2 min-h-[600px]">
         {/* Left: text */}
-        <div className="flex flex-col justify-center py-20 lg:pr-12 relative z-[2]">
+        <div className="flex flex-col justify-center pt-32 pb-20 lg:py-20 lg:pr-12 relative z-[2]">
           {/* Eyebrow */}
           <div className="flex items-center gap-2.5 mb-7">
             <div className="w-8 h-0.5 bg-[#0078C4]" />
             <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#66aedc]">
-               Lunsj &middot; Kantine &middot; Frukt &middot; Catering &middot; Inneklima &middot; Renhold  
+               Lunsj &middot; Kantine &middot; Frukt &middot; Catering &middot; Inneklima &middot; Renhold
             </span>
           </div>
 
@@ -36,7 +36,7 @@ export function Hero() {
           <p className="text-[17px] text-white/60 leading-relaxed mb-9 max-w-[420px]">
             Helt Opplagt på jobben er en markedsorientert leverandør av løpende
             abonnementsbaserte tjenester innen helse og trivsel på arbeidsplassen.
-            
+
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">

@@ -1,118 +1,58 @@
-import { Target, Users, Heart, Award } from "lucide-react";
-import fruktImg from "../../../images/frukt/frukt2.png";;
+import { ServicePage, ServicePageData } from "../../components/ServicePage";
+import heroImg from "../../../images/frukt/frukt2.png";
+import highlightImg from "../../../images/frukt/frukt3.png";
 
-const values = [
-  {
-    icon: Target,
-    title: "Vårt oppdrag",
-    description: "Å levere fremragende fasilitetsløsninger som gjør hverdagen enklere for våre kunder.",
+const data: ServicePageData = {
+  path: "/tjenester/frukt",
+  badge: "Helse & Trivsel",
+  title: (
+    <>
+      Fersk frukt som gir{" "}
+      <span className="text-[#0078C4] italic font-light">ny energi</span>
+    </>
+  ),
+  intro:
+    "Du bestemmer størrelse og innhold — vi leverer ferske, håndplukkede fruktkurver rett til arbeidsplassen, daglig eller etter behov.",
+  image: heroImg,
+  imageAlt: "Fruktkurv fra Helt Opplagt",
+  steps: [
+    {
+      title: "Fortell oss om dere",
+      description:
+        "Hvor mange er dere, og hva liker dere? Vi hjelper deg å finne riktig størrelse og innhold.",
+    },
+    {
+      title: "Vi setter sammen kurven",
+      description:
+        "Vi plukker sesongens beste frukt og setter sammen en kurv tilpasset din bedrift.",
+    },
+    {
+      title: "Fast levering",
+      description:
+        "Kurvene leveres på faste dager, og du kan justere ordningen når som helst underveis.",
+    },
+  ],
+  highlight: {
+    eyebrow: "Hvorfor fruktordning?",
+    title: "Et lite gode med stor effekt",
+    description:
+      "En fruktkurv er en av de enkleste og rimeligste velferdsgodene en bedrift kan tilby — og en av de mest populære. Ferskt påfyll i løpet av dagen gir mer energi, bedre konsentrasjon og et hyggelig avbrekk.",
+    points: [
+      "Sunt alternativ som holder energien oppe hele arbeidsdagen",
+      "Synlig og populært gode som ansatte setter pris på hver dag",
+      "Ingen administrasjon — vi tar oss av alt fra innkjøp til levering",
+      "Enkelt å skalere opp og ned etter hvor mange som er på kontoret",
+    ],
+    image: highlightImg,
   },
-  {
-    icon: Users,
-    title: "Teamet vårt",
-    description: "Over 50 dedikerte medarbeidere med erfaring og kompetanse innen fasilitetsforvaltning.",
+  quote: {
+    text: "Vi hadde et ønske om å tilføre de ansatte ny energi i form av sunne alternativer. Frukten er veldig populær, og det er konkurranse om å kaste seg over kurvene når de kommer. Vi er veldig godt fornøyd med Helt Opplagt — de er svært fleksible og raske til å følge opp ønsker.",
+    name: "Maria Bergström",
+    role: "Kontorsjef",
+    company: "Vinmonopolet AS",
   },
-  {
-    icon: Heart,
-    title: "Våre verdier",
-    description: "Kvalitet, pålitelighet og kundetilfredshet står i sentrum av alt vi gjør.",
-  },
-  {
-    icon: Award,
-    title: "Vår visjon",
-    description: "Å være den foretrukne partneren for fasilitetsløsninger i Oslo-området.",
-  },
-];
+};
 
 export function FruktPage() {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-[#f5f9fc] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl lg:text-5xl text-gray-900 mb-6">
-                Frukt
-              </h1>
-              <p className="text-lg text-gray-600 mb-6">
-                Helt Opplagt er en ledende leverandør av fasilitetsløsninger i Oslo-området. 
-                Siden vår etablering i 2011 har vi vokst til å bli en pålitelig partner for over 200 bedrifter.
-              </p>
-              <p className="text-lg text-gray-600">
-                Vi tilbyr et komplett spekter av tjenester innen kantine, lunsj, frukt, renhold og inneklima. 
-                Vårt mål er å levere høy kvalitet og skape trivsel for våre kunders medarbeidere.
-              </p>
-            </div>
-            <div className="aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-                 <img src={fruktImg} alt="Hele gjengen" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-4">
-              Hvem vi er
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Vi er et team av dedikerte fagfolk som brenner for å levere førsteklasses service
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-[#f5f9fc] rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-[#2a76b8]" />
-                  </div>
-                  <h3 className="text-xl text-gray-900 mb-2">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* History Section */}
-      <section className="py-20 bg-[#f5f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-8 text-center">
-              Vår historie
-            </h2>
-            <div className="space-y-6 text-lg text-gray-600">
-              <p>
-                Helt Opplagt ble grunnlagt i 2011 med en visjon om å tilby profesjonelle fasilitetsløsninger 
-                som gjør hverdagen enklere for bedrifter i Oslo-området.
-              </p>
-              <p>
-                Fra en liten oppstart har vi vokst til å bli en av regionens ledende leverandører, 
-                med over 200 fornøyde kunder og mer enn 50 dedikerte medarbeidere.
-              </p>
-              <p>
-                I dag tilbyr vi et bredt spekter av tjenester, fra kantinedrift og catering til renhold 
-                og inneklimaoptimalisering. Vår styrke ligger i vår evne til å tilpasse løsninger til 
-                hver enkelt kundes behov.
-              </p>
-              <p>
-                Vi er stolte av vårt arbeid og forpliktet til å fortsette å levere den høye kvaliteten 
-                våre kunder forventer av oss.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+  return <ServicePage data={data} />;
 }
