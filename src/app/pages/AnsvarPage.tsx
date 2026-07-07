@@ -3,7 +3,6 @@ import {
   Recycle,
   Heart,
   Users,
-  Award,
   Sprout,
   ShieldCheck,
 } from "lucide-react";
@@ -46,11 +45,6 @@ const goals = [
 ];
 
 const certifications = [
-  {
-    icon: Award,
-    title: "ISO 9001",
-    description: "Kvalitetsledelse",
-  },
   {
     icon: Sprout,
     title: "Miljøfyrtårn",

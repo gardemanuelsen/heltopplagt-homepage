@@ -234,16 +234,62 @@ export const cateringData: ServicePageData = {
       content: [
         {
           type: "text",
+          heading: "Leter du etter det perfekte stedet for ditt arrangement?",
           paragraphs: [
-            "På Store Stensrud gård syd i Oslo har vi plass til store utendørs arrangementer som sommerfest, kick-off, grillfest etc på et tradisjonsrikt gårdstun. Store arealer gir muligheter for dans, lek, spill og aktiviteter. Innendørs kan vi arrangere mindre selskaper for inntil 40–50 personer i koselige og ærverdige stuer, enten du skal arrangere bryllup, konfirmasjon eller firmafest.",
-            "Vi kan stille med mat, drikke, kokk og servitører.",
+            "Hos oss på Store Stensrud Gård, syd i Oslo, tilbyr vi unike lokaler for både store og små feiringer!",
             "Gården ligger lett tilgjengelig 15 minutters kjøretid syd for Oslo sentrum og har eget busstopp for ankomst med offentlig transport.",
           ],
         },
         {
           type: "image",
-          src: `${thumbs}/86c421f900ce5141ff7024eae753265e.jpg`,
-          alt: "Helt Opplagt på gården",
+          src: "https://heltopplagt.no/application/files/9217/7800/7300/garden.jpg",
+          alt: "Store Stensrud Gård",
+        },
+        {
+          type: "text",
+          heading: "Utendørs arrangementer — gårdsleker og grillfester",
+          paragraphs: [
+            "Gården har store utendørs arealer med plass til flere hundre mennesker til store sommerfester, kick-off, grillfester og mer!",
+            "Nyt vårt tradisjonsrike gårdstun med rikelig plass for dans, lek, spill og aktiviteter. Vi tilbyr morsomme aktiviteter som øksekast, ringspill, hesteskokasting, kasting på blikkbokser, melkespannholding etc.",
+          ],
+        },
+        {
+          type: "image",
+          src: "https://heltopplagt.no/application/files/5317/7800/6820/Utendors.jpg",
+          alt: "Utendørs arrangementer på gården",
+        },
+        {
+          type: "text",
+          heading: "Innendørs arrangementer",
+          paragraphs: [
+            "Vi dekker opp og pynter stallen for en genuin låvefest! Her har vi plass til 50–60 personer til bords, samt bar- og dansemuligheter. Er dere mange flere kan vi løse dette med telt utendørs. For mindre selskaper på ca 20 personer har vi også koselige og ærverdige stuer i hovedhuset.",
+            "Vi tilbyr mat, drikke, kokk og servitører, enten du ønsker grillfest eller selskapsmeny. Dere kan bare slappe av og nyte arrangementet!",
+          ],
+        },
+        {
+          type: "image",
+          src: "https://heltopplagt.no/application/files/5017/7800/6809/Innendors.jpg",
+          alt: "Innendørs arrangementer i stallen",
+        },
+        {
+          type: "text",
+          heading: "Paintball og Archery Tag",
+          paragraphs: [
+            "I samarbeid med vår nabo Highjump Event, kan vi også tilby fartsfylt action med paintball eller bueskyting!",
+          ],
+        },
+        {
+          type: "image",
+          src: "https://heltopplagt.no/application/files/9517/7800/6809/Paintball.jpg",
+          alt: "Paintball på gården",
+        },
+        {
+          type: "text",
+          heading: "Badeplass",
+          paragraphs: [
+            "En kort spasertur fra gården ligger Stensrudtjernet hvor du finner en fin badeplass med sandstrand og gressletter. Perfekt for arrangementer på varme sommerdager.",
+            "Så dersom du ser etter et annerledes og autentisk sted for å arrangere firmafest og event, eller dine ansatte trenger lokaler til bryllup, konfirmasjoner, dåp, navnefest etc., ta kontakt! Send epost til bli@heltopplagt.no eller ring 02346.",
+          ],
         },
       ],
     },
