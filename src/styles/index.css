@@ -21,4 +21,31 @@
       transparent 70%
     );
   }
+
+  /* Hero slideshow */
+  .animate-hero-zoom {
+    animation: hero-zoom 7.5s ease-out forwards;
+  }
+
+  .animate-hero-progress {
+    animation: hero-progress 6s linear forwards;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes hero-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }

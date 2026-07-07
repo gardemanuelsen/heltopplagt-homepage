@@ -204,7 +204,7 @@ function NotchedServiceCard({ service }: { service: Service }) {
 
 export function Services() {
   return (
-    <section id="tjenester" className="bg-white pt-24">
+    <section id="tjenester" className="bg-white pt-24 scroll-mt-20">
       <div className="max-w-[1280px] mx-auto px-8">
         {/* Header row */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-gray-200 pb-8">

@@ -13,6 +13,8 @@ import { RenholdPage } from "./pages/tjenester/Renhold";
 import { CateringPage } from "./pages/tjenester/Catering";
 import { InneklimaPage } from "./pages/tjenester/Inneklima";
 import { KantinePage } from "./pages/tjenester/Kantine";
+import { SubServicePage } from "./pages/tjenester/SubServicePage";
+import { TjenesterPage } from "./pages/TjenesterPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,12 +28,14 @@ export const router = createBrowserRouter([
       { path: "ansvar", Component: AnsvarPage },
       { path: "kontakt", Component: KontaktPage },
       { path: "karriere", Component: KarrierePage },
+      { path: "tjenester", Component: TjenesterPage },
       { path: "tjenester/frukt", Component: FruktPage },
       { path: "tjenester/lunsj", Component: LunsjPage },
       { path: "tjenester/renhold", Component: RenholdPage },
       { path: "tjenester/catering", Component: CateringPage },
       { path: "tjenester/inneklima", Component: InneklimaPage },
       { path: "tjenester/kantine", Component: KantinePage },
+      { path: "tjenester/:service/:slug", Component: SubServicePage },
     ],
   },
 ]);

@@ -1,89 +1,136 @@
-import { Building2, CheckCircle } from "lucide-react";
+import { Quote, Star } from "lucide-react";
+import { PageHero, SectionHeader } from "../components/PageHero";
+import { CtaSection } from "../components/CtaSection";
+import intilityLogo from "../../images/logo/intility.png";
+import allianceLogo from "../../images/logo/alliance.png";
+import sporveienLogo from "../../images/logo/sporveien.png";
+import xxlLogo from "../../images/logo/xxl.png";
+import riksrevisjonenLogo from "../../images/logo/riksrevisjonen.png";
 
-const clients = [
+const customers = [
+  { name: "Intility", logo: intilityLogo },
+  { name: "Alliance Healthcare", logo: allianceLogo },
+  { name: "Sporveien", logo: sporveienLogo },
+  { name: "XXL", logo: xxlLogo },
+  { name: "Riksrevisjonen", logo: riksrevisjonenLogo },
+];
+
+const testimonials = [
   {
-    name: "DNB",
-    description: "Norges største finanskonsern",
-    services: ["Kantine", "Renhold", "Inneklima"],
-    since: "2015",
+    service: "Kantine",
+    name: "Wenche Revhaug",
+    company: "Kronos Titan",
+    role: "Styremedlem",
+    text: "Helt Opplagt leverer god, variert og sunn mat — fersk og frisk. De gir oss det lille ekstra for at vi skal få et hyggelig avbrekk og en bra matopplevelse, hver dag! Helt Opplagt er fleksible og imøtekommende med høy servicegrad — vi er superfornøyd.",
   },
   {
-    name: "Telenor",
-    description: "Telekommunikasjonsleverandør",
-    services: ["Kantine", "Lunsj", "Frukt"],
-    since: "2016",
+    service: "Lunsj",
+    name: "Tor Anders Andersen",
+    company: "Team Verksted AS Avd Follo",
+    role: "Avdelingsleder",
+    text: "Med denne ordningen sparer vi tid, da vi ikke trenger å reise ut for å kjøpe lunsj lenger. Våre ansatte opplever ordningen som et flott tilbud, og nå som alle spiser samtidig og er samlet i kantinen gjør det også godt for arbeidsmiljøet og det sosiale. Helt Opplagt fungerer helt utmerket som leverandør for oss.",
   },
   {
-    name: "Equinor",
-    description: "Internasjonalt energiselskap",
-    services: ["Kantine", "Renhold"],
-    since: "2014",
+    service: "Frukt",
+    name: "Maria Bergström",
+    company: "Vinmonopolet AS",
+    role: "Kontorsjef",
+    text: "Vinmonopolet har fått frukt til 170 ansatte fra Helt Opplagt siden 2018. Frukten er veldig populær, og det er konkurranse om å kaste seg over kurvene når de kommer. Vi er veldig godt fornøyd med Helt Opplagt — de er svært fleksible og raske til å følge opp ønsker.",
   },
   {
-    name: "Schibsted",
-    description: "Mediehus og teknologiselskap",
-    services: ["Frukt", "Lunsj", "Renhold"],
-    since: "2017",
+    service: "Renhold",
+    name: "Helge Stensrud",
+    company: "Schibsted Trykk Oslo AS",
+    role: "Driftsansvarlig",
+    text: "Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Jeg vil spesielt trekke frem positiviteten Helt Opplagt viser. De er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om. Vi er glade for valget vi tok om ny samarbeidspartner.",
   },
-  {
-    name: "Aftenposten",
-    description: "Norges ledende dagsavis",
-    services: ["Kantine", "Frukt"],
-    since: "2018",
-  },
-  {
-    name: "Oslo Kommune",
-    description: "Offentlig sektor",
-    services: ["Renhold", "Inneklima"],
-    since: "2013",
-  },
+];
+
+const stats = [
+  { value: "200+", label: "Fornøyde bedrifter" },
+  { value: "98%", label: "Kundetilfredshet" },
+  { value: "6", label: "Tjenester under ett tak" },
+  { value: "1", label: "Kontaktpunkt for alt" },
 ];
 
 export function ReferanserPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-[#f5f9fc] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl lg:text-5xl text-gray-900 mb-6">
-              Våre <span className="text-[#2a76b8]">referanser</span>
-            </h1>
-            <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
-              Vi er stolte av å samarbeide med noen av Norges ledende bedrifter og organisasjoner. 
-              Her er et utvalg av våre fornøyde kunder.
-            </p>
-          </div>
+      <PageHero
+        eyebrow="Referanser"
+        title={
+          <>
+            Bedrifter som allerede tok det{" "}
+            <span className="text-[#0078C4] italic font-light">
+              opplagte valget
+            </span>
+          </>
+        }
+        description="Vi er stolte av å samarbeide med noen av Norges ledende bedrifter og organisasjoner — og enda stoltere av hva de sier om oss."
+      />
+
+      {/* Logo wall */}
+      <section className="border-b border-gray-200 bg-white">
+        <div className="max-w-[1280px] mx-auto px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          {customers.map((customer, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-center py-12 px-6 border-gray-200 [&:not(:first-child)]:lg:border-l"
+            >
+              <img
+                src={customer.logo}
+                alt={customer.name}
+                className="max-w-full h-14 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Clients Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {clients.map((client, index) => (
+      {/* Testimonials */}
+      <section className="py-24 bg-[#f5f9fc]">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <SectionHeader
+            eyebrow="Kundehistorier"
+            title={
+              <>
+                Hva kundene våre
+                <br />
+                sier om oss
+              </>
+            }
+          />
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-shadow"
+                className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 bg-[#f5f9fc] rounded-lg flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-[#2a76b8]" />
+                <div className="flex items-center justify-between mb-5">
+                  <span className="inline-block px-3 py-1 bg-[#f5f9fc] text-[#0078C4] text-[11px] font-semibold tracking-[0.08em] uppercase rounded-full">
+                    {testimonial.service}
+                  </span>
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-4 h-4 fill-[#0078C4] text-[#0078C4]"
+                      />
+                    ))}
                   </div>
-                  <span className="text-sm text-gray-500">Siden {client.since}</span>
                 </div>
-                <h3 className="text-2xl text-gray-900 mb-2">
-                  {client.name}
-                </h3>
-                <p className="text-gray-600 mb-4">{client.description}</p>
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-700">Tjenester:</p>
-                  {client.services.map((service, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-[#2a76b8]" />
-                      <span className="text-sm text-gray-600">{service}</span>
-                    </div>
-                  ))}
+                <Quote className="w-6 h-6 text-[#0078C4]/30 mb-3 rotate-180" />
+                <p className="text-[15px] text-gray-700 leading-relaxed mb-6 flex-1">
+                  {testimonial.text}
+                </p>
+                <div className="border-t border-gray-200 pt-4">
+                  <p className="text-sm font-semibold text-gray-900">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {testimonial.role}, {testimonial.company}
+                  </p>
                 </div>
               </div>
             ))}
@@ -91,29 +138,29 @@ export function ReferanserPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-[#f5f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl text-[#2a76b8] mb-2">200+</div>
-              <p className="text-gray-600">Fornøyde kunder</p>
+      {/* Stats */}
+      <section className="bg-[rgb(17,31,55)] py-20 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="max-w-[1280px] mx-auto px-8 grid grid-cols-2 lg:grid-cols-4 gap-10 relative z-[2]">
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <p className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-2">
+                {stat.value}
+              </p>
+              <p className="text-sm text-white/50">{stat.label}</p>
             </div>
-            <div>
-              <div className="text-4xl text-[#2a76b8] mb-2">15+</div>
-              <p className="text-gray-600">Års erfaring</p>
-            </div>
-            <div>
-              <div className="text-4xl text-[#2a76b8] mb-2">50+</div>
-              <p className="text-gray-600">Dedikerte ansatte</p>
-            </div>
-            <div>
-              <div className="text-4xl text-[#2a76b8] mb-2">98%</div>
-              <p className="text-gray-600">Kundetilfredshet</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
+
+      <CtaSection />
     </div>
   );
 }

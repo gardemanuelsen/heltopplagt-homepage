@@ -2,7 +2,15 @@ import { Linkedin, Mail } from "lucide-react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
 
-const serviceLinks = ["Kantine", "Lunsj", "Frukt", "Renhold", "Inneklima", "Catering"];
+const serviceLinks = [
+    { label: "Frukt", to: "/tjenester/frukt" },
+  { label: "Kantine", to: "/tjenester/kantine" },
+  { label: "Lunsj", to: "/tjenester/lunsj" },
+
+  { label: "Renhold", to: "/tjenester/renhold" },
+  { label: "Inneklima", to: "/tjenester/inneklima" },
+  { label: "Catering", to: "/tjenester/catering" },
+];
 const companyLinks = [
   { label: "Om oss", to: "/om-oss" },
   { label: "Referanser", to: "/referanser" },
@@ -15,7 +23,7 @@ export function Footer() {
   return (
     <footer className="bg-[#0d1a2d] text-white">
       {/* Main grid */}
-      <div className="max-w-[1280px] mx-auto px-8 pt-[72px] pb-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.4fr] gap-12">
+      <div className="max-w-[1280px] mx-auto px-8 pt-[72px] pb-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_2fr_1.4fr] gap-10 lg:gap-12">
         {/* Brand col */}
         <div>
           <img
@@ -38,51 +46,52 @@ export function Footer() {
             ))}
           </div>
         </div>
-
-        {/* Tjenester */}
-        <div>
+        {/* Link columns — side by side on all screen sizes */}
+        <div className="grid grid-cols-2 gap-8">
+          {/* Tjenester */}
+          <div>
           <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-white/[0.28] mb-[18px]">
             Tjenester
           </p>
           <div className="flex flex-col gap-0.5">
             {serviceLinks.map((s) => (
               <Link
-                key={s}
-                to="/tjenester"
+                key={s.to}
+                to={s.to}
                 className="text-sm text-white/[0.52] hover:text-white transition-colors py-[5px]"
               >
-                {s}
+                {s.label}
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Selskapet */}
-        <div>
-          <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-white/[0.28] mb-[18px]">
-            Selskapet
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {companyLinks.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="text-sm text-white/[0.52] hover:text-white transition-colors py-[5px]"
-              >
-                {l.label}
-              </Link>
-            ))}
+          {/* Selskapet */}
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-white/[0.28] mb-[18px]">
+              Selskapet
+            </p>
+            <div className="flex flex-col gap-0.5">
+              {companyLinks.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  className="text-sm text-white/[0.52] hover:text-white transition-colors py-[5px]"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-
         {/* Contact col */}
-        <div className="bg-white/[0.04] rounded-xl px-6 py-7">
+        <div className="bg-white/[0.04] rounded-xl px-6 py-7 md:col-span-2 lg:col-span-1">
           <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-white/[0.28] mb-[18px]">
             Kontakt
           </p>
           {[
-            { label: "E-post", val: "post@heltopplagt.no" },
-            { label: "Telefon", val: "+47 22 00 00 00" },
+            { label: "E-post", val: "bli@heltopplagt.no" },
+            { label: "Telefon", val: "02346" },
             { label: "Adresse", val: "Oslo, Norge" },
           ].map((item, i) => (
             <div key={i} className="mb-4">

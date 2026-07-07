@@ -25,20 +25,20 @@ export function References() {
           <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2">
             Våre kunder
           </p>
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl lg:text-[44px] font-bold text-gray-900 tracking-tight leading-[1.1]">
             Stolt partner for ledende bedrifter
           </h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-12 items-center">
+        <div className="flex items-center justify-between gap-3 sm:gap-6 lg:gap-12">
           {customers.map((customer, index) => (
             <div
               key={index}
-              className="flex items-center justify-center p-6 rounded-lg transition-all duration-300 group"
+              className="flex-1 min-w-0 flex items-center justify-center p-1 sm:p-4 transition-all duration-300 group"
             >
               <img
                 src={customer.logo}
                 alt={customer.name}
-                className="max-w-full h-16 object-contain"
+                className="w-full max-h-8 sm:max-h-12 lg:max-h-16 object-contain"
               />
             </div>
           ))}

@@ -1,10 +1,13 @@
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
+import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 
 const reviews = [
   {
     name: "Wenche Revhaug",
-    company: "Kronos Titan,",
+    company: "Kronos Titan",
     role: "Styremedlem",
+    service: "Kantine",
     rating: 5,
     text: "Helt Opplagt leverer god, variert og sunn mat – fersk og frisk. De gir oss det lille ekstra for at vi skal få et hyggelig avbrekk og en bra matopplevelse – hver dag! Helt Opplagt er fleksible, imøtekommende med høy servicegrad – vi er superfornøyd!",
   },
@@ -12,62 +15,84 @@ const reviews = [
     name: "Tor Anders Andersen",
     company: "Team Verksted AS Avd Follo",
     role: "Avdelingsleder",
-    text: "Med denne ordningen sparer vi tid, da vi ikke trenger å reise ut for å kjøpe lunsj lenger. Våre ansatte opplever ordningen som et flott tilbud og nå som alle spiser samtidig og er samlet i kantinen gjør det også godt for arbeidsmiljøet og det sosiale. Vi får en sunn lunsj med variert utvalg, deriblant våre favorittpålegg som kjøttpålegg, ost, leverpostei og syltetøy. Helt Opplagt fungerer helt utmerket som leverandør for oss.",
+    service: "Lunsj",
     rating: 5,
+    text: "Med denne ordningen sparer vi tid, da vi ikke trenger å reise ut for å kjøpe lunsj lenger. Våre ansatte opplever ordningen som et flott tilbud og nå som alle spiser samtidig og er samlet i kantinen gjør det også godt for arbeidsmiljøet og det sosiale. Helt Opplagt fungerer helt utmerket som leverandør for oss.",
   },
   {
     name: "Maria Bergström",
     company: "Vinmonopolet AS",
     role: "Kontorsjef",
-    text: "Vinmonopolet har fått frukt til 170 ansatte fra Helt Opplagt siden 2018. Vi har valgt Knaskekurven og Go’kurven. Vi hadde et ønske om å tilføre de ansatte ny energi i form av sunne alternativer så vi kan holde energien oppe ut dagen. Frukten er veldig populær og det er konkurranse om å kaste seg over kurvene når de kommer ?  Nøtter og bananer er de største favorittene. Vi er veldig godt fornøyd med Helt Opplagt. De er svært fleksible og raske til å følge opp ønsker",
+    service: "Frukt",
     rating: 5,
+    text: "Vinmonopolet har fått frukt til 170 ansatte fra Helt Opplagt siden 2018. Vi hadde et ønske om å tilføre de ansatte ny energi i form av sunne alternativer så vi kan holde energien oppe ut dagen. Frukten er veldig populær og det er konkurranse om å kaste seg over kurvene når de kommer. Vi er veldig godt fornøyd med Helt Opplagt. De er svært fleksible og raske til å følge opp ønsker.",
   },
   {
     name: "Helge Stensrud",
     company: "Schibsted Trykk Oslo AS",
     role: "Driftsansvarlig",
-    text: "Høsten 2023 så vi etter ny samarbeidspartner på daglig og temporært renhold og valget falt på Helt Opplagt. Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Når ansatte kommenterer at det er rent blir man trygg på at man har gjort riktig valg av leverandør. Jeg vil spesielt trekke frem positiviteten Helt Opplagt viser. De er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om. Vi er glade for valget vi tok om ny samarbeidspartner.",
+    service: "Renhold",
     rating: 5,
+    text: "Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Når ansatte kommenterer at det er rent blir man trygg på at man har gjort riktig valg av leverandør. Jeg vil spesielt trekke frem positiviteten Helt Opplagt viser. De er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om.",
   },
 ];
 
 export function Reviews() {
   return (
-    <section className="py-20 lg:py-32 bg-[#f5f9fc]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl text-gray-900 mb-4">
-            Hva kundene våre sier
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Vi er stolte av å levere førsteklasses service til våre kunder
-          </p>
+    <section className="py-24 bg-[#f5f9fc] border-y border-gray-200">
+      <div className="max-w-[1280px] mx-auto px-8">
+        {/* Header row */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-gray-200 pb-8">
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2.5">
+              Kundehistorier
+            </p>
+            <h2 className="text-3xl lg:text-[44px] font-bold text-gray-900 tracking-tight leading-[1.1]">
+              Hva kundene
+              <br />
+              våre sier
+            </h2>
+          </div>
+          <Link
+            to="/referanser"
+            className="mt-4 md:mt-0 border-[1.5px] border-gray-200 text-gray-700 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-[#0078C4] hover:text-[#0078C4] transition-all inline-flex items-center gap-1.5 flex-shrink-0 mb-1 bg-white"
+          >
+            Se alle referanser
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow"
+              className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300"
             >
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-[#2a76b8] text-[#2a76b8]" />
-                ))}
+              <div className="flex items-center justify-between mb-5">
+                <span className="inline-block px-3 py-1 bg-[#f5f9fc] text-[#0078C4] text-[11px] font-semibold tracking-[0.08em] uppercase rounded-full">
+                  {review.service}
+                </span>
+                <div className="flex gap-0.5">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-[#0078C4] text-[#0078C4]"
+                    />
+                  ))}
+                </div>
               </div>
 
-              {/* Review Text */}
-              <p className="text-gray-700 mb-6 italic">
-                "{review.text}"
+              <Quote className="w-6 h-6 text-[#0078C4]/30 mb-3 rotate-180" />
+              <p className="text-[15px] text-gray-700 leading-relaxed mb-6 flex-1">
+                {review.text}
               </p>
 
-              {/* Reviewer Info */}
               <div className="border-t border-gray-200 pt-4">
-                <p className="text-gray-900">{review.name}</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm font-semibold text-gray-900">
+                  {review.name}
+                </p>
+                <p className="text-sm text-gray-500">
                   {review.role}, {review.company}
                 </p>
               </div>

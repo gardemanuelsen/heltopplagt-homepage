@@ -1,122 +1,150 @@
-import { Target, Users, Heart, Award } from "lucide-react";
-import { ImageWithFallback } from "../../components/figma/ImageWithFallback";
+import { ServicePage, ServicePageData } from "../../components/ServicePage";
+import heroImg from "../../../images/renhold/renhold.png";
 
-const values = [
-  {
-    icon: Target,
-    title: "Vårt oppdrag",
-    description: "Å levere fremragende fasilitetsløsninger som gjør hverdagen enklere for våre kunder.",
-  },
-  {
-    icon: Users,
-    title: "Teamet vårt",
-    description: "Over 50 dedikerte medarbeidere med erfaring og kompetanse innen fasilitetsforvaltning.",
-  },
-  {
-    icon: Heart,
-    title: "Våre verdier",
-    description: "Kvalitet, pålitelighet og kundetilfredshet står i sentrum av alt vi gjør.",
-  },
-  {
-    icon: Award,
-    title: "Vår visjon",
-    description: "Å være den foretrukne partneren for fasilitetsløsninger i Oslo-området.",
-  },
-];
+const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
+
+export const renholdData: ServicePageData = {
+  path: "/tjenester/renhold",
+  badge: "Arbeidsmiljø",
+  title: (
+    <>
+      Godt renhold bidrar til{" "}
+      <span className="text-[#0078C4] italic font-light">
+        større trivsel
+      </span>{" "}
+      og et bedre arbeidsmiljø
+    </>
+  ),
+  intro:
+    "Våre 100 profesjonelle medarbeidere ønsker seg flere nye oppdragssteder. Ønsker du at dine kollegaer skal få et rent innemiljø? Da er Helt Opplagt Rent løsningen for deg!",
+  image: heroImg,
+  imageAlt: "Renhold fra Helt Opplagt",
+  subServices: [
+    {
+      slug: "daglig-renhold",
+      title: "Daglig renhold",
+      description:
+        "Vi er en renholdsentreprenør som ivaretar dine behov på en profesjonell måte. Vi kan bistå dere med en behovstilpasset renholdsavtale som på en bærekraftig og effektiv måte forlenger levetid på gulv og inventar. Samtidig vil et godt renhold bidra positivt til et lavere sykefravær og bedre lønnsomhet.",
+      image: `${thumbs}/25ddb625b59a219605acc899d9230432.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vi har fagutdannede og kompetente medarbeidere, og det forplikter. Alle våre medarbeidere får bruke tid på videreutvikling og læring, blant annet gjennom nært samarbeid med våre leverandører som er spesialister på sine felt. Her legger vi også stor vekt på HMS, service og arbeidssystematikk.",
+            "Vi avholder kontinuerlig norskkurs etter behov i samarbeid med Folkeuniversitetet. Denne kontinuerlige kompetanseutviklingen gjør at du som kunde får de beste leveransene fra våre motiverte medarbeidere.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "vedlikehold-feiing-sno-og-gress",
+      title: "Vedlikehold, feiing, snø og gress",
+      description:
+        "Vi kan utføre en rekke oppgaver innen vaktmesterservice, små reparasjoner, montering, avfallshåndtering, skifting av lyspærer etc. Kort fortalt det meste du behøver av både innendørs og utendørs vedlikehold.",
+      image: `${thumbs}/b150c85e26357ff9c7b793aaaaaa6351.jpg`,
+      content: [
+        {
+          type: "image",
+          src: `${thumbs}/25ee209e6fa9f31e2b3c02b4ad38bb6d.jpg`,
+          alt: "Vedlikehold, feiing, snø og gress",
+        },
+        {
+          type: "bullets",
+          heading: "Eksempler på oppgaver vi kan utføre:",
+          items: [
+            "Avfallshåndtering",
+            "Kontroll og bytte av belysning",
+            "Vanning av planter",
+            "Montering av dispensere og møbler etc.",
+            "Små reparasjoner",
+            "Kosting og vedlikehold av utemiljøer",
+            "Gressklipping",
+            "Fasadevask",
+            "Snømåking, salting og strøing av utemiljøer",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Har dere behov for denne typen tjenester? Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat.",
+            "PS! Har dere behov utover det vi har listet opp her kan vi helt sikkert hjelpe dere med det også.",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "hovedrengjoring",
+      title: "Hovedrengjøring",
+      description:
+        "Godt renhold og rengjøring på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager. Godt renhold har også en positiv effekt på sykefraværet.",
+      image: `${thumbs}/77582f78736eb1356bae7dd359ef7852.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "En viktig del av det totale renholdsbildet",
+          paragraphs: [
+            "En hovedrengjøring innebærer en grundig rengjøring av både vegger og tak. Det kan også innbefatte andre områder som ikke blir rengjort ved daglig rengjøring. Dette blir vi enige om sammen. Hovedrengjøring er en viktig del av det totale renholdsbildet. Hvor ofte en trenger hovedrengjøring avhenger av bransje og smussgraden. Hovedrengjøring utføres av renholder med lang erfaring fra denne type arbeid.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "gulvvedlikehold",
+      title: "Gulvvedlikehold",
+      description:
+        "Gulvvedlikehold er viktig for å unngå store renovasjonskostnader i fremtiden.",
+      image: `${thumbs}/dca037a67392f3e04161f36a0e694b15.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vedlikehold av gulv er en viktig del av renholdet. Kostnadene kan bli mangedoblet om man utsetter dette arbeidet for lenge. Med våre moderne maskiner kan vi rense, skure, bone, olje og vedlikeholde alle typer gulv. Snakk med oss for å få en vurdering av hva som er riktig rengjøring av ditt gulv.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "vinduspuss",
+      title: "Vinduspuss",
+      description:
+        "Godt renhold på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager.",
+      image: `${thumbs}/345d12b02398938002207c1977b9faac.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "Se ut gjennom vinduene — ikke på vinduene",
+          paragraphs: [
+            "Vi utfører vinduspuss og bruker moderne utstyr for å gjøre vinduene rene og flekkfrie på en fagmessig og riktig måte. Slik at du kan se gjennom vinduene – ikke på vinduene.",
+            "Sammen med våre kunder, kommer vi frem til en avtale om jevnlig vinduspuss.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "tepperens-og-mobelrens",
+      title: "Tepperens og møbelrens",
+      description:
+        "Godt renhold på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager.",
+      image: `${thumbs}/42921c719d882a03f23a614b86a36794.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "Skitne tepper og møbler påvirker inneluften",
+          paragraphs: [
+            "Dersom det ikke utføres jevnlig tepperens vil dette gå utover rommets brukere i form av dårligere kvalitet på inneluften, i verste fall betyr dette høyere sykefravær. Regelmessig støvsuging av tepper er en viktig del av vedlikeholdet. I tillegg bør man årlig ta en dypere rens av teppet, for å fjerne støv og bakterier som har samlet seg i teppets fibre. Vi er klare til å bli kalt inn på teppet!",
+            "Vi anbefaler også at man renser tekstilmøbler med jevne mellomrom. Dette ivaretar stoffet i møblene og vil dermed øke holdbarheten. Og så er det jo hyggeligere å sitte i en nyrenset sofa.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+  ],
+};
 
 export function RenholdPage() {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-[#f5f9fc] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl lg:text-5xl text-gray-900 mb-6">
-                Renhold
-              </h1>
-              <p className="text-lg text-gray-600 mb-6">
-                Helt Opplagt er en ledende leverandør av fasilitetsløsninger i Oslo-området. 
-                Siden vår etablering i 2011 har vi vokst til å bli en pålitelig partner for over 200 bedrifter.
-              </p>
-              <p className="text-lg text-gray-600">
-                Vi tilbyr et komplett spekter av tjenester innen kantine, lunsj, frukt, renhold og inneklima. 
-                Vårt mål er å levere høy kvalitet og skape trivsel for våre kunders medarbeidere.
-              </p>
-            </div>
-            <div className="aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1606836576983-8b458e75221d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjYW50ZWVuJTIwY2FmZXRlcmlhfGVufDF8fHx8MTc3MjUzMTAxNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Helt Opplagt team"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-4">
-              Hvem vi er
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Vi er et team av dedikerte fagfolk som brenner for å levere førsteklasses service
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-[#f5f9fc] rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-[#2a76b8]" />
-                  </div>
-                  <h3 className="text-xl text-gray-900 mb-2">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* History Section */}
-      <section className="py-20 bg-[#f5f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-8 text-center">
-              Vår historie
-            </h2>
-            <div className="space-y-6 text-lg text-gray-600">
-              <p>
-                Helt Opplagt ble grunnlagt i 2011 med en visjon om å tilby profesjonelle fasilitetsløsninger 
-                som gjør hverdagen enklere for bedrifter i Oslo-området.
-              </p>
-              <p>
-                Fra en liten oppstart har vi vokst til å bli en av regionens ledende leverandører, 
-                med over 200 fornøyde kunder og mer enn 50 dedikerte medarbeidere.
-              </p>
-              <p>
-                I dag tilbyr vi et bredt spekter av tjenester, fra kantinedrift og catering til renhold 
-                og inneklimaoptimalisering. Vår styrke ligger i vår evne til å tilpasse løsninger til 
-                hver enkelt kundes behov.
-              </p>
-              <p>
-                Vi er stolte av vårt arbeid og forpliktet til å fortsette å levere den høye kvaliteten 
-                våre kunder forventer av oss.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+  return <ServicePage data={renholdData} />;
 }

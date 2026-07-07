@@ -1,122 +1,165 @@
-import { Target, Users, Heart, Award } from "lucide-react";
-import { ImageWithFallback } from "../../components/figma/ImageWithFallback";
+import { ServicePage, ServicePageData } from "../../components/ServicePage";
+import heroImg from "../../../images/kantine/kantine.png";
 
-const values = [
-  {
-    icon: Target,
-    title: "Vårt oppdrag",
-    description: "Å levere fremragende fasilitetsløsninger som gjør hverdagen enklere for våre kunder.",
+const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
+
+export const kantineData: ServicePageData = {
+  path: "/tjenester/kantine",
+  badge: "Mat & Drikke",
+  title: (
+    <>
+      Vi kommer med maten —{" "}
+      <span className="text-[#0078C4] italic font-light">dere nyter</span>
+    </>
+  ),
+  intro:
+    "Proffkantine er vårt fullservicetilbud til alle typer kjøkken der vi tar oss av hele lunsjavviklingen. Vi stiller med en hyggelig vert eller vertinne — dere kan bare komme og nyte! Ta kontakt med oss for en gratis befaring.",
+  image: heroImg,
+  imageAlt: "Kantinedrift fra Helt Opplagt",
+  brochureUrl:
+    "https://heltopplagt.no/application/files/9016/9636/6182/Helt_Opplagt_Kantinebrosjyre_2023_WEB.pdf",
+  subServices: [
+    {
+      slug: "om-vare-kantiner",
+      title: "Om våre kantiner",
+      description:
+        "Vi kommer med maten — dere nyter. Gjennom mange års erfaring med fornøyde kunder er tjenesten spesialtilpasset bedrifter med mellom 20 og 300 ansatte.",
+      image: `${thumbs}/1e7046a1804a25a379a1d086b08d75ee.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Våre varierte menyer gir dere en buffet som er både smaksrik og sunn for kroppen, samt presentert på en måte som er en fryd for øyet! Vi tilbyr et modulbasert kantinetilbud der dere selv kan påvirke sammensetningen.",
+            "Her kan man enten ha kun deler av modulene, «alt» hver dag eller en kombinasjon med for eksempel noen moduler fast og la andre rullere utover uken. Her er det med andre ord alle muligheter for enhver smak.",
+            "Vi leverer daglig, noe som gir store fordeler i forhold til ferskhet, kvalitet og fleksibilitet. Det gir lettere tilpasning til variasjoner i antall brukere og gjester, og fjerner svinnproblematikk.",
+            "Vi presenterer helst maten på fat i en buffetløsning. Dette hindrer unødvendig svinn, sparer tidsbruk og dermed også kostnader, samt ikke minst er det den gunstigste løsningen for miljøet, sammenlignet med å servere maten i kuvertbegre.",
+          ],
+        },
+        {
+          type: "bullets",
+          heading: "Modulbasert kantinetilbud — velg blant følgende moduler:",
+          items: [
+            "Frokostblanding og yoghurt som et alternativ eller tillegg.",
+            "Pålegg — pyntede fat og skåler med kjøtt- og fiskepålegg, oster, majonessalater, syltetøy og smørepålegg som varieres fra dag til dag.",
+            "Småretter som omelett, tunfisksalat og grønnsakspanne.",
+            "Salater — daglig variasjon mellom mange spennende salater som tilberedes ferskt hos dere.",
+            "Varmmat laget fra bunn av på vårt eget kjøkken.",
+            "Vafler/småkaker — perfekt som fredagskos!",
+            "Ulike typer drikke som juice og melk, deriblant kundefavoritten Eplejuice fra Askim frukt- og bærpresseri.",
+            "Brød/knekkebrød — sunne og grove brød etter egne oppskrifter uten unødvendige tilsetningsstoffer. Variert utvalg av gode og fiberrike knekkebrødvarianter.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "verter-og-vertinner",
+      title: "Verter og vertinner",
+      description:
+        "I våre mer enn 100 betjente kantiner sørger våre dyktige, blide og serviceinnstilte verter og vertinner for å skape en god lunsjopplevelse i en travel hverdag for våre kunders ansatte.",
+      image: `${thumbs}/a29ba39192bb1cdb321cad644af15f53.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vi vet at våre kunder er opptatt av både atmosfære og smak, så vårt fokus er å skape en hyggelig ramme rundt lunsjavviklingen i tillegg til høy kvalitet på maten vi serverer.",
+            "Våre utmerkede verter og vertinner sørger for at dere bare kan komme og nyte maten. Vi tar oss av alt av gjøremål som: av- og pådekking, tilbereding av all maten i buffeten, oppvask, holde kjøkken og kantineområdet rent og ryddig etc. Vi kan også påta oss annet forefallende kontorarbeid og/eller vask av deres lokaler.",
+          ],
+        },
+        {
+          type: "image",
+          src: "https://heltopplagt.no/application/files/5215/5777/5035/2019-05-13_21-17_525.jpg",
+          alt: "Verter og vertinner fra Helt Opplagt",
+        },
+      ],
+    },
+    {
+      slug: "kombiner-kantine-og-renhold",
+      title: "Kombiner kantine og renhold",
+      description:
+        "Ved å samle dine tjenester hos en leverandør vil du forenkle din arbeidshverdag. Færre leverandører bidrar til store besparelser. Du har større oversikt og det krever mindre ressurser.",
+      image: `${thumbs}/37b164159bb2d27e7dd7c3be6e7d98de.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vi kan tilby deg ett kontaktpunkt og fast oppfølgning ved behov. Vi ønsker alle en hverdag hvor vi kan fokusere på vår kjernevirksomhet. Ved å velge en eller flere tjenester fra Helt Opplagt vil vi legge til rette slik at dere kan rendyrke det dere er gode på.",
+            "Vi tilbyr alle våre kunder en prøveperiode hvor vi skal bevise hva vi duger til. Og med over 30 års bransjeerfaring kan vi skryte av å ha ekstremt få tilfeller av frafall etter denne prøveperioden. Skulle du ønske å besøke en av våre referansekunder for å se tjenesten i praksis er du velkommen til dette.",
+            "Mindre selskaper kan i tillegg dra nytte av samme person på både renhold og kantine. På denne måten får vi effektivisert tidsbruken til deres vert/vertinne som igjen gjør at dere sparer penger.",
+            "Du har kanskje prøvd mange leverandører tidligere som ikke leverer over tid? Tett dialog, oppfølgning og ris/ros fra dere vil holde oss på tå hev slik at vi hele tiden kan levere den tjenesten og kvaliteten dere betaler for.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prøveperiode.",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "kantine-pa-jobben-uten-kjokken",
+      title: "Kantine på jobben – uten kjøkken? Ja, Helt Opplagt!",
+      description:
+        "Når mange tenker på kantine, ser de for seg storkjøkken, industrioppvaskmaskiner og kokker i fullt firsprang. Men hva med de små bedriftene? Hva med kontorfellesskapet på 10–30 personer, uten eget kjøkken, men med like stort behov for sunn, fristende og praktisk lunsj?",
+      image: `${thumbs}/bb139f5c56abdc875066d1f6e8ca80c3.jpg`,
+      content: [
+        {
+          type: "image",
+          src: `${thumbs}/3a320259b5899c672ae58041a7efb3bd.jpg`,
+          alt: "Kantine på jobben uten kjøkken",
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Hos Helt Opplagt leverer vi fullverdige kantineløsninger til bedrifter helt ned i 15 personer – uten at dere trenger store kjøkkenfasiliteter.",
+          ],
+        },
+        {
+          type: "text",
+          heading: "Skreddersydd kantine – rett på døra",
+          paragraphs: [
+            "Vår kantinetjeneste er modulbasert, noe som betyr at du som kunde kan velge akkurat det nivået som passer dere – både innhold og budsjett. Enten det er en enkel løsning med brød, pålegg og salater, eller en mer omfattende meny med daglig varmretter og småbakst, så leveres alt ferdig til kontoret – pakket i resirkulerte esker, klare til servering.",
+          ],
+        },
+        {
+          type: "text",
+          heading: "Ingen kjøkken? Ikke noe problem!",
+          paragraphs: [
+            "Mange små og mellomstore bedrifter dropper kantine fordi de mangler fasilitetene. Med oss trenger du ikke et stort kjøkken, men kommer langt med en komfyr, kjøleskap og oppvaskmaskin. Alt kommer klart til bruk, og våre kantineverter tar seg av oppdekking, rydding og etterarbeid – med et smil.",
+          ],
+        },
+        {
+          type: "bullets",
+          heading: "Hvorfor velge Helt Opplagt?",
+          items: [
+            "Tilpasset alle størrelser: Vi dekker bedrifter fra 15 til 300 ansatte – og tar de små like seriøst som de store.",
+            "Fersk mat, levert daglig: Våre menyer er varierte, sunne og laget fra bunnen av på vårt eget kjøkken.",
+            "Reduserer matsvinn: Daglig levering gjør at vi treffer bedre på behovet – og unngår unødig svinn.",
+            "Miljø og ansvar: Vi kildesorterer alt avfall, benytter resirkulert emballasje, leverer maten i El-biler og gir overskuddsmat til veldedige formål.",
+            "Personlig service: Du får fast kontaktperson, raske svar og en dedikert vert som kjenner din bedrift.",
+            "Kantine kombinert med renhold: Ved å samle dine tjenester hos en leverandør vil du forenkle din arbeidshverdag. Færre leverandører bidrar til store besparelser.",
+          ],
+        },
+        {
+          type: "text",
+          heading: "Det lille ekstra – når du ønsker det",
+          paragraphs: [
+            "Vil du ha fredagsvafler, pølseonsdag eller hjelp til event? Vi fikser det. For oss handler kantine om mer enn mat – det handler om trivsel, helse og samhold i hverdagen.",
+            "Er du klar for en smartere kantineløsning? Kontakt oss i dag – vi hjelper deg å finne en løsning som passer perfekt, uansett størrelse på bedriften.",
+          ],
+        },
+      ],
+    },
+  ],
+  quote: {
+    text: "Helt Opplagt leverer god, variert og sunn mat — fersk og frisk. De gir oss det lille ekstra for at vi skal få et hyggelig avbrekk og en bra matopplevelse, hver dag! Helt Opplagt er fleksible og imøtekommende med høy servicegrad — vi er superfornøyd.",
+    name: "Wenche Revhaug",
+    role: "Styremedlem",
+    company: "Kronos Titan",
   },
-  {
-    icon: Users,
-    title: "Teamet vårt",
-    description: "Over 50 dedikerte medarbeidere med erfaring og kompetanse innen fasilitetsforvaltning.",
-  },
-  {
-    icon: Heart,
-    title: "Våre verdier",
-    description: "Kvalitet, pålitelighet og kundetilfredshet står i sentrum av alt vi gjør.",
-  },
-  {
-    icon: Award,
-    title: "Vår visjon",
-    description: "Å være den foretrukne partneren for fasilitetsløsninger i Oslo-området.",
-  },
-];
+};
 
 export function KantinePage() {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-[#f5f9fc] py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl lg:text-5xl text-gray-900 mb-6">
-               Kantine
-              </h1>
-              <p className="text-lg text-gray-600 mb-6">
-                Helt Opplagt er en ledende leverandør av fasilitetsløsninger i Oslo-området. 
-                Siden vår etablering i 2011 har vi vokst til å bli en pålitelig partner for over 200 bedrifter.
-              </p>
-              <p className="text-lg text-gray-600">
-                Vi tilbyr et komplett spekter av tjenester innen kantine, lunsj, frukt, renhold og inneklima. 
-                Vårt mål er å levere høy kvalitet og skape trivsel for våre kunders medarbeidere.
-              </p>
-            </div>
-            <div className="aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1606836576983-8b458e75221d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjYW50ZWVuJTIwY2FmZXRlcmlhfGVufDF8fHx8MTc3MjUzMTAxNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Helt Opplagt team"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-4">
-              Hvem vi er
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Vi er et team av dedikerte fagfolk som brenner for å levere førsteklasses service
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-[#f5f9fc] rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-[#2a76b8]" />
-                  </div>
-                  <h3 className="text-xl text-gray-900 mb-2">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* History Section */}
-      <section className="py-20 bg-[#f5f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl text-gray-900 mb-8 text-center">
-              Vår historie
-            </h2>
-            <div className="space-y-6 text-lg text-gray-600">
-              <p>
-                Helt Opplagt ble grunnlagt i 2011 med en visjon om å tilby profesjonelle fasilitetsløsninger 
-                som gjør hverdagen enklere for bedrifter i Oslo-området.
-              </p>
-              <p>
-                Fra en liten oppstart har vi vokst til å bli en av regionens ledende leverandører, 
-                med over 200 fornøyde kunder og mer enn 50 dedikerte medarbeidere.
-              </p>
-              <p>
-                I dag tilbyr vi et bredt spekter av tjenester, fra kantinedrift og catering til renhold 
-                og inneklimaoptimalisering. Vår styrke ligger i vår evne til å tilpasse løsninger til 
-                hver enkelt kundes behov.
-              </p>
-              <p>
-                Vi er stolte av vårt arbeid og forpliktet til å fortsette å levere den høye kvaliteten 
-                våre kunder forventer av oss.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+  return <ServicePage data={kantineData} />;
 }
