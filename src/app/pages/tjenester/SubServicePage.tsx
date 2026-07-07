@@ -131,7 +131,7 @@ export function SubServicePage() {
   );
 }
 
-function ContentBlockView({ block }: { block: ContentBlock }) {
+export function ContentBlockView({ block }: { block: ContentBlock }) {
   if (block.type === "text") {
     return (
       <div className="max-w-[780px]">

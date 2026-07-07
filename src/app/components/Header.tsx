@@ -160,7 +160,7 @@ export function Header() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="md:hidden flex justify-end pr-2">
+        <div className="md:hidden col-start-3 flex justify-end pr-6">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-gray-700 hover:text-[#0078C4]"
