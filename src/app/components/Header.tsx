@@ -22,11 +22,22 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      if (y > lastScrollY.current && y > 80) {
+        setHidden(true);
+      } else if (y < lastScrollY.current) {
+        setHidden(false);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -41,7 +52,11 @@ export function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 px-4 sm:px-6 pt-4 pointer-events-none">
+    <header
+      className={`fixed top-0 inset-x-0 z-50 px-4 sm:px-6 pt-4 pointer-events-none transition-transform duration-300 ease-in-out ${
+        hidden && !mobileMenuOpen ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       {/* Floating pill */}
       <div
         className={`pointer-events-auto max-w-[1180px] mx-auto h-[72px] bg-white/90 backdrop-blur-xl border border-gray-200/80 rounded-full pl-3 pr-3 sm:pl-6 sm:pr-3.5 grid grid-cols-[1fr_auto_1fr] items-center transition-shadow duration-300 ${
@@ -82,14 +97,18 @@ export function Header() {
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
-            <button className="flex items-center gap-1 px-3.5 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:text-[#0078C4] transition-colors">
+            <Link
+              to="/tjenester"
+              onClick={() => setDropdownOpen(false)}
+              className="flex items-center gap-1 px-3.5 py-1.5 rounded-full text-sm font-medium text-gray-700 hover:text-[#0078C4] transition-colors"
+            >
               Tjenester
               <ChevronDown
                 className={`w-3 h-3 transition-transform duration-200 ${
                   dropdownOpen ? "rotate-180" : ""
                 }`}
               />
-            </button>
+            </Link>
 
             {dropdownOpen && (
               <div

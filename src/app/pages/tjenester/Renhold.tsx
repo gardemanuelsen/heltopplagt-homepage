@@ -1,58 +1,150 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/renhold/renhold.png";
 
-const data: ServicePageData = {
+const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
+
+export const renholdData: ServicePageData = {
   path: "/tjenester/renhold",
   badge: "Arbeidsmiljø",
   title: (
     <>
-      Renhold som gir{" "}
-      <span className="text-[#0078C4] italic font-light">bedre trivsel</span>
+      Godt renhold bidrar til{" "}
+      <span className="text-[#0078C4] italic font-light">
+        større trivsel
+      </span>{" "}
+      og et bedre arbeidsmiljø
     </>
   ),
   intro:
-    "Godt renhold gir bedre trivsel og et bedre arbeidsmiljø. Vi leverer fast, kvalitetssikret renhold med faste renholdere som kjenner lokalene deres.",
+    "Våre 100 profesjonelle medarbeidere ønsker seg flere nye oppdragssteder. Ønsker du at dine kollegaer skal få et rent innemiljø? Da er Helt Opplagt Rent løsningen for deg!",
   image: heroImg,
-  imageAlt: "Renholdstjenester fra Helt Opplagt",
-  steps: [
+  imageAlt: "Renhold fra Helt Opplagt",
+  subServices: [
     {
-      title: "Befaring",
+      slug: "daglig-renhold",
+      title: "Daglig renhold",
       description:
-        "Vi går gjennom lokalene sammen med dere og kartlegger behov, flater og frekvens.",
+        "Vi er en renholdsentreprenør som ivaretar dine behov på en profesjonell måte. Vi kan bistå dere med en behovstilpasset renholdsavtale som på en bærekraftig og effektiv måte forlenger levetid på gulv og inventar. Samtidig vil et godt renhold bidra positivt til et lavere sykefravær og bedre lønnsomhet.",
+      image: `${thumbs}/25ddb625b59a219605acc899d9230432.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vi har fagutdannede og kompetente medarbeidere, og det forplikter. Alle våre medarbeidere får bruke tid på videreutvikling og læring, blant annet gjennom nært samarbeid med våre leverandører som er spesialister på sine felt. Her legger vi også stor vekt på HMS, service og arbeidssystematikk.",
+            "Vi avholder kontinuerlig norskkurs etter behov i samarbeid med Folkeuniversitetet. Denne kontinuerlige kompetanseutviklingen gjør at du som kunde får de beste leveransene fra våre motiverte medarbeidere.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
     },
     {
-      title: "Renholdsplan og tilbud",
+      slug: "vedlikehold-feiing-sno-og-gress",
+      title: "Vedlikehold, feiing, snø og gress",
       description:
-        "Du får en konkret plan med hva som gjøres når, og en tydelig, forutsigbar pris.",
+        "Vi kan utføre en rekke oppgaver innen vaktmesterservice, små reparasjoner, montering, avfallshåndtering, skifting av lyspærer etc. Kort fortalt det meste du behøver av både innendørs og utendørs vedlikehold.",
+      image: `${thumbs}/b150c85e26357ff9c7b793aaaaaa6351.jpg`,
+      content: [
+        {
+          type: "image",
+          src: `${thumbs}/25ee209e6fa9f31e2b3c02b4ad38bb6d.jpg`,
+          alt: "Vedlikehold, feiing, snø og gress",
+        },
+        {
+          type: "bullets",
+          heading: "Eksempler på oppgaver vi kan utføre:",
+          items: [
+            "Avfallshåndtering",
+            "Kontroll og bytte av belysning",
+            "Vanning av planter",
+            "Montering av dispensere og møbler etc.",
+            "Små reparasjoner",
+            "Kosting og vedlikehold av utemiljøer",
+            "Gressklipping",
+            "Fasadevask",
+            "Snømåking, salting og strøing av utemiljøer",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Har dere behov for denne typen tjenester? Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat.",
+            "PS! Har dere behov utover det vi har listet opp her kan vi helt sikkert hjelpe dere med det også.",
+          ],
+        },
+      ],
     },
     {
-      title: "Oppstart og oppfølging",
+      slug: "hovedrengjoring",
+      title: "Hovedrengjøring",
       description:
-        "Faste renholdere starter opp, og vi følger opp med kvalitetskontroller underveis.",
+        "Godt renhold og rengjøring på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager. Godt renhold har også en positiv effekt på sykefraværet.",
+      image: `${thumbs}/77582f78736eb1356bae7dd359ef7852.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "En viktig del av det totale renholdsbildet",
+          paragraphs: [
+            "En hovedrengjøring innebærer en grundig rengjøring av både vegger og tak. Det kan også innbefatte andre områder som ikke blir rengjort ved daglig rengjøring. Dette blir vi enige om sammen. Hovedrengjøring er en viktig del av det totale renholdsbildet. Hvor ofte en trenger hovedrengjøring avhenger av bransje og smussgraden. Hovedrengjøring utføres av renholder med lang erfaring fra denne type arbeid.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "gulvvedlikehold",
+      title: "Gulvvedlikehold",
+      description:
+        "Gulvvedlikehold er viktig for å unngå store renovasjonskostnader i fremtiden.",
+      image: `${thumbs}/dca037a67392f3e04161f36a0e694b15.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Vedlikehold av gulv er en viktig del av renholdet. Kostnadene kan bli mangedoblet om man utsetter dette arbeidet for lenge. Med våre moderne maskiner kan vi rense, skure, bone, olje og vedlikeholde alle typer gulv. Snakk med oss for å få en vurdering av hva som er riktig rengjøring av ditt gulv.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "vinduspuss",
+      title: "Vinduspuss",
+      description:
+        "Godt renhold på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager.",
+      image: `${thumbs}/345d12b02398938002207c1977b9faac.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "Se ut gjennom vinduene — ikke på vinduene",
+          paragraphs: [
+            "Vi utfører vinduspuss og bruker moderne utstyr for å gjøre vinduene rene og flekkfrie på en fagmessig og riktig måte. Slik at du kan se gjennom vinduene – ikke på vinduene.",
+            "Sammen med våre kunder, kommer vi frem til en avtale om jevnlig vinduspuss.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "tepperens-og-mobelrens",
+      title: "Tepperens og møbelrens",
+      description:
+        "Godt renhold på arbeidsplassen gir større trivsel og bedre arbeidsmiljø. Mindre støv gir også et bedre inneklima og reduserer risikoen for astma- og allergiplager.",
+      image: `${thumbs}/42921c719d882a03f23a614b86a36794.jpg`,
+      content: [
+        {
+          type: "text",
+          heading: "Skitne tepper og møbler påvirker inneluften",
+          paragraphs: [
+            "Dersom det ikke utføres jevnlig tepperens vil dette gå utover rommets brukere i form av dårligere kvalitet på inneluften, i verste fall betyr dette høyere sykefravær. Regelmessig støvsuging av tepper er en viktig del av vedlikeholdet. I tillegg bør man årlig ta en dypere rens av teppet, for å fjerne støv og bakterier som har samlet seg i teppets fibre. Vi er klare til å bli kalt inn på teppet!",
+            "Vi anbefaler også at man renser tekstilmøbler med jevne mellomrom. Dette ivaretar stoffet i møblene og vil dermed øke holdbarheten. Og så er det jo hyggeligere å sitte i en nyrenset sofa.",
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
     },
   ],
-  highlight: {
-    eyebrow: "Hvorfor renhold fra oss?",
-    title: "Rene lokaler merkes av alle",
-    description:
-      "Et rent kontor er noe både ansatte og besøkende legger merke til — bevisst eller ubevisst. Godt renhold reduserer sykefravær, forlenger levetiden på inventar og gir et profesjonelt førsteinntrykk.",
-    points: [
-      "Faste renholdere som kjenner lokalene deres",
-      "Løsningsorientert team som fikser det dere ber om",
-      "Miljøvennlige produkter og metoder",
-      "Enkel kombinasjon med våre andre tjenester — ett kontaktpunkt",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1566699270403-3f7e3f340664?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-  },
-  quote: {
-    text: "Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Jeg vil spesielt trekke frem positiviteten de viser — de er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om.",
-    name: "Helge Stensrud",
-    role: "Driftsansvarlig",
-    company: "Schibsted Trykk Oslo AS",
-  },
 };
 
 export function RenholdPage() {
-  return <ServicePage data={data} />;
+  return <ServicePage data={renholdData} />;
 }
