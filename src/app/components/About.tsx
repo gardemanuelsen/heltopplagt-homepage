@@ -4,7 +4,6 @@ import lunsjImg from "../../images/lunsj/lunsj.png";
 
 const points = [
   "Pålitelig partner for over 200 bedrifter i Oslo",
-  "ISO 9001-sertifisert kvalitetsstyring",
   "Dedikert kundeansvarlig for hver klient",
   "Bærekraftige og miljøvennlige løsninger",
 ];

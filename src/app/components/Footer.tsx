@@ -117,7 +117,6 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Helt Opplagt AS. Alle rettigheter
             reservert.
           </p>
-          <p className="text-xs text-white/25">ISO 9001 Sertifisert</p>
         </div>
       </div>
     </footer>
