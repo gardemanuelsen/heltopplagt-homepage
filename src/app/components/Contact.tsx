@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, Calendar } from "lucide-react";
 import { useState } from "react";
 
 const services = ["Lunsj", "Kantine", "Catering", "Frukt", "Inneklima", "Renhold"];
@@ -26,6 +26,7 @@ const contactItems = [
 
 export function Contact() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<"form" | "booking">("form");
 
   const toggleCheckbox = (value: string) => {
     setSelectedServices((prev) =>
@@ -95,8 +96,37 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Form / Booking */}
           <div className="bg-[#f5f9fc] border border-gray-200 p-8 lg:p-10 rounded-2xl">
+            {/* Tab switcher */}
+            <div className="flex gap-2 p-1 bg-white border border-gray-200 rounded-xl mb-8">
+              <button
+                type="button"
+                onClick={() => setActiveTab("form")}
+                className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[14px] font-medium transition-all ${
+                  activeTab === "form"
+                    ? "bg-[#0078C4] text-white"
+                    : "text-gray-600 hover:text-[#0078C4]"
+                }`}
+              >
+                <Mail className="w-4 h-4" />
+                Kontaktskjema
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("booking")}
+                className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[14px] font-medium transition-all ${
+                  activeTab === "booking"
+                    ? "bg-[#0078C4] text-white"
+                    : "text-gray-600 hover:text-[#0078C4]"
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                Book et møte
+              </button>
+            </div>
+
+            {activeTab === "form" ? (
             <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
@@ -213,6 +243,29 @@ export function Contact() {
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
+            ) : (
+              <div className="flex flex-col items-center text-center py-6">
+                <div className="w-14 h-14 bg-[#0078C4]/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Calendar className="w-7 h-7 text-[#0078C4]" strokeWidth={1.75} />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 tracking-tight mb-3">
+                  Book et møte med oss
+                </h3>
+                <p className="text-[15px] text-gray-600 leading-relaxed mb-8 max-w-md">
+                  Velg et tidspunkt som passer for deg, så tar vi en uforpliktende
+                  samtale om løsninger tilpasset dine behov.
+                </p>
+                <a
+                  href="https://outlook.office.com/book/Bookmtemedmeg@heltopplagt.no/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#0078C4] text-white px-8 py-3.5 rounded-md text-[15px] font-medium hover:bg-[#0062a3] transition-colors"
+                >
+                  Velg tidspunkt
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
