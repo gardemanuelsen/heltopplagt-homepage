@@ -64,48 +64,47 @@ const renhold: Service = {
   href: "/tjenester/renhold",
 };
 
-const mealServices = [frukt, lunsj, catering, kantine];
-const facilityServices = [renhold, inneklima];
+const mealServices = [frukt, lunsj, catering];
+const facilityServices = [renhold, inneklima, kantine];
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <div className="group h-full flex flex-col">
-      <div className="relative z-0">
-        <div
-          aria-hidden="true"
-          className="hidden md:block absolute inset-0 rounded-2xl border border-primary/50 z-0 translate-x-0 translate-y-0 opacity-0 transition-[translate,opacity] duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-4 group-hover:opacity-100"
+    <div className="group relative z-0 aspect-[4/3]">
+      <div
+        aria-hidden="true"
+        className="hidden md:block absolute inset-0 rounded-2xl border border-primary/50 z-0 translate-x-0 translate-y-0 opacity-0 transition-[translate,opacity] duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-4 group-hover:opacity-100"
+      />
+      <div
+        aria-hidden="true"
+        className="hidden md:block absolute inset-0 rounded-2xl border border-primary/80 z-0 translate-x-0 translate-y-0 opacity-0 transition-[translate,opacity] duration-500 ease-out group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-100"
+      />
+      <Link
+        to={service.href}
+        className="relative z-10 block w-full h-full rounded-2xl overflow-hidden bg-base-200"
+      >
+        <img
+          src={service.image}
+          alt={service.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div
-          aria-hidden="true"
-          className="hidden md:block absolute inset-0 rounded-2xl border border-primary/80 z-0 translate-x-0 translate-y-0 opacity-0 transition-[translate,opacity] duration-500 ease-out group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:opacity-100"
-        />
-        <Link to={service.href} className="relative z-10 block aspect-square overflow-hidden rounded-2xl bg-base-200">
-          <img
-            src={service.image}
-            alt={service.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </Link>
-      </div>
-      <div className="flex flex-col flex-1 pt-5">
-        <Link
-          to={service.href}
-          className="text-xl sm:text-2xl font-semibold text-base-content"
-        >
-          {service.title}
-        </Link>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
 
-        <p className="mt-2 text-sm text-base-content/65 leading-relaxed flex-1">
-          {service.description}
-        </p>
-        <Link
-          to={service.href}
-          className="btn btn-sm btn-outline border-base-300 text-base-content group-hover:!border-primary group-hover:!text-primary group-hover:!bg-transparent mt-4 self-start"
-        >
-          Les mer
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Link>
-      </div>
+        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 flex flex-row items-end justify-between gap-4">
+          <div className="flex flex-col min-w-0">
+            <h3 className="text-xl sm:text-2xl font-semibold text-white">
+              {service.title}
+            </h3>
+            <p className="pt-2 text-sm text-white/80 leading-relaxed">
+              {service.description}
+            </p>
+          </div>
+
+          <span className="btn btn-sm btn-outline rounded-full px-2.5 sm:px-4 border-white/40 text-white group-hover:!border-primary group-hover:!bg-primary group-hover:!text-primary-content flex-shrink-0 pointer-events-none">
+            <span className="hidden sm:inline">Les mer</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }
@@ -120,12 +119,12 @@ function ServiceGroup({
   gridClassName: string;
 }) {
   return (
-    <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 mb-16 last:mb-0">
+    <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 mb-10 last:mb-0">
       <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-4">
         {label}
       </p>
       <ul
-        className={`flex gap-8 overflow-x-auto pb-2 md:overflow-visible md:mt-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${gridClassName}`}
+        className={`flex gap-8 overflow-x-auto pb-2 md:overflow-visible md:mt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${gridClassName}`}
       >
         {items.map((service) => (
           <li key={service.title} className="w-[220px] flex-shrink-0 md:w-auto md:flex-shrink">
@@ -153,7 +152,7 @@ export function Services() {
           </div>
           <Link
             to="/kontakt"
-            className="btn btn-sm h-auto mt-4 md:mt-0 border-[1.5px] border-base-300 bg-transparent text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary hover:bg-transparent flex-shrink-0 mb-1"
+            className="hidden md:inline-flex btn btn-sm h-auto mt-4 md:mt-0 border-[1.5px] border-base-300 bg-transparent text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary hover:bg-transparent flex-shrink-0 mb-1"
           >
             Få tilbud på alle tjenester
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -161,8 +160,8 @@ export function Services() {
         </div>
       </div>
 
-      <ServiceGroup label="Måltider på jobb" items={mealServices} gridClassName="md:grid md:grid-cols-4" />
-      <ServiceGroup label="Arbeidsmiljø" items={facilityServices} gridClassName="md:grid md:grid-cols-4" />
+      <ServiceGroup label="Måltider på jobb" items={mealServices} gridClassName="md:grid md:grid-cols-3" />
+      <ServiceGroup label="Arbeidsmiljø" items={facilityServices} gridClassName="md:grid md:grid-cols-3" />
     </section>
   );
 }

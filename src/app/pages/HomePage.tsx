@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Hero } from "../components/Hero";
 import { Services } from "../components/Services";
 import { About } from "../components/About";
@@ -8,16 +9,26 @@ import { References } from "../components/References";
 import { Reviews } from "../components/Reviews";
 
 export function HomePage() {
+  const [quoteRequest, setQuoteRequest] = useState<{
+    services: string[];
+    companySize: string | null;
+  } | null>(null);
+
   return (
     <>
       <Hero />
       <Services />
-      <CtaSection />
+      <CtaSection
+        onRequestQuote={(services, companySize) => setQuoteRequest({ services, companySize })}
+      />
       <Reviews />
       <About />
       <FarmCta />
       <References />
-      <Contact />
+      <Contact
+        initialServices={quoteRequest?.services}
+        initialCompanySize={quoteRequest?.companySize ?? null}
+      />
     </>
   );
 }

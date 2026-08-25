@@ -19,7 +19,7 @@ export function References() {
   ];
 
   return (
-    <section className="py-16 bg-base-100 border-y border-base-300">
+    <section className="py-16 bg-base-200">
       <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         <div className="text-center mb-12">
           <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2">

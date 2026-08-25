@@ -75,7 +75,17 @@ export function Hero() {
         </div>
 
         {/* Image carousel */}
-        <div className="relative flex-1 mt-4 mb-4 sm:mt-5 sm:mb-5 lg:mt-6 lg:mb-6 overflow-hidden rounded-2xl min-h-[300px]">
+        <div className="group/frame relative flex-1 mt-4 mb-4 sm:mt-5 sm:mb-5 lg:mt-6 lg:mb-6 min-h-[300px]">
+          <div
+            aria-hidden="true"
+            className="hidden md:block absolute inset-0 rounded-2xl border border-primary/50 translate-x-4 -translate-y-4 transition-[translate] duration-300 ease-out group-hover/frame:translate-x-5 group-hover/frame:-translate-y-5 z-0"
+          />
+          <div
+            aria-hidden="true"
+            className="hidden md:block absolute inset-0 rounded-2xl border border-primary/80 translate-x-2 -translate-y-2 transition-[translate] duration-300 ease-out group-hover/frame:translate-x-3 group-hover/frame:-translate-y-3 z-0"
+          />
+
+          <div className="relative z-10 w-full h-full overflow-hidden rounded-2xl">
           {slides.map((slide, i) => (
             <div
               key={slide.label}
@@ -132,6 +142,7 @@ export function Hero() {
                 </button>
               ))}
             </div>
+          </div>
           </div>
         </div>
       </div>

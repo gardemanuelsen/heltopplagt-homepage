@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin, ArrowRight, Calendar } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { companySizes } from "../../lib/offer-data";
 
 const services = ["Lunsj", "Kantine", "Catering", "Frukt", "Inneklima", "Renhold"];
 
@@ -24,9 +25,20 @@ const contactItems = [
   },
 ];
 
-export function Contact() {
+interface ContactProps {
+  initialServices?: string[];
+  initialCompanySize?: string | null;
+}
+
+export function Contact({ initialServices, initialCompanySize }: ContactProps) {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [companySize, setCompanySize] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"form" | "booking">("form");
+
+  useEffect(() => {
+    if (initialServices) setSelectedServices(initialServices);
+    if (initialCompanySize) setCompanySize(initialCompanySize);
+  }, [initialServices, initialCompanySize]);
 
   const toggleCheckbox = (value: string) => {
     setSelectedServices((prev) =>
@@ -206,6 +218,32 @@ export function Contact() {
                             }
                           >
                             {service}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="label text-[13px] font-medium text-base-content/80 mb-2.5">
+                      Antall ansatte
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {companySizes.map((cs) => {
+                        const selected = companySize === cs.value;
+                        return (
+                          <button
+                            key={cs.value}
+                            type="button"
+                            onClick={() => setCompanySize(cs.value)}
+                            aria-pressed={selected}
+                            className={
+                              selected
+                                ? "btn btn-sm btn-primary rounded-full h-auto px-4 py-2 text-[13px] font-medium"
+                                : "btn btn-sm rounded-full h-auto px-4 py-2 text-[13px] font-medium bg-base-100 text-base-content/70 border-base-300 hover:border-primary hover:text-primary"
+                            }
+                          >
+                            {cs.label}
                           </button>
                         );
                       })}

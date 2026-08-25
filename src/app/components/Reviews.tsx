@@ -1,6 +1,6 @@
-import { Quote } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Quote, ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
-import { ArrowUpRight } from "lucide-react";
 
 const reviews = [
   {
@@ -47,9 +47,68 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
+const COUNT = reviews.length;
+/** Three copies back to back so there's always a real card to scroll to in either direction; the middle copy is "home". */
+const loopedReviews = [...reviews, ...reviews, ...reviews];
+
 export function Reviews() {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(COUNT);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const pollToken = useRef(0);
+
+  useEffect(() => {
+    cardRefs.current[COUNT]?.scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+  }, []);
+
+  /** Waits until the row's smooth-scroll animation has actually settled (scrollLeft unchanged for a few frames), rather than guessing a fixed duration. */
+  function whenScrollSettles(callback: () => void) {
+    const row = rowRef.current;
+    if (!row) return;
+    const token = ++pollToken.current;
+    let lastLeft = row.scrollLeft;
+    let stableFrames = 0;
+    let frame = 0;
+    function tick() {
+      if (token !== pollToken.current) return; // a newer scroll superseded this one
+      frame++;
+      if (frame > 2 && Math.abs(row!.scrollLeft - lastLeft) < 0.5) {
+        stableFrames++;
+      } else {
+        stableFrames = 0;
+      }
+      lastLeft = row!.scrollLeft;
+      if (stableFrames >= 4) {
+        callback();
+        return;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function goTo(target: number) {
+    cardRefs.current[target]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "start",
+      block: "nearest",
+    });
+    activeRef.current = target;
+
+    whenScrollSettles(() => {
+      let landed = target;
+      if (target >= COUNT * 2) landed = target - COUNT;
+      else if (target < COUNT) landed = target + COUNT;
+
+      if (landed !== target) {
+        cardRefs.current[landed]?.scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+        activeRef.current = landed;
+      }
+    });
+  }
+
   return (
-    <section className="py-24 bg-base-200 border-y border-base-300">
+    <section className="py-24 bg-base-100">
       <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         {/* Header row */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-base-300 pb-8">
@@ -63,21 +122,45 @@ export function Reviews() {
               våre sier
             </h2>
           </div>
-          <Link
-            to="/referanser"
-            className="btn btn-sm h-auto mt-4 md:mt-0 border-[1.5px] border-base-300 bg-base-100 text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary flex-shrink-0 mb-1"
-          >
-            Se alle referanser
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex items-center gap-3 mt-4 md:mt-0">
+            <Link
+              to="/referanser"
+              className="btn btn-sm h-auto border-[1.5px] border-base-300 bg-base-100 text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary flex-shrink-0"
+            >
+              Se alle referanser
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+            <button
+              type="button"
+              onClick={() => goTo(activeRef.current - 1)}
+              aria-label="Forrige"
+              className="btn btn-circle btn-sm btn-outline border-base-300 text-base-content hover:border-primary hover:text-primary hover:bg-transparent"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(activeRef.current + 1)}
+              aria-label="Neste"
+              className="btn btn-circle btn-sm btn-outline border-base-300 text-base-content hover:border-primary hover:text-primary hover:bg-transparent"
+            >
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {reviews.map((review, index) => (
+        {/* Reviews row */}
+        <div
+          ref={rowRef}
+          className="flex gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {loopedReviews.map((review, index) => (
             <div
               key={index}
-              className="card bg-base-100 border border-base-300 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300"
+              ref={(el) => {
+                cardRefs.current[index] = el;
+              }}
+              className="card bg-base-100 border border-base-300 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300 w-[340px] sm:w-[420px] lg:w-[460px] flex-shrink-0"
             >
               <div className="card-body p-8">
                 <div className="flex items-center justify-between mb-5">

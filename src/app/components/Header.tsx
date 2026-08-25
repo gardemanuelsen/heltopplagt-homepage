@@ -73,7 +73,7 @@ export function Header() {
             <img src={logoSrc} alt="Helt Opplagt" className="h-9 object-contain" />
           </Link>
 
-          <div className="hidden lg:flex items-center gap-4 pl-4 border-l border-base-300">
+          <div className="hidden lg:flex items-center gap-4 pl-4 pr-4 border-l border-r border-base-300">
             <a
               href="mailto:bli@heltopplagt.no"
               className="flex items-center gap-1.5 text-[11px] text-base-content/40 hover:text-primary transition-colors"
@@ -92,7 +92,7 @@ export function Header() {
 
           <button
             type="button"
-            className="hidden md:inline-flex btn btn-ghost hover:bg-transparent border-transparent hover:!border-transparent shadow-none hover:!shadow-none btn-sm text-sm font-medium text-base-content normal-case"
+            className="hidden md:inline-flex xl:hidden btn btn-ghost hover:bg-transparent border-transparent hover:!border-transparent shadow-none hover:!shadow-none btn-sm text-sm font-medium text-base-content normal-case"
             style={{ anchorName: SERVICES_ANCHOR } as CSSProperties}
             {...({ popovertarget: SERVICES_POPOVER_ID } as any)}
           >
@@ -137,6 +137,19 @@ export function Header() {
                 );
               })}
             </div>
+          </div>
+
+          {/* Monitor sizes: services listed out directly instead of behind the dropdown */}
+          <div className="hidden xl:flex items-center gap-5">
+            {services.map((s) => (
+              <Link
+                key={s.label}
+                to={s.to}
+                className="text-sm font-medium text-base-content/70 hover:text-primary transition-colors whitespace-nowrap"
+              >
+                {s.label}
+              </Link>
+            ))}
           </div>
         </div>
 

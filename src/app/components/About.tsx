@@ -10,12 +10,12 @@ const points = [
 
 export function About() {
   return (
-    <section id="om-oss" className="bg-base-100 py-24 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
+    <section id="om-oss" className="bg-base-200 py-24 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
       <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto grid lg:grid-cols-2 gap-20 items-center">
         {/* Image side */}
         <div className="relative">
           {/* Accent block */}
-          <div className="absolute -bottom-5 -right-5 w-[65%] h-[65%] bg-base-200 rounded-[10px] z-0" />
+          <div className="absolute -bottom-5 -right-5 w-[65%] h-[65%] bg-base-100 rounded-[10px] z-0" />
           <div className="relative z-[1] rounded-[10px] overflow-hidden aspect-[4/3] shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
             <img
               src={lunsjImg}
@@ -59,7 +59,7 @@ export function About() {
           <div className="flex flex-col gap-2.5 mb-9">
             {points.map((p, i) => (
               <div key={i} className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-base-200 flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 rounded-full bg-base-100 flex items-center justify-center flex-shrink-0">
                   <CheckCircle2 className="w-5 h-5 text-primary" />
                 </div>
                 <span className="text-sm text-base-content/80">{p}</span>

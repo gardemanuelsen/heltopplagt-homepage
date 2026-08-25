@@ -1,31 +1,33 @@
-import { ArrowRight, ArrowLeft, RotateCcw } from "lucide-react";
 import { useState } from "react";
+import { ArrowRight, CheckCircle2, Circle } from "lucide-react";
+import { companySizes, servicePriceHints } from "../../lib/offer-data";
+import fruktIcon from "../../images/icons/fruktkurv (1).png";
+import lunsjIcon from "../../images/icons/lunsj (1).png";
+import kantineIcon from "../../images/icons/jobbsmoothie (1).png";
+import cateringIcon from "../../images/icons/catering (1).png";
+import inneklimaIcon from "../../images/icons/inneklima (1).png";
+import renholdIcon from "../../images/icons/renhold (1).png";
 
-const services = [
-  { name: "Lunsj", blurb: "en fast lunsjordning som sparer dere tid hver dag" },
-  { name: "Kantine", blurb: "full drift av kantinen, fra frokost til varmmat" },
-  { name: "Catering", blurb: "catering til møter, kurs og arrangementer" },
-  { name: "Frukt", blurb: "daglig fruktlevering tilpasset antall ansatte" },
-  { name: "Inneklima", blurb: "bedre luft og temperatur uten byggtekniske endringer" },
-  { name: "Renhold", blurb: "renhold som holder arbeidsmiljøet i orden" },
+interface ServiceOption {
+  name: string;
+  blurb: string;
+  icon: string;
+}
+
+const serviceOptions: ServiceOption[] = [
+  { name: "Frukt", blurb: "Fersk kurv, daglig eller etter behov. Den enkleste starten.", icon: fruktIcon },
+  { name: "Lunsj", blurb: "Velsmakende ordninger for fem personer og oppover.", icon: lunsjIcon },
+  { name: "Kantine", blurb: "Full lunsjopplevelse — også uten eget kjøkken.", icon: kantineIcon },
+  { name: "Catering", blurb: "Møtemat, varmmat og event fra eget kjøkken.", icon: cateringIcon },
+  { name: "Inneklima", blurb: "Ren luft og rett temperatur, uten byggtekniske endringer.", icon: inneklimaIcon },
+  { name: "Renhold", blurb: "Rene lokaler gir bedre trivsel og lavere sykefravær.", icon: renholdIcon },
 ];
 
-const companySizes = [
-  { value: "1-9", label: "1–9 ansatte" },
-  { value: "10-49", label: "10–49 ansatte" },
-  { value: "50-199", label: "50–199 ansatte" },
-  { value: "200+", label: "200+ ansatte" },
-];
+interface CtaSectionProps {
+  onRequestQuote?: (services: string[], companySize: string | null) => void;
+}
 
-const sizeFraming: Record<string, string> = {
-  "1-9": "skreddersydd i mindre skala, uten unødvendige bindinger",
-  "10-49": "en fleksibel ordning som vokser i takt med bedriften",
-  "50-199": "full drift med en dedikert kundeansvarlig",
-  "200+": "et komplett tilbud med fullservice drift på tvers av lokasjoner",
-};
-
-export function CtaSection() {
-  const [step, setStep] = useState(0);
+export function CtaSection({ onRequestQuote }: CtaSectionProps) {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [companySize, setCompanySize] = useState<string | null>(null);
 
@@ -35,167 +37,177 @@ export function CtaSection() {
     );
   };
 
-  const reset = () => {
-    setStep(0);
-    setSelectedServices([]);
-    setCompanySize(null);
-  };
-
-  const chosenBlurbs = services.filter((s) => selectedServices.includes(s.name));
+  const size = companySizes.find((s) => s.value === companySize) ?? null;
 
   return (
-    <section className="py-24 bg-base-200 border-t border-base-300">
-      <div className="max-w-[760px] mx-auto px-8">
-        <div className="text-center mb-10">
-          <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2.5">
-            2 minutter, ingen forpliktelser
-          </p>
-          <h2 className="text-3xl lg:text-[40px] font-bold text-base-content tracking-tight leading-[1.15]">
-            Hva trenger akkurat din bedrift?
-          </h2>
-        </div>
+    <section className="py-24 bg-base-200">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
+        <div className="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
+          <div className="grid lg:grid-cols-[1.5fr_1fr]">
+          {/* Left: service picker */}
+          <div className="p-6 lg:p-10">
+            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2.5">
+              Bygg arbeidsplassen din
+            </p>
+            <h2 className="text-3xl lg:text-[40px] font-bold text-base-content tracking-tight leading-[1.15] mb-4">
+              Velg det dere trenger.
+              <br />
+              Vi setter sammen ett tilbud.
+            </h2>
+            <p className="text-base text-base-content/65 leading-relaxed mb-8 max-w-[520px]">
+              Kryss av for tjenestene som passer bedriften. Det meste starter i
+              det små, og vokser når dere er klare.
+            </p>
 
-        <div className="card bg-base-100 border border-base-300 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
-          <div className="card-body p-8 lg:p-10">
-            <ul className="steps steps-horizontal w-full mb-10">
-              <li className={step >= 0 ? "step step-primary" : "step"}>Tjenester</li>
-              <li className={step >= 1 ? "step step-primary" : "step"}>Størrelse</li>
-              <li className={step >= 2 ? "step step-primary" : "step"}>Anbefaling</li>
-            </ul>
-
-            {step === 0 && (
-              <div>
-                <p className="text-base font-semibold text-base-content mb-1">
-                  Hvilke tjenester er dere interessert i?
-                </p>
-                <p className="text-sm text-base-content/60 mb-6">Velg en eller flere.</p>
-                <div className="flex flex-wrap gap-2 mb-10">
-                  {services.map((s) => {
-                    const selected = selectedServices.includes(s.name);
-                    return (
-                      <button
-                        key={s.name}
-                        type="button"
-                        onClick={() => toggleService(s.name)}
-                        aria-pressed={selected}
-                        className={
-                          selected
-                            ? "btn btn-sm btn-primary rounded-full h-auto px-4 py-2 text-[13px] font-medium"
-                            : "btn btn-sm rounded-full h-auto px-4 py-2 text-[13px] font-medium bg-base-100 text-base-content/70 border-base-300 hover:border-primary hover:text-primary"
-                        }
-                      >
-                        {s.name}
-                      </button>
-                    );
-                  })}
-                </div>
-                <button
-                  type="button"
-                  disabled={selectedServices.length === 0}
-                  onClick={() => setStep(1)}
-                  className="btn btn-primary w-full h-auto px-8 py-3.5 text-[15px] disabled:opacity-40"
-                >
-                  Neste
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            )}
-
-            {step === 1 && (
-              <div>
-                <p className="text-base font-semibold text-base-content mb-1">
-                  Hvor mange ansatte har dere?
-                </p>
-                <p className="text-sm text-base-content/60 mb-6">
-                  Dette hjelper oss å anbefale riktig omfang.
-                </p>
-                <div className="join join-vertical sm:join-horizontal w-full mb-10">
-                  {companySizes.map((size) => (
-                    <input
-                      key={size.value}
-                      type="radio"
-                      name="company-size"
-                      aria-label={size.label}
-                      className="join-item btn flex-1"
-                      checked={companySize === size.value}
-                      onChange={() => setCompanySize(size.value)}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {serviceOptions.map((service) => {
+                const selected = selectedServices.includes(service.name);
+                return (
+                  <button
+                    key={service.name}
+                    type="button"
+                    onClick={() => toggleService(service.name)}
+                    aria-pressed={selected}
+                    className={
+                      selected
+                        ? "text-left flex items-start gap-3.5 rounded-xl border-2 border-primary bg-base-100 p-5 transition-colors"
+                        : "text-left flex items-start gap-3.5 rounded-xl border-2 border-transparent bg-base-200 p-5 hover:border-primary/40 transition-colors"
+                    }
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="inline-block w-8 h-8 bg-primary flex-shrink-0 mt-0.5"
+                      style={{
+                        maskImage: `url("${service.icon}")`,
+                        maskSize: "contain",
+                        maskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskImage: `url("${service.icon}")`,
+                        WebkitMaskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                      }}
                     />
+                    <span className="flex-1">
+                      <span className="block font-jakarta text-[15px] font-semibold text-base-content mb-0.5">
+                        {service.name}
+                      </span>
+                      <span className="block text-[13px] text-base-content/60 leading-relaxed">
+                        {service.blurb}
+                      </span>
+                    </span>
+                    {selected ? (
+                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                    ) : (
+                      <Circle className="w-5 h-5 text-base-300 flex-shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right: selection summary */}
+          <div className="p-6 lg:p-10 bg-base-200/60 border-t lg:border-t-0 lg:border-l border-base-300">
+            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2">
+              Ditt utvalg
+            </p>
+
+            {selectedServices.length === 0 ? (
+              <p className="text-sm text-base-content/60 leading-relaxed mb-6">
+                Velg en eller flere tjenester til venstre for å se et forslag.
+              </p>
+            ) : (
+              <>
+                <p className="text-3xl font-bold text-base-content tracking-tight mb-1">
+                  {selectedServices.length}{" "}
+                  <span className="text-base font-medium text-base-content/50">
+                    {selectedServices.length === 1 ? "tjeneste" : "tjenester"}
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {selectedServices.map((name) => (
+                    <span
+                      key={name}
+                      className="badge badge-sm h-auto px-3 py-1.5 bg-primary/10 text-primary border-none text-[12px] font-medium"
+                    >
+                      {name}
+                    </span>
                   ))}
                 </div>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setStep(0)}
-                    className="btn btn-ghost h-auto px-6 py-3.5 text-[15px]"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    Tilbake
-                  </button>
-                  <button
-                    type="button"
-                    disabled={!companySize}
-                    onClick={() => setStep(2)}
-                    className="btn btn-primary flex-1 h-auto px-8 py-3.5 text-[15px] disabled:opacity-40"
-                  >
-                    Se anbefaling
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+              </>
             )}
 
-            {step === 2 && companySize && (
-              <div>
-                <p className="text-base font-semibold text-base-content mb-1">
-                  Vårt forslag til dere
-                </p>
-                <p className="text-sm text-base-content/60 mb-6">
-                  Basert på {selectedServices.length}{" "}
-                  {selectedServices.length === 1 ? "tjeneste" : "tjenester"} og{" "}
-                  {companySizes.find((s) => s.value === companySize)?.label.toLowerCase()}.
-                </p>
+            <div className="border-t border-base-300 pt-6 mb-6">
+              <p className="text-[13px] font-medium text-base-content/80 mb-2.5">
+                Antall ansatte
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {companySizes.map((cs) => (
+                  <button
+                    key={cs.value}
+                    type="button"
+                    onClick={() => setCompanySize(cs.value)}
+                    aria-pressed={companySize === cs.value}
+                    className={
+                      companySize === cs.value
+                        ? "btn btn-xs h-auto px-3 py-1.5 btn-primary rounded-full text-[12px] font-medium"
+                        : "btn btn-xs h-auto px-3 py-1.5 rounded-full text-[12px] font-medium bg-base-100 border-none text-base-content/70 hover:bg-base-300"
+                    }
+                  >
+                    {cs.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                <div className="bg-base-200 rounded-xl p-6 mb-6">
-                  <p className="text-sm text-base-content/80 leading-relaxed mb-4">
-                    For en bedrift på denne størrelsen anbefaler vi{" "}
-                    {sizeFraming[companySize]}. Konkret betyr det:
-                  </p>
-                  <ul className="flex flex-col gap-2.5">
-                    {chosenBlurbs.map((s) => (
-                      <li key={s.name} className="flex items-start gap-2.5 text-sm text-base-content/80">
-                        <span className="badge badge-sm badge-primary badge-soft mt-0.5 flex-shrink-0">
-                          {s.name}
+            {selectedServices.length > 0 && size && (
+              <div className="border-t border-base-300 pt-6 mb-6">
+                <p className="text-[13px] font-medium text-base-content/80 mb-3">
+                  Omtrentlig prisantydning
+                </p>
+                <ul className="flex flex-col gap-2">
+                  {selectedServices.map((name) => {
+                    const hint = servicePriceHints[name];
+                    if (!hint) return null;
+                    const low = size.min * hint.rate;
+                    const high = size.max * hint.rate;
+                    return (
+                      <li key={name} className="flex items-baseline justify-between gap-3 text-sm">
+                        <span className="text-base-content/70">{name}</span>
+                        <span className="font-semibold text-base-content tabular-nums">
+                          {low === high ? low : `${low}–${high}`} {hint.unit}
                         </span>
-                        <span>{s.blurb}</span>
                       </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <p className="text-sm text-base-content/60 mb-6">
-                  Send oss forespørselen, så tar vi kontakt med et konkret tilbud tilpasset
-                  akkurat det dere valgte over.
+                    );
+                  })}
+                </ul>
+                <p className="text-[11px] text-base-content/40 mt-3">
+                  Veiledende, basert på antall ansatte. Endelig pris avtales i tilbudet.
                 </p>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <a
-                    href="#kontakt"
-                    className="btn btn-primary flex-1 h-auto px-8 py-3.5 text-[15px]"
-                  >
-                    Kontakt oss om dette
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                  <button
-                    type="button"
-                    onClick={reset}
-                    className="btn btn-ghost h-auto px-6 py-3.5 text-[15px]"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                    Start på nytt
-                  </button>
-                </div>
               </div>
             )}
+
+            <a
+              href="#kontakt"
+              onClick={() => onRequestQuote?.(selectedServices, companySize)}
+              aria-disabled={selectedServices.length === 0}
+              className={
+                selectedServices.length === 0
+                  ? "btn btn-primary w-full h-auto px-8 py-3.5 text-[15px] pointer-events-none opacity-40"
+                  : "btn btn-primary w-full h-auto px-8 py-3.5 text-[15px]"
+              }
+            >
+              {selectedServices.length === 0
+                ? "Velg tjenester for å få tilbud"
+                : `Få tilbud på ${
+                    selectedServices.length === 1
+                      ? "denne tjenesten"
+                      : `disse ${selectedServices.length} tjenestene`
+                  }`}
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
           </div>
         </div>
       </div>
