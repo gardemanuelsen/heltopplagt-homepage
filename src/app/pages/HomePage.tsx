@@ -12,6 +12,7 @@ export function HomePage() {
     <>
       <Hero />
       <Services />
+      <CtaSection />
       <FarmCta />
       <References />
       <Reviews />

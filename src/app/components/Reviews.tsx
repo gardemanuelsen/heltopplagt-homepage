@@ -1,4 +1,4 @@
-import { Star, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 
@@ -37,17 +37,27 @@ const reviews = [
   },
 ];
 
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 export function Reviews() {
   return (
-    <section className="py-24 bg-[#f5f9fc] border-y border-gray-200">
+    <section className="py-24 bg-base-200 border-y border-base-300">
       <div className="max-w-[1280px] mx-auto px-8">
         {/* Header row */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-gray-200 pb-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-base-300 pb-8">
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2.5">
+            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2.5">
               Kundehistorier
             </p>
-            <h2 className="text-3xl lg:text-[44px] font-bold text-gray-900 tracking-tight leading-[1.1]">
+            <h2 className="text-3xl lg:text-[44px] font-bold text-base-content tracking-tight leading-[1.1]">
               Hva kundene
               <br />
               våre sier
@@ -55,7 +65,7 @@ export function Reviews() {
           </div>
           <Link
             to="/referanser"
-            className="mt-4 md:mt-0 border-[1.5px] border-gray-200 text-gray-700 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-[#0078C4] hover:text-[#0078C4] transition-all inline-flex items-center gap-1.5 flex-shrink-0 mb-1 bg-white"
+            className="btn btn-sm h-auto mt-4 md:mt-0 border-[1.5px] border-base-300 bg-base-100 text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary flex-shrink-0 mb-1"
           >
             Se alle referanser
             <ArrowUpRight className="w-3.5 h-3.5" />
@@ -67,34 +77,44 @@ export function Reviews() {
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300"
+              className="card bg-base-100 border border-base-300 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300"
             >
-              <div className="flex items-center justify-between mb-5">
-                <span className="inline-block px-3 py-1 bg-[#f5f9fc] text-[#0078C4] text-[11px] font-semibold tracking-[0.08em] uppercase rounded-full">
-                  {review.service}
-                </span>
-                <div className="flex gap-0.5">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-[#0078C4] text-[#0078C4]"
-                    />
-                  ))}
+              <div className="card-body p-8">
+                <div className="flex items-center justify-between mb-5">
+                  <span className="badge badge-sm h-auto px-3 py-1 bg-base-200 text-primary border-none text-[11px] font-semibold tracking-[0.08em] uppercase">
+                    {review.service}
+                  </span>
+                  <div className="rating rating-sm" aria-label={`${review.rating} av 5 stjerner`}>
+                    {[...Array(5)].map((_, i) =>
+                      i < review.rating ? (
+                        <div key={i} className="mask mask-star bg-primary" aria-hidden="true" />
+                      ) : (
+                        <div key={i} className="mask mask-star bg-base-300" aria-hidden="true" />
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <Quote className="w-6 h-6 text-[#0078C4]/30 mb-3 rotate-180" />
-              <p className="text-[15px] text-gray-700 leading-relaxed mb-6 flex-1">
-                {review.text}
-              </p>
+                <Quote className="w-6 h-6 text-primary/30 mb-3 rotate-180" />
+                <p className="text-[15px] text-base-content/80 leading-relaxed mb-6 flex-1">
+                  {review.text}
+                </p>
 
-              <div className="border-t border-gray-200 pt-4">
-                <p className="text-sm font-semibold text-gray-900">
-                  {review.name}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {review.role}, {review.company}
-                </p>
+                <div className="border-t border-base-300 pt-4 flex items-center gap-3">
+                  <div className="avatar avatar-placeholder">
+                    <div className="bg-base-300 text-base-content w-10 rounded-full">
+                      <span className="text-xs font-semibold">{getInitials(review.name)}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-base-content">
+                      {review.name}
+                    </p>
+                    <p className="text-sm text-base-content/50">
+                      {review.role}, {review.company}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

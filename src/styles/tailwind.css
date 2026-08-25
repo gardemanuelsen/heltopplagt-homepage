@@ -2,3 +2,72 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "heltopplagt";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f5f9fc;
+  --color-base-300: #e2e8f0;
+  --color-base-content: #152643;
+
+  --color-primary: #0078c4;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #152643;
+  --color-secondary-content: #ffffff;
+
+  --color-accent: #4da7dd;
+  --color-accent-content: #0d1a2d;
+
+  --color-neutral: #0d1a2d;
+  --color-neutral-content: #f5f9fc;
+
+  --color-info: #0078c4;
+  --color-info-content: #ffffff;
+  --color-success: #1a8f5e;
+  --color-success-content: #ffffff;
+  --color-warning: #b9770e;
+  --color-warning-content: #ffffff;
+  --color-error: #d4183d;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.375rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/*
+ * src/styles/theme.css (shadcn's pre-existing token set, used by not-yet-migrated
+ * pages) also registers Tailwind theme keys named --color-primary/--color-secondary/
+ * --color-accent. Both files can't own the same Tailwind theme key at once, so this
+ * block re-asserts this page's brand values as the ones Tailwind compiles into the
+ * primary/secondary/accent utility classes (text-primary, bg-primary, border-primary, etc).
+ */
+@theme {
+  --color-primary: #0078c4;
+  --color-primary-content: #ffffff;
+  --color-secondary: #152643;
+  --color-secondary-content: #ffffff;
+  --color-accent: #4da7dd;
+  --color-accent-content: #0d1a2d;
+
+  /* Extra breakpoints above the default 2xl (1536px), for large/4K monitors. */
+  --breakpoint-3xl: 1920px;
+  --breakpoint-4xl: 2560px;
+  --breakpoint-5xl: 3840px;
+}
