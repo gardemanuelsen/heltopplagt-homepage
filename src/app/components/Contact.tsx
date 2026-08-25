@@ -38,7 +38,7 @@ export function Contact() {
 
   return (
     <section id="kontakt" className="py-24 bg-base-100 scroll-mt-20">
-      <div className="max-w-[1280px] mx-auto px-8">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-14">
           {/* Contact Info */}
           <div>

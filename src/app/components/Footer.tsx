@@ -22,7 +22,7 @@ export function Footer() {
   return (
     <footer className="bg-neutral text-neutral-content">
       {/* Main grid */}
-      <div className="footer sm:footer-horizontal max-w-[1280px] mx-auto px-8 pt-[72px] pb-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_2fr_1.4fr] gap-10 lg:gap-12">
+      <div className="footer sm:footer-horizontal max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 pt-[72px] pb-14 grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_2fr_1.4fr] gap-10 lg:gap-12">
         {/* Brand col */}
         <aside>
           <img src={logoSrc} alt="Helt Opplagt" className="h-[30px] object-contain brightness-0 invert mb-5" />
@@ -87,8 +87,8 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-neutral-content/[0.06] px-8 py-[18px]">
-        <div className="max-w-[1280px] mx-auto flex justify-between items-center flex-wrap gap-2">
+      <div className="border-t border-neutral-content/[0.06] px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 py-[18px]">
+        <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto flex justify-between items-center flex-wrap gap-2">
           <p className="text-xs text-neutral-content/25">
             &copy; {new Date().getFullYear()} Helt Opplagt AS. Alle rettigheter reservert.
           </p>

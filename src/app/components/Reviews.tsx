@@ -50,7 +50,7 @@ function getInitials(name: string): string {
 export function Reviews() {
   return (
     <section className="py-24 bg-base-200 border-y border-base-300">
-      <div className="max-w-[1280px] mx-auto px-8">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         {/* Header row */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-base-300 pb-8">
           <div>

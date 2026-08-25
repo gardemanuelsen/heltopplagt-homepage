@@ -1,15 +1,21 @@
-import { Menu, X, ChevronDown, Utensils, Coffee, Apple, Sparkles, Wind, Mail, Phone, Linkedin } from "lucide-react";
+import { Menu, X, ChevronDown, Mail, Phone, Linkedin } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
+import fruktIcon from "../../images/icons/fruktkurv (1).png";
+import lunsjIcon from "../../images/icons/lunsj (1).png";
+import kantineIcon from "../../images/icons/jobbsmoothie (1).png";
+import cateringIcon from "../../images/icons/catering (1).png";
+import inneklimaIcon from "../../images/icons/inneklima (1).png";
+import renholdIcon from "../../images/icons/renhold (1).png";
 
 const services = [
-  { label: "Frukt", to: "/tjenester/frukt", desc: "Du bestemmer størrelse og innhold.", icon: Apple },
-  { label: "Lunsj", to: "/tjenester/lunsj", desc: "For 5 personer og oppover.", icon: Coffee },
-  { label: "Kantine", to: "/tjenester/kantine", desc: "Fullservice lunsjavvikling.", icon: Utensils },
-  { label: "Catering", to: "/tjenester/catering", desc: "Fra varmmat til møtemat.", icon: Utensils },
-  { label: "Inneklima", to: "/tjenester/inneklima", desc: "Ren luft, rett temperatur.", icon: Wind },
-  { label: "Renhold", to: "/tjenester/renhold", desc: "Bedre trivsel og arbeidsmiljø.", icon: Sparkles },
+  { label: "Frukt", to: "/tjenester/frukt", desc: "Du bestemmer størrelse og innhold.", icon: fruktIcon },
+  { label: "Lunsj", to: "/tjenester/lunsj", desc: "For 5 personer og oppover.", icon: lunsjIcon },
+  { label: "Kantine", to: "/tjenester/kantine", desc: "Fullservice lunsjavvikling.", icon: kantineIcon },
+  { label: "Catering", to: "/tjenester/catering", desc: "Fra varmmat til møtemat.", icon: cateringIcon },
+  { label: "Inneklima", to: "/tjenester/inneklima", desc: "Ren luft, rett temperatur.", icon: inneklimaIcon },
+  { label: "Renhold", to: "/tjenester/renhold", desc: "Bedre trivsel og arbeidsmiljø.", icon: renholdIcon },
 ];
 
 const secondaryLinks = [
@@ -60,7 +66,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-base-100 border-b border-base-300">
-      <div className="navbar max-w-[1600px] mx-auto h-20 px-6 sm:px-8">
+      <div className="navbar max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto h-20 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         {/* Left: Logo + contact + Tjenester */}
         <div className="navbar-start flex items-center gap-6">
           <Link to="/" className="flex-shrink-0">
@@ -101,14 +107,26 @@ export function Header() {
           >
             <div className="card-body p-2 grid grid-cols-2 gap-0.5">
               {services.map((s) => {
-                const Icon = s.icon;
                 return (
                   <Link
                     key={s.label}
                     to={s.to}
                     className="flex items-center gap-3 px-3.5 py-3 rounded-lg text-left hover:bg-base-200 transition-colors"
                   >
-                    <Icon className="w-[22px] h-[22px] text-primary flex-shrink-0" strokeWidth={1.75} />
+                    <span
+                      aria-hidden="true"
+                      className="inline-block w-[22px] h-[22px] bg-primary flex-shrink-0"
+                      style={{
+                        maskImage: `url("${s.icon}")`,
+                        maskSize: "contain",
+                        maskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskImage: `url("${s.icon}")`,
+                        WebkitMaskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                      }}
+                    />
                     <span>
                       <span className="block text-[13px] font-semibold text-base-content mb-px">
                         {s.label}

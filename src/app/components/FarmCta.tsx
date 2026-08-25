@@ -9,7 +9,7 @@ import grillingImg from "../../images/garden/grilling.jpg";
 export function FarmCta() {
   return (
     <section className="py-14 bg-base-100">
-      <div className="max-w-[1280px] mx-auto px-8">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
         <div className="card card-side grid lg:grid-cols-[1fr_1.4fr] rounded-2xl border border-base-300 overflow-hidden hover:shadow-[0_16px_40px_rgba(0,120,196,0.08)] transition-shadow duration-300">
           {/* Image */}
           <figure className="relative min-h-[220px] lg:min-h-0">

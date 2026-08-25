@@ -10,8 +10,8 @@ const points = [
 
 export function About() {
   return (
-    <section id="om-oss" className="bg-base-100 py-24 px-8">
-      <div className="max-w-[1280px] mx-auto grid lg:grid-cols-2 gap-20 items-center">
+    <section id="om-oss" className="bg-base-100 py-24 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto grid lg:grid-cols-2 gap-20 items-center">
         {/* Image side */}
         <div className="relative">
           {/* Accent block */}

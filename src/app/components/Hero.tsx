@@ -39,7 +39,7 @@ export function Hero() {
 
   return (
     <section className="h-[calc(100vh-5rem)] bg-base-100">
-      <div className="max-w-[1600px] 2xl:max-w-[1800px] 3xl:max-w-[2000px] 4xl:max-w-[2200px] 5xl:max-w-[2400px] mx-auto h-full px-4 sm:px-8 flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-12 2xl:gap-16 3xl:gap-20 4xl:gap-24">
+      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto h-full px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-12 2xl:gap-16 3xl:gap-20 4xl:gap-24">
         {/* Text */}
         <div className="flex items-center py-10 sm:py-14 lg:py-0">
           <div className="max-w-[700px] 2xl:max-w-[820px] 3xl:max-w-[900px] 4xl:max-w-[980px] 5xl:max-w-[1060px]">
