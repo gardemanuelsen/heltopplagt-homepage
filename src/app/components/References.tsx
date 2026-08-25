@@ -19,21 +19,21 @@ export function References() {
   ];
 
   return (
-    <section className="py-16 bg-white border-y border-gray-200">
+    <section className="py-16 bg-base-100 border-y border-base-300">
       <div className="max-w-[1280px] mx-auto px-8">
         <div className="text-center mb-12">
-          <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2">
+          <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2">
             Våre kunder
           </p>
-          <h2 className="text-3xl lg:text-[44px] font-bold text-gray-900 tracking-tight leading-[1.1]">
+          <h2 className="text-3xl lg:text-[44px] font-bold text-base-content tracking-tight leading-[1.1]">
             Stolt partner for ledende bedrifter
           </h2>
         </div>
-        <div className="flex items-center justify-between gap-3 sm:gap-6 lg:gap-12">
-          {customers.map((customer, index) => (
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-6 lg:gap-12">
+          {customers.map((customer) => (
             <div
-              key={index}
-              className="flex-1 min-w-0 flex items-center justify-center p-1 sm:p-4 transition-all duration-300 group"
+              key={customer.name}
+              className="flex-1 min-w-[120px] flex items-center justify-center p-1 sm:p-4"
             >
               <img
                 src={customer.logo}
