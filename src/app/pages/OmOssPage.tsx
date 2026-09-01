@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { PageHero, SectionHeader } from "../components/PageHero";
 import { CtaSection } from "../components/CtaSection";
 import heleGjengenImg from "../../images/hele_gjengen.jpg";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 
 const stats = [
   { value: "200+", label: "Fornøyde bedrifter" },
@@ -57,8 +58,13 @@ const milestones = [
 ];
 
 export function OmOssPage() {
+  useDocumentMeta(
+    "Om oss",
+    "Helt Opplagt leverer fasilitetsløsninger som gjør hverdagen enklere for over 200 bedrifter i Oslo-området. Les om teamet og verdiene våre."
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <PageHero
         eyebrow="Om oss"
         title={

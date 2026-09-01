@@ -1,5 +1,6 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/lunsj/lunsj.png";
+import openingImg from "../../../images/hero/web/hero-lunsj.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -8,14 +9,15 @@ export const lunsjData: ServicePageData = {
   badge: "Mat & Drikke",
   title: (
     <>
-      Vår lunsj gjør arbeidsdagen{" "}
-      <span className="text-[#0078C4] italic font-light">hyggeligere</span>
+      Lunsj
     </>
   ),
+  subtitle: "Lønnsomme lunsjordninger. Fra fem personer og oppover.",
   intro:
     "Er du en bedrift med mellom 5–300 ansatte kan vi levere alt fra enkle lunsjbokser til proffkantine. Ta kontakt i dag og prøv våre velsmakende lunsjer.",
   image: heroImg,
   imageAlt: "Lunsj fra Helt Opplagt",
+  heroImage: openingImg,
   brochureUrl:
     "https://heltopplagt.no/application/files/8917/6785/9195/HeltOpplagt_Lunsjbrosjyre_januar_2026_web.pdf",
   subServices: [

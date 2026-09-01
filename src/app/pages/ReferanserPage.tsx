@@ -1,6 +1,7 @@
 import { Quote, Star } from "lucide-react";
 import { PageHero, SectionHeader } from "../components/PageHero";
 import { CtaSection } from "../components/CtaSection";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 import intilityLogo from "../../images/logo/intility.png";
 import allianceLogo from "../../images/logo/alliance.png";
 import sporveienLogo from "../../images/logo/sporveien.png";
@@ -54,8 +55,13 @@ const stats = [
 ];
 
 export function ReferanserPage() {
+  useDocumentMeta(
+    "Referanser",
+    "Se hva kundene våre sier om Helt Opplagt: ekte tilbakemeldinger fra bedrifter som bruker våre tjenester innen lunsj, kantine, frukt og renhold."
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <PageHero
         eyebrow="Referanser"
         title={

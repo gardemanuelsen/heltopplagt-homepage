@@ -71,8 +71,197 @@
   --breakpoint-4xl: 2560px;
   --breakpoint-5xl: 3840px;
 
-  /* Font trials — loaded from Google Fonts in index.html. Apply as font-jakarta / font-manrope / font-fredoka to preview. */
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-manrope: "Manrope", sans-serif;
-  --font-fredoka: "Fredoka", sans-serif;
+
+  /*
+   * Light world (seed 26b45123) — calm & corporate.
+   * Section grounds alternate white and Tint (a neutral near-white grey, NOT blue),
+   * separated by a hairline seam. Blue is detail only.
+   * Deck  = deep blue — primary CTA / emphasis detail (white text passes on it).
+   * Signal = brand blue — links, hover, the hero accent word, small brand detail.
+   * Aqua  = light blue — reserved for tiny structural detail; never a field.
+   * Amber = tiny "active / now" accent only (carousel indicator). Never a field, never text on white.
+   * Lime  = the "verified / proof" mark — proof-fact checks and eco mentions. Icon use only.
+   * Enamel = nested surface (form fields) inside a card.
+   */
+  --color-deck: #004b8d;
+  --color-deck-content: #ffffff;
+  --color-signal: #0078c4;
+  --color-aqua: #70c4e9;
+  --color-amber: #f8a924;
+  --color-lime: #8dbe23;
+  --color-tint: #f5f6f8;
+  --color-tint-content: #0d1a2d;
+  --color-enamel: #eef2f6;
+  --color-ink: #0d1a2d;
+
+  /* Painted-name display face. Set at 900, tracked tight, often cropped by an edge. */
+  --font-archivo: "Archivo", "Arial Narrow", system-ui, sans-serif;
+}
+
+/*
+ * Livery primitives — the drawn, repeating marks a real fleet identity is built from.
+ * Kept in CSS (not per-component Tailwind) so every section inherits the exact same
+ * seam, rivet, plate, and sheen instead of re-deriving them.
+ */
+@layer components {
+  /* Section divider — a single calm hairline between major sections. */
+  .livery-seam {
+    height: 1px;
+    background: color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+
+  /*
+   * THE SECTION CURVE — the one soft shape in the system.
+   *
+   * A coloured section's edge is a single shallow ellipse arc, so the white
+   * page ground reads as sweeping under it. This is what separates sections
+   * instead of a flat grey-to-white change or a hairline.
+   *
+   * The rules that keep it a system rather than decoration:
+   *   1. A curve belongs to a BOUNDARY, never to a section. One section never
+   *      curves both edges: curved top and bottom together reads as a lens,
+   *      not as layered paper. There is deliberately no both-edges class.
+   *   2. Curves belong to section edges only. Components (cards, buttons,
+   *      plates, photo panels) keep hard corners and the 18px window-cut
+   *      notch. One soft shape, one hard shape, never on one element.
+   *   3. Only a coloured section curves. The arc reveals what is BEHIND the
+   *      section, which is the white page, so alternation has to stay
+   *      colour → white → colour.
+   *   4. Not every boundary curves. Straight is the default; a curve marks a
+   *      change of chapter, so the page keeps a mix rather than a ripple.
+   *   5. One depth token for the whole site, so every curve on every page is
+   *      the same arc.
+   *
+   * `50%` horizontal on each of two corners sums to exactly 100%, so the
+   * browser does not scale the radii down and the depth stays `--curve-h`.
+   */
+  .livery-curve-b,
+  .livery-curve-t {
+    --curve-h: clamp(18px, 3vw, 40px);
+  }
+
+  /* The colour sweeps down into the white below it. The common case. */
+  .livery-curve-b {
+    border-radius: 0 0 50% 50% / 0 0 var(--curve-h) var(--curve-h);
+  }
+
+  /* The colour rises into the white above it. Use where the section below is
+     the one that should feel like it lifts, e.g. a closing band. */
+  .livery-curve-t {
+    border-radius: 50% 50% 0 0 / var(--curve-h) var(--curve-h) 0 0;
+  }
+
+  /*
+   * THE PUZZLE MOTIF — the brand's own mark, used as background punctuation.
+   *
+   * The piece comes from Helt Opplagt's logo, where it also appears physically
+   * tagged into the fruit baskets in the printed brochure. Using it beats an
+   * abstract shape: the decoration is unmistakably this company's, not a
+   * borrowed device.
+   *
+   * It is a MASK, not an image, so the colour comes from the palette
+   * (`bg-lime/14`, `bg-amber/12`, …) and one asset serves every tint. Set a
+   * width and the `100/129` aspect; the artwork letterboxes itself.
+   *
+   * The rules:
+   *   1. Coloured sections only. White sections stay empty, so the page still
+   *      breathes and the motif reads as punctuation, not wallpaper.
+   *   2. One per section, maximum.
+   *   3. Behind content, never over it, and never over a photograph.
+   *   4. 6-14% alpha, so body text keeps its contrast against the ground.
+   *   5. It always bleeds off an edge, and every instance carries a different
+   *      rotation and size. A row of identical upright pieces reads as a
+   *      repeated stamp rather than as texture.
+   */
+  .livery-puzzle,
+  .livery-puzzle-outline {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  /* Filled. Sits BEHIND the content at low alpha, as a tint in the ground. */
+  .livery-puzzle {
+    z-index: 0;
+    -webkit-mask: url("/puzzle.svg") center / contain no-repeat;
+    mask: url("/puzzle.svg") center / contain no-repeat;
+  }
+
+  /*
+   * Outline. Sits ON TOP of the content, so it reads as a drawn mark laid over
+   * the page rather than a shape buried in the background. Only ever placed
+   * over photography, panels or a section edge, never over running text.
+   */
+  .livery-puzzle-outline {
+    z-index: 20;
+    -webkit-mask: url("/puzzle-outline.svg") center / contain no-repeat;
+    mask: url("/puzzle-outline.svg") center / contain no-repeat;
+  }
+
+  /*
+   * There is no sawtooth class. The zigzag edge was tried on the hero and
+   * removed: one soft curve is the site's only section-edge treatment, and a
+   * second, harder one competing with it read as noise rather than variety.
+   */
+
+  /*
+   * Photo panel — a 1px inset ring for the edge (a real CSS border would be
+   * sliced flat by the notch clip-path, so an inset box-shadow is used instead).
+   */
+  .livery-panel {
+    position: relative;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, currentColor 14%, transparent);
+  }
+
+  /* Notched "window cut" corner — the shape of a livery panel edge. */
+  .livery-notch {
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+
+  /* Reflective-tape sheen that sweeps across an active band item on hover. */
+  .livery-sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .livery-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      color-mix(in oklab, #ffffff 55%, transparent) 50%,
+      transparent 65%
+    );
+    transform: translateX(-120%);
+    transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .livery-sheen:hover::after,
+  .livery-sheen:focus-visible::after {
+    transform: translateX(120%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .livery-sheen::after { transition: none; }
+  }
+}
+
+/*
+ * Text selection, caret, and scrollbar carry the livery, not the browser default.
+ */
+::selection {
+  background: var(--color-sky);
+  color: var(--color-ink);
+}
+:root {
+  caret-color: var(--color-signal);
+  accent-color: var(--color-signal);
+}
+@supports (scrollbar-color: auto) {
+  :root {
+    scrollbar-color: var(--color-signal) var(--color-enamel);
+  }
 }

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { PageHero, SectionHeader } from "../components/PageHero";
 import { CtaSection } from "../components/CtaSection";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 
 const initiatives = [
   {
@@ -58,8 +59,13 @@ const certifications = [
 ];
 
 export function AnsvarPage() {
+  useDocumentMeta(
+    "Ansvar",
+    "Hos Helt Opplagt er bærekraft en naturlig del av alt vi gjør, fra råvarene vi kjøper inn til menneskene som leverer tjenestene."
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <PageHero
         eyebrow="Samfunnsansvar"
         title={

@@ -1,10 +1,9 @@
 import { Link, useParams } from "react-router";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
-import { CtaSection } from "../../components/CtaSection";
 import {
   Breadcrumb,
   ContentBlock,
-  OtherServices,
+  ServiceFooter,
   ServicePageData,
 } from "../../components/ServicePage";
 import { fruktData } from "./Frukt";
@@ -13,6 +12,7 @@ import { kantineData } from "./Kantine";
 import { lunsjData } from "./Lunsj";
 import { inneklimaData } from "./Inneklima";
 import { renholdData } from "./Renhold";
+import { useDocumentMeta } from "../../../lib/use-document-meta";
 
 const services: Record<string, { label: string; data: ServicePageData }> = {
   frukt: { label: "Frukt", data: fruktData },
@@ -33,9 +33,14 @@ export function SubServicePage() {
   const entry = service ? services[service] : undefined;
   const sub = entry?.data.subServices.find((s) => s.slug === slug);
 
+  useDocumentMeta(
+    sub ? sub.title : "Fant ikke siden",
+    sub ? sub.description : "Siden du leter etter finnes ikke, eller har blitt flyttet."
+  );
+
   if (!entry || !sub) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8 text-center">
+      <div className="min-h-dvh bg-white flex flex-col items-center justify-center px-8 text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Fant ikke siden
         </h1>
@@ -53,7 +58,7 @@ export function SubServicePage() {
   const siblings = entry.data.subServices.filter((s) => s.slug !== sub.slug);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       {/* Page heading */}
       <div className="max-w-[1280px] mx-auto px-8 pt-32 lg:pt-36">
         <Breadcrumb
@@ -124,9 +129,7 @@ export function SubServicePage() {
         </section>
       )}
 
-      <OtherServices currentPath={entry.data.path} />
-
-      <CtaSection />
+      <ServiceFooter currentPath={entry.data.path} />
     </div>
   );
 }

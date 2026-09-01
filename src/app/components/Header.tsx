@@ -1,22 +1,8 @@
-import { Menu, X, ChevronDown, Mail, Phone, Linkedin } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Menu, X, Mail, Phone, Linkedin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
-import fruktIcon from "../../images/icons/fruktkurv (1).png";
-import lunsjIcon from "../../images/icons/lunsj (1).png";
-import kantineIcon from "../../images/icons/jobbsmoothie (1).png";
-import cateringIcon from "../../images/icons/catering (1).png";
-import inneklimaIcon from "../../images/icons/inneklima (1).png";
-import renholdIcon from "../../images/icons/renhold (1).png";
-
-const services = [
-  { label: "Frukt", to: "/tjenester/frukt", desc: "Du bestemmer størrelse og innhold.", icon: fruktIcon },
-  { label: "Lunsj", to: "/tjenester/lunsj", desc: "For 5 personer og oppover.", icon: lunsjIcon },
-  { label: "Kantine", to: "/tjenester/kantine", desc: "Fullservice lunsjavvikling.", icon: kantineIcon },
-  { label: "Catering", to: "/tjenester/catering", desc: "Fra varmmat til møtemat.", icon: cateringIcon },
-  { label: "Inneklima", to: "/tjenester/inneklima", desc: "Ren luft, rett temperatur.", icon: inneklimaIcon },
-  { label: "Renhold", to: "/tjenester/renhold", desc: "Bedre trivsel og arbeidsmiljø.", icon: renholdIcon },
-];
+import { LIVERY_CONTAINER, SERVICES } from "./livery";
 
 const secondaryLinks = [
   { label: "Om oss", to: "/om-oss" },
@@ -26,21 +12,20 @@ const secondaryLinks = [
   { label: "Kontakt", to: "/kontakt" },
 ];
 
-const SERVICES_POPOVER_ID = "header-services-popover";
-const SERVICES_ANCHOR = "--header-services-anchor";
 const MENU_POPOVER_ID = "header-menu-popover";
-
 const MENU_LINK_STEP = 45;
-/** A small head start for "Tjenester" before "Om Helt Opplagt" begins its own cascade. */
 const MENU_SECOND_COLUMN_START = 150;
 
-/** Stagger delay so each column cascades top to bottom, with the second column starting a beat after the first. */
 function menuLinkDelay(row: number, col: number) {
-  return col === 0 ? row * MENU_LINK_STEP : MENU_SECOND_COLUMN_START + row * MENU_LINK_STEP;
+  return col === 0
+    ? row * MENU_LINK_STEP
+    : MENU_SECOND_COLUMN_START + row * MENU_LINK_STEP;
 }
 
 function closeMenu() {
-  const el = document.getElementById(MENU_POPOVER_ID) as (HTMLElement & { hidePopover?: () => void }) | null;
+  const el = document.getElementById(MENU_POPOVER_ID) as
+    | (HTMLElement & { hidePopover?: () => void })
+    | null;
   el?.hidePopover?.();
 }
 
@@ -52,11 +37,11 @@ export function Header() {
     const el = menuRef.current;
     if (!el) return;
     const onToggle = (e: Event) => {
-      const newState = (e as any).newState;
+      const newState = (e as unknown as { newState?: string }).newState;
       if (newState === "open") {
         setMenuExpanded(false);
-        const raf = requestAnimationFrame(() => setMenuExpanded(true));
-        return () => cancelAnimationFrame(raf);
+        requestAnimationFrame(() => setMenuExpanded(true));
+        return;
       }
       setMenuExpanded(false);
     };
@@ -65,109 +50,60 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-base-100 border-b border-base-300">
-      <div className="navbar max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto h-20 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
-        {/* Left: Logo + contact + Tjenester */}
-        <div className="navbar-start flex items-center gap-6">
-          <Link to="/" className="flex-shrink-0">
-            <img src={logoSrc} alt="Helt Opplagt" className="h-9 object-contain" />
-          </Link>
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-white text-ink">
+      <div
+        className={`${LIVERY_CONTAINER} flex h-16 items-center gap-6`}
+      >
+        <Link to="/" className="flex-shrink-0">
+          <img src={logoSrc} alt="Helt Opplagt" className="h-8 object-contain" />
+        </Link>
 
-          <div className="hidden lg:flex items-center gap-4 pl-4 pr-4 border-l border-r border-base-300">
+        <nav
+          aria-label="Tjenester"
+          className="hidden items-center gap-3.5 lg:flex xl:gap-5"
+        >
+          {SERVICES.map((s) => (
+            <Link
+              key={s.href}
+              to={s.href}
+              className="font-jakarta text-[13.5px] font-medium text-ink/70 transition-colors hover:text-signal"
+            >
+              {s.name}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="ml-auto flex items-center gap-2 sm:gap-3">
+          <div className="mr-1 hidden items-center gap-4 border-r border-ink/12 pr-4 lg:flex">
             <a
               href="mailto:bli@heltopplagt.no"
-              className="flex items-center gap-1.5 text-[11px] text-base-content/40 hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 text-[13px] text-ink/60 transition-colors hover:text-signal"
             >
-              <Mail className="w-3 h-3" />
-              bli@heltopplagt.no
+              <Mail className="h-3.5 w-3.5" strokeWidth={2} />
+              <span className="hidden xl:inline">bli@heltopplagt.no</span>
             </a>
             <a
               href="tel:02346"
-              className="flex items-center gap-1.5 text-[11px] text-base-content/40 hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 text-[13px] font-medium text-ink/75 transition-colors hover:text-signal"
             >
-              <Phone className="w-3 h-3" />
+              <Phone className="h-3.5 w-3.5" strokeWidth={2} />
               02346
             </a>
           </div>
 
-          <button
-            type="button"
-            className="hidden md:inline-flex xl:hidden btn btn-ghost hover:bg-transparent border-transparent hover:!border-transparent shadow-none hover:!shadow-none btn-sm text-sm font-medium text-base-content normal-case"
-            style={{ anchorName: SERVICES_ANCHOR } as CSSProperties}
-            {...({ popovertarget: SERVICES_POPOVER_ID } as any)}
-          >
-            Tjenester
-            <ChevronDown className="w-3 h-3" />
-          </button>
-          <div
-            className="dropdown card card-sm bg-base-100 border border-base-300 shadow-[0_16px_48px_rgba(0,0,0,0.12)] z-[200] w-[600px] max-w-[90vw] mt-4"
-            id={SERVICES_POPOVER_ID}
-            style={{ positionAnchor: SERVICES_ANCHOR } as CSSProperties}
-            {...({ popover: "auto" } as any)}
-          >
-            <div className="card-body p-2 grid grid-cols-2 gap-0.5">
-              {services.map((s) => {
-                return (
-                  <Link
-                    key={s.label}
-                    to={s.to}
-                    className="flex items-center gap-3 px-3.5 py-3 rounded-lg text-left hover:bg-base-200 transition-colors"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="inline-block w-[22px] h-[22px] bg-primary flex-shrink-0"
-                      style={{
-                        maskImage: `url("${s.icon}")`,
-                        maskSize: "contain",
-                        maskRepeat: "no-repeat",
-                        maskPosition: "center",
-                        WebkitMaskImage: `url("${s.icon}")`,
-                        WebkitMaskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                      }}
-                    />
-                    <span>
-                      <span className="block text-[13px] font-semibold text-base-content mb-px">
-                        {s.label}
-                      </span>
-                      <span className="block text-xs text-base-content/60">{s.desc}</span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Monitor sizes: services listed out directly instead of behind the dropdown */}
-          <div className="hidden xl:flex items-center gap-5">
-            {services.map((s) => (
-              <Link
-                key={s.label}
-                to={s.to}
-                className="text-sm font-medium text-base-content/70 hover:text-primary transition-colors whitespace-nowrap"
-              >
-                {s.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Right: Kontakt oss + menu */}
-        <div className="navbar-end flex items-center gap-3">
           <Link
             to="/kontakt"
-            className="btn btn-sm btn-secondary rounded-full whitespace-nowrap"
+            className="livery-notch hidden bg-deck px-4 py-2 font-jakarta text-[13px] font-semibold text-white transition-colors hover:bg-signal sm:inline-flex"
           >
             Kontakt oss
           </Link>
 
           <button
             type="button"
-            className="btn btn-sm rounded-full btn-ghost hover:bg-transparent border border-base-300 hover:!border-base-300 shadow-none hover:!shadow-none text-base-content normal-case gap-1.5"
-            {...({ popovertarget: MENU_POPOVER_ID } as any)}
+            className="inline-flex items-center gap-1.5 border border-ink/25 px-3.5 py-2 font-jakarta text-[13px] font-semibold text-ink transition-colors hover:border-signal hover:text-signal"
+            {...({ popovertarget: MENU_POPOVER_ID } as Record<string, string>)}
           >
-            <Menu className="w-4 h-4" />
+            <Menu className="h-4 w-4" />
             Meny
           </button>
         </div>
@@ -176,53 +112,62 @@ export function Header() {
       {/* Full-page menu */}
       <div
         ref={menuRef}
-        className="modal z-[300]"
+        className="modal z-[70]"
         id={MENU_POPOVER_ID}
-        {...({ popover: "auto" } as any)}
+        {...({ popover: "auto" } as Record<string, string>)}
       >
         <div
           className={
-            menuExpanded
-              ? "modal-box scale-100 opacity-100 transition-[scale,opacity] duration-300 ease-out w-full h-full max-w-none max-h-none rounded-none p-0 bg-neutral text-neutral-content flex flex-col"
-              : "modal-box scale-95 opacity-0 transition-[scale,opacity] duration-300 ease-out w-full h-full max-w-none max-h-none rounded-none p-0 bg-neutral text-neutral-content flex flex-col"
+            "modal-box flex h-full max-h-none w-full max-w-none flex-col rounded-none bg-ink p-0 text-white transition-[scale,opacity] duration-300 ease-out " +
+            (menuExpanded ? "scale-100 opacity-100" : "scale-95 opacity-0")
           }
         >
-          {/* Top bar, matches the real header's position */}
-          <div className="h-20 px-6 sm:px-8 flex items-center justify-between border-b border-neutral-content/10 flex-shrink-0">
+          <div className="flex h-16 flex-shrink-0 items-center justify-between border-b border-white/10 px-6 sm:px-8">
             <Link to="/" onClick={closeMenu} className="flex-shrink-0">
-              <img src={logoSrc} alt="Helt Opplagt" className="h-9 object-contain brightness-0 invert" />
+              <img
+                src={logoSrc}
+                alt="Helt Opplagt"
+                className="h-8 object-contain brightness-0 invert"
+              />
             </Link>
             <button
               type="button"
               aria-label="Lukk meny"
-              className="btn btn-circle btn-sm btn-ghost border border-neutral-content/20 text-neutral-content"
-              {...({ popovertarget: MENU_POPOVER_ID, popovertargetaction: "hide" } as any)}
+              className="inline-flex h-9 w-9 items-center justify-center border border-white/20 text-white"
+              {...({
+                popovertarget: MENU_POPOVER_ID,
+                popovertargetaction: "hide",
+              } as Record<string, string>)}
             >
-              <X className="w-4 h-4" />
+              <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Links */}
-          <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-10 sm:py-14">
-            <div className="max-w-[1000px] mx-auto grid sm:grid-cols-2 gap-10 sm:gap-16">
+          <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-8 sm:py-14">
+            <div className="mx-auto grid max-w-[1000px] gap-10 sm:grid-cols-2 sm:gap-16">
               <nav>
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-content/40 mb-4">
+                <p className="mb-4 font-jakarta text-[12px] font-semibold uppercase tracking-[0.08em] text-aqua">
                   Tjenester
                 </p>
                 <ul className="flex flex-col gap-1">
-                  {services.map((s, i) => (
-                    <li key={s.label} className="overflow-hidden">
+                  {SERVICES.map((s, i) => (
+                    <li key={s.href} className="overflow-hidden">
                       <Link
-                        to={s.to}
+                        to={s.href}
                         onClick={closeMenu}
-                        style={{ transitionDelay: menuExpanded ? `${menuLinkDelay(i, 0)}ms` : "0ms" }}
+                        style={{
+                          transitionDelay: menuExpanded
+                            ? `${menuLinkDelay(i, 0)}ms`
+                            : "0ms",
+                        }}
                         className={
-                          menuExpanded
-                            ? "inline-block py-1.5 text-2xl sm:text-3xl font-bold tracking-tight text-neutral-content hover:text-primary translate-x-0 opacity-100 transition-[translate,opacity,color] duration-300 ease-out"
-                            : "inline-block py-1.5 text-2xl sm:text-3xl font-bold tracking-tight text-neutral-content hover:text-primary -translate-x-3 opacity-0 transition-[translate,opacity,color] duration-300 ease-out"
+                          "inline-block py-1.5 font-jakarta text-2xl font-bold tracking-tight transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-3xl " +
+                          (menuExpanded
+                            ? "translate-x-0 opacity-100"
+                            : "-translate-x-3 opacity-0")
                         }
                       >
-                        {s.label}
+                        {s.name}
                       </Link>
                     </li>
                   ))}
@@ -230,7 +175,7 @@ export function Header() {
               </nav>
 
               <nav>
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-content/40 mb-4">
+                <p className="mb-4 font-jakarta text-[12px] font-semibold uppercase tracking-[0.08em] text-aqua">
                   Om Helt Opplagt
                 </p>
                 <ul className="flex flex-col gap-1">
@@ -239,11 +184,16 @@ export function Header() {
                       <Link
                         to={l.to}
                         onClick={closeMenu}
-                        style={{ transitionDelay: menuExpanded ? `${menuLinkDelay(i, 1)}ms` : "0ms" }}
+                        style={{
+                          transitionDelay: menuExpanded
+                            ? `${menuLinkDelay(i, 1)}ms`
+                            : "0ms",
+                        }}
                         className={
-                          menuExpanded
-                            ? "inline-block py-1.5 text-2xl sm:text-3xl font-bold tracking-tight text-neutral-content hover:text-primary translate-x-0 opacity-100 transition-[translate,opacity,color] duration-300 ease-out"
-                            : "inline-block py-1.5 text-2xl sm:text-3xl font-bold tracking-tight text-neutral-content hover:text-primary -translate-x-3 opacity-0 transition-[translate,opacity,color] duration-300 ease-out"
+                          "inline-block py-1.5 font-jakarta text-2xl font-bold tracking-tight transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-3xl " +
+                          (menuExpanded
+                            ? "translate-x-0 opacity-100"
+                            : "-translate-x-3 opacity-0")
                         }
                       >
                         {l.label}
@@ -255,21 +205,20 @@ export function Header() {
             </div>
           </div>
 
-          {/* Contact footer */}
-          <div className="flex-shrink-0 border-t border-neutral-content/10 px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+          <div className="flex flex-shrink-0 flex-col items-start justify-between gap-4 border-t border-white/10 px-6 py-6 sm:flex-row sm:items-center sm:px-8">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
               <a
                 href="mailto:bli@heltopplagt.no"
-                className="flex items-center gap-2 text-sm text-neutral-content/70 hover:text-neutral-content transition-colors"
+                className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-aqua"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="h-4 w-4" />
                 bli@heltopplagt.no
               </a>
               <a
                 href="tel:02346"
-                className="flex items-center gap-2 text-sm text-neutral-content/70 hover:text-neutral-content transition-colors"
+                className="flex items-center gap-2 font-archivo text-sm font-bold uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-aqua"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="h-4 w-4" />
                 02346
               </a>
             </div>
@@ -277,15 +226,22 @@ export function Header() {
               href="https://www.linkedin.com/company/helt-opplagt"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-circle btn-sm btn-ghost border border-neutral-content/20 text-neutral-content"
+              className="inline-flex h-9 w-9 items-center justify-center border border-white/20 text-white transition-colors hover:border-aqua hover:text-aqua"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-4 h-4" />
+              <Linkedin className="h-4 w-4" />
             </a>
           </div>
         </div>
         <div className="modal-backdrop">
-          <button {...({ popovertarget: MENU_POPOVER_ID, popovertargetaction: "hide" } as any)}>close</button>
+          <button
+            {...({
+              popovertarget: MENU_POPOVER_ID,
+              popovertargetaction: "hide",
+            } as Record<string, string>)}
+          >
+            close
+          </button>
         </div>
       </div>
     </header>

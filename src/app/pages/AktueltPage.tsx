@@ -2,6 +2,7 @@ import { Calendar, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PageHero } from "../components/PageHero";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 
 const news = [
   {
@@ -63,6 +64,10 @@ const news = [
 const categories = ["Alle", ...Array.from(new Set(news.map((n) => n.category)))];
 
 export function AktueltPage() {
+  useDocumentMeta(
+    "Aktuelt",
+    "Nyheter og oppdateringer fra Helt Opplagt: se hva som skjer hos oss innen lunsj, kantine, frukt, catering, inneklima og renhold."
+  );
   const [activeCategory, setActiveCategory] = useState("Alle");
 
   const filtered =
@@ -73,7 +78,7 @@ export function AktueltPage() {
   const [featured, ...rest] = filtered;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <PageHero
         eyebrow="Aktuelt"
         title={
@@ -129,10 +134,10 @@ export function AktueltPage() {
                     <span>{featured.date}</span>
                   </div>
                 </div>
-                <h2 className="text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight leading-[1.15] mb-4 group-hover:text-[#0078C4] transition-colors">
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 tracking-tight leading-[1.15] mb-4 group-hover:text-[#0078C4] transition-colors">
                   {featured.title}
                 </h2>
-                <p className="text-[16px] text-gray-600 leading-relaxed mb-6">
+                <p className="text-base text-gray-600 leading-relaxed mb-6">
                   {featured.excerpt}
                 </p>
                 <span className="inline-flex items-center gap-2 text-sm font-medium text-[#0078C4]">
@@ -171,7 +176,7 @@ export function AktueltPage() {
                   <h3 className="text-lg font-bold text-gray-900 tracking-tight leading-snug mb-2 group-hover:text-[#0078C4] transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-[14px] text-gray-600 leading-relaxed mb-4 flex-1">
+                  <p className="text-[15px] text-gray-600 leading-relaxed mb-4 flex-1">
                     {item.excerpt}
                   </p>
                   <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#0078C4]">
@@ -212,7 +217,7 @@ export function AktueltPage() {
             <input
               type="email"
               placeholder="din@epost.no"
-              className="flex-1 px-4 py-3 rounded-md bg-white/[0.07] border border-white/15 text-white placeholder:text-white/35 text-sm focus:outline-none focus:border-[#0078C4] transition-colors"
+              className="flex-1 px-4 py-3 rounded-md bg-white/[0.07] border border-white/15 text-white placeholder:text-white/35 text-sm focus:outline-none focus:border-[#0078C4] focus-visible:ring-2 focus-visible:ring-[#0078C4] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(17,31,55)] transition-colors"
             />
             <button
               type="submit"

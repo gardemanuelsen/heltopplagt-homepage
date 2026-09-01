@@ -1,5 +1,6 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/renhold/renhold.png";
+import openingImg from "../../../images/hero/web/hero-renhold.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -8,17 +9,15 @@ export const renholdData: ServicePageData = {
   badge: "Arbeidsmiljø",
   title: (
     <>
-      Godt renhold bidrar til{" "}
-      <span className="text-[#0078C4] italic font-light">
-        større trivsel
-      </span>{" "}
-      og et bedre arbeidsmiljø
+      Renhold
     </>
   ),
+  subtitle: "Godt renhold og vedlikehold. Bedre trivsel og arbeidsmiljø.",
   intro:
     "Våre 100 profesjonelle medarbeidere ønsker seg flere nye oppdragssteder. Ønsker du at dine kollegaer skal få et rent innemiljø? Da er Helt Opplagt Rent løsningen for deg!",
   image: heroImg,
   imageAlt: "Renhold fra Helt Opplagt",
+  heroImage: openingImg,
   subServices: [
     {
       slug: "daglig-renhold",

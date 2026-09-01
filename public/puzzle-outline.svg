@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1290" fill="none">
+  <!--
+    The outline cut of the puzzle piece, for the overlay variant.
+
+    Same path as puzzle.svg, stroked instead of filled. Used as a CSS
+    mask-image, so only the alpha matters: opaque along the stroke, clear
+    everywhere else. That is what lets an element tinted `bg-white/40` or
+    `bg-deck/25` read as a drawn outline rather than a solid shape.
+
+    Stroke is explicitly black rather than currentColor: a mask asset is never
+    given a colour to inherit, and black is fully opaque in the alpha channel.
+  -->
+  <path
+    fill="none"
+    stroke="#000"
+    stroke-width="26"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+    d="
+      M 70 420
+      L 370 420
+      C 400 330, 330 300, 330 200
+      C 330 85, 415 30, 500 30
+      C 585 30, 670 85, 670 200
+      C 670 300, 600 330, 630 420
+      L 930 420
+      L 930 735
+      C 860 760, 820 690, 770 700
+      C 690 715, 650 790, 650 870
+      C 650 950, 690 1025, 770 1040
+      C 820 1050, 860 980, 930 1005
+      L 950 1225
+      L 60 1225
+      L 70 1005
+      C 140 1030, 180 1050, 230 1040
+      C 310 1025, 350 950, 350 870
+      C 350 790, 310 715, 230 700
+      C 180 690, 140 710, 70 735
+      Z
+    "
+  />
+</svg>

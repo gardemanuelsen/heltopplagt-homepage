@@ -9,6 +9,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { PageHero, SectionHeader } from "../components/PageHero";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 
 const openings = [
   {
@@ -69,8 +70,13 @@ const benefits = [
 ];
 
 export function KarrierePage() {
+  useDocumentMeta(
+    "Karriere",
+    "Bli en del av Helt Opplagt. Se våre ledige stillinger innen kantine, renhold, catering og mer i Oslo-området."
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <PageHero
         eyebrow="Karriere"
         title={

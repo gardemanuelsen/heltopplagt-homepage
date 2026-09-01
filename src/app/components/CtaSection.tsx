@@ -17,7 +17,7 @@ interface ServiceOption {
 const serviceOptions: ServiceOption[] = [
   { name: "Frukt", blurb: "Fersk kurv, daglig eller etter behov. Den enkleste starten.", icon: fruktIcon },
   { name: "Lunsj", blurb: "Velsmakende ordninger for fem personer og oppover.", icon: lunsjIcon },
-  { name: "Kantine", blurb: "Full lunsjopplevelse — også uten eget kjøkken.", icon: kantineIcon },
+  { name: "Kantine", blurb: "Full lunsjopplevelse, også uten eget kjøkken.", icon: kantineIcon },
   { name: "Catering", blurb: "Møtemat, varmmat og event fra eget kjøkken.", icon: cateringIcon },
   { name: "Inneklima", blurb: "Ren luft og rett temperatur, uten byggtekniske endringer.", icon: inneklimaIcon },
   { name: "Renhold", blurb: "Rene lokaler gir bedre trivsel og lavere sykefravær.", icon: renholdIcon },
@@ -42,10 +42,9 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
   return (
     <section className="py-24 bg-base-200">
       <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
-        <div className="bg-base-100 border border-base-300 rounded-2xl overflow-hidden">
-          <div className="grid lg:grid-cols-[1.5fr_1fr]">
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-14">
           {/* Left: service picker */}
-          <div className="p-6 lg:p-10">
+          <div>
             <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2.5">
               Bygg arbeidsplassen din
             </p>
@@ -70,8 +69,8 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
                     aria-pressed={selected}
                     className={
                       selected
-                        ? "text-left flex items-start gap-3.5 rounded-xl border-2 border-primary bg-base-100 p-5 transition-colors"
-                        : "text-left flex items-start gap-3.5 rounded-xl border-2 border-transparent bg-base-200 p-5 hover:border-primary/40 transition-colors"
+                        ? "text-left flex items-start gap-3.5 rounded-xl border-2 border-primary bg-base-100 p-5 shadow-[0_12px_32px_rgba(0,120,196,0.08)] motion-safe:transition-[border-color,background-color,box-shadow,transform] motion-safe:duration-200 motion-safe:ease-out motion-safe:active:scale-[0.98]"
+                        : "text-left flex items-start gap-3.5 rounded-xl border-2 border-transparent bg-base-100 p-5 hover:border-primary/40 motion-safe:transition-[border-color,background-color,box-shadow,transform] motion-safe:duration-200 motion-safe:ease-out motion-safe:active:scale-[0.98]"
                     }
                   >
                     <span
@@ -108,17 +107,23 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
           </div>
 
           {/* Right: selection summary */}
-          <div className="p-6 lg:p-10 bg-base-200/60 border-t lg:border-t-0 lg:border-l border-base-300">
+          <div className="h-fit bg-base-100 rounded-2xl border border-base-300 p-6 lg:p-8">
             <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2">
               Ditt utvalg
             </p>
 
             {selectedServices.length === 0 ? (
-              <p className="text-sm text-base-content/60 leading-relaxed mb-6">
+              <p
+                key="empty"
+                className="text-sm text-base-content/60 leading-relaxed mb-6 motion-safe:transition-[opacity,translate] motion-safe:duration-200 motion-safe:ease-out starting:opacity-0 motion-safe:starting:-translate-y-1"
+              >
                 Velg en eller flere tjenester til venstre for å se et forslag.
               </p>
             ) : (
-              <>
+              <div
+                key="summary"
+                className="motion-safe:transition-[opacity,translate] motion-safe:duration-200 motion-safe:ease-out starting:opacity-0 motion-safe:starting:-translate-y-1"
+              >
                 <p className="text-3xl font-bold text-base-content tracking-tight mb-1">
                   {selectedServices.length}{" "}
                   <span className="text-base font-medium text-base-content/50">
@@ -135,7 +140,7 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
                     </span>
                   ))}
                 </div>
-              </>
+              </div>
             )}
 
             <div className="border-t border-base-300 pt-6 mb-6">
@@ -152,7 +157,7 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
                     className={
                       companySize === cs.value
                         ? "btn btn-xs h-auto px-3 py-1.5 btn-primary rounded-full text-[12px] font-medium"
-                        : "btn btn-xs h-auto px-3 py-1.5 rounded-full text-[12px] font-medium bg-base-100 border-none text-base-content/70 hover:bg-base-300"
+                        : "btn btn-xs h-auto px-3 py-1.5 rounded-full text-[12px] font-medium bg-base-200 border-none text-base-content/70 hover:bg-base-300"
                     }
                   >
                     {cs.label}
@@ -162,7 +167,7 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
             </div>
 
             {selectedServices.length > 0 && size && (
-              <div className="border-t border-base-300 pt-6 mb-6">
+              <div className="border-t border-base-300 pt-6 mb-6 motion-safe:transition-[opacity,translate] motion-safe:duration-200 motion-safe:ease-out starting:opacity-0 motion-safe:starting:-translate-y-1">
                 <p className="text-[13px] font-medium text-base-content/80 mb-3">
                   Omtrentlig prisantydning
                 </p>
@@ -176,7 +181,7 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
                       <li key={name} className="flex items-baseline justify-between gap-3 text-sm">
                         <span className="text-base-content/70">{name}</span>
                         <span className="font-semibold text-base-content tabular-nums">
-                          {low === high ? low : `${low}–${high}`} {hint.unit}
+                          {low === high ? low : `${low}-${high}`} {hint.unit}
                         </span>
                       </li>
                     );
@@ -207,7 +212,6 @@ export function CtaSection({ onRequestQuote }: CtaSectionProps) {
                   }`}
               <ArrowRight className="w-4 h-4" />
             </a>
-          </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/catering/catering.png";
+import openingImg from "../../../images/hero/web/hero-catering.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -8,16 +9,15 @@ export const cateringData: ServicePageData = {
   badge: "Mat & Drikke",
   title: (
     <>
-      Hjemmelagede{" "}
-      <span className="text-[#0078C4] italic font-light">
-        kvalitetsprodukter
-      </span>
+      Catering
     </>
   ),
+  subtitle: "Alt tilberedt i vårt eget kjøkken. Levert klart.",
   intro:
     "Vi har vårt eget kjøkken og kan derfor tilby alt! Her lages det blant annet varmmat, salater og påsmurt, samt en spennende meny for møte- og kursmat.",
   image: heroImg,
   imageAlt: "Catering fra Helt Opplagt",
+  heroImage: openingImg,
   brochureUrl:
     "https://heltopplagt.no/application/files/8417/5526/4710/Catering_2025.pdf",
   subServices: [

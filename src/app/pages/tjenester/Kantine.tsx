@@ -1,5 +1,6 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/kantine/kantine.png";
+import openingImg from "../../../images/hero/web/hero-kantine.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -8,14 +9,15 @@ export const kantineData: ServicePageData = {
   badge: "Mat & Drikke",
   title: (
     <>
-      Vi kommer med maten —{" "}
-      <span className="text-[#0078C4] italic font-light">dere nyter</span>
+      Kantine
     </>
   ),
+  subtitle: "Full kantinedrift. Vi tar hele lunsjavviklingen.",
   intro:
     "Proffkantine er vårt fullservicetilbud til alle typer kjøkken der vi tar oss av hele lunsjavviklingen. Vi stiller med en hyggelig vert eller vertinne — dere kan bare komme og nyte! Ta kontakt med oss for en gratis befaring.",
   image: heroImg,
   imageAlt: "Kantinedrift fra Helt Opplagt",
+  heroImage: openingImg,
   brochureUrl:
     "https://heltopplagt.no/application/files/9016/9636/6182/Helt_Opplagt_Kantinebrosjyre_2023_WEB.pdf",
   subServices: [

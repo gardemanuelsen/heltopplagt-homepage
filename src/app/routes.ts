@@ -15,6 +15,7 @@ import { InneklimaPage } from "./pages/tjenester/Inneklima";
 import { KantinePage } from "./pages/tjenester/Kantine";
 import { SubServicePage } from "./pages/tjenester/SubServicePage";
 import { TjenesterPage } from "./pages/TjenesterPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,13 @@ export const router = createBrowserRouter([
       { path: "tjenester/inneklima", Component: InneklimaPage },
       { path: "tjenester/kantine", Component: KantinePage },
       { path: "tjenester/:service/:slug", Component: SubServicePage },
+      { path: "*", Component: NotFoundPage },
     ],
+  },
+  // Standalone design exploration, not linked from the live site's navigation.
+  // Lazy-loaded so its Phosphor-icons weight doesn't ship to real site visitors.
+  {
+    path: "/landing-demo",
+    lazy: () => import("./pages/LandingDemo").then((m) => ({ Component: m.LandingDemo })),
   },
 ]);

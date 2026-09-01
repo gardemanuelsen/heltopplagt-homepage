@@ -18,10 +18,18 @@ function ScrollToTop() {
 
 export function RootLayout() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       <ScrollToTop />
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-base-100 focus:text-base-content focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg"
+      >
+        Hopp til hovedinnhold
+      </a>
       <Header />
-      <Outlet />
+      <main id="main-content">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

@@ -1,79 +1,85 @@
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { Link } from "react-router";
-import lunsjImg from "../../images/lunsj/lunsj.png";
+import { ArrowRight, Check } from "lucide-react";
+import teamImg from "../../images/hele_gjengen.jpg";
+import { LIVERY_CONTAINER, LiveryCta, SectionPlate } from "./livery";
 
+/*
+ * Every line below is checkable: the brochure (januar 2026), PRODUCT.md, or
+ * the Ansvar page. Two figures from /om-oss were deliberately NOT promoted
+ * here — "98% kundetilfredshet", which no source backs, and the headcount,
+ * which /om-oss puts at 50+ while Renhold.tsx says 100.
+ */
 const points = [
-  "Pålitelig partner for over 200 bedrifter i Oslo",
-  "Dedikert kundeansvarlig for hver klient",
-  "Bærekraftige og miljøvennlige løsninger",
+  "Over 200 bedrifter i Oslo-området",
+  "Rundt 12 000 leveranser i uken, til over 50 000 ansatte",
+  "Én kontaktperson og én faktura for alle seks tjenester",
+  "Miljøfyrtårn-sertifisert, med CO2-nøytral drift",
 ];
 
 export function About() {
   return (
-    <section id="om-oss" className="bg-base-200 py-24 px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
-      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto grid lg:grid-cols-2 gap-20 items-center">
-        {/* Image side */}
-        <div className="relative">
-          {/* Accent block */}
-          <div className="absolute -bottom-5 -right-5 w-[65%] h-[65%] bg-base-100 rounded-[10px] z-0" />
-          <div className="relative z-[1] rounded-[10px] overflow-hidden aspect-[4/3] shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+    <section id="om-oss" className="scroll-mt-20 bg-tint py-20 lg:py-28">
+      <div
+        className={`${LIVERY_CONTAINER} grid items-center gap-12 lg:grid-cols-2 lg:gap-16`}
+      >
+        {/* Who is behind the van */}
+        <div className="relative order-2 lg:order-1">
+          <div className="livery-panel livery-notch relative aspect-[4/3] overflow-hidden text-ink">
             <img
-              src={lunsjImg}
-              alt="Om Helt Opplagt"
-              className="w-full h-full object-cover block"
+              src={teamImg}
+              alt="Teamet i Helt Opplagt"
+              className="h-full w-full object-cover"
             />
           </div>
-          {/* Floating stat chip */}
-          <div className="stats absolute top-6 -left-5 z-[2] bg-primary text-primary-content rounded-lg shadow-[0_8px_24px_rgba(0,120,196,0.35)]">
-            <div className="stat px-5 py-4">
-              <div className="stat-value text-[28px] leading-none mb-0.5">40+</div>
-              <div className="stat-title text-primary-content/80 text-[11px] uppercase tracking-[0.06em]">
-                Års erfaring
-              </div>
+          {/* Fleet plate */}
+          <div className="absolute -left-2 top-6 bg-signal px-4 py-3 text-white sm:-left-5 sm:px-5">
+            <div className="font-archivo text-[44px] font-black leading-[0.8] sm:text-[56px]">
+              40<span className="text-aqua">+</span>
+            </div>
+            <div className="mt-1 font-archivo text-[10px] font-bold uppercase tracking-[0.16em] text-white/70 sm:text-[11px]">
+              År erfaring
             </div>
           </div>
         </div>
 
-        {/* Text side */}
-        <div>
-          <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-4">
-            Om oss
+        <div className="order-1 lg:order-2">
+          <SectionPlate
+            title="Om oss"
+            proof="Leverandør av helse og trivsel på arbeidsplassen siden 1985"
+          />
+
+          {/* The positioning sentence is the company's own, from the brochure's
+              back page and the /om-oss hero. It says what the business actually
+              is, which the previous "ledende leverandør av fasilitetsløsninger"
+              did not. */}
+          <p className="mt-6 text-[15px] leading-[1.7] text-ink/70 lg:text-[17px]">
+            Helt Opplagt er en markedsorientert leverandør av løpende,
+            abonnementsbaserte tjenester innen helse og trivsel på
+            arbeidsplassen. Frukt, lunsj, kantine, catering, inneklima og
+            renhold, levert av de samme folkene, uke etter uke.
           </p>
-          <h2 className="text-3xl lg:text-[40px] font-bold text-base-content tracking-tight leading-[1.15] mb-5">
-            Pålitelig partner
-            <br />
-            siden 1985
-          </h2>
-          <p className="text-base text-base-content/65 leading-[1.7] mb-4">
-            Helt Opplagt er en ledende leverandør av fasilitetsløsninger i
-            Oslo-området. Vi kombinerer erfaring, kvalitet og kundefokus for å
-            levere tjenester som overgår forventningene.
-          </p>
-          <p className="text-base text-base-content/65 leading-[1.7] mb-8">
-            Vårt mål er enkelt: å gjøre hverdagen enklere for våre kunder — ved å
-            levere profesjonelle tjenester som skaper trivsel, effektivitet og
-            verdi.
+          <p className="mt-4 text-[15px] leading-[1.7] text-ink/70 lg:text-[17px]">
+            Målet er enkelt: å gjøre arbeidsdagen litt bedre for menneskene som
+            jobber der, og litt enklere for dere som har ansvaret for den.
           </p>
 
-          {/* Checkpoints */}
-          <div className="flex flex-col gap-2.5 mb-9">
-            {points.map((p, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-base-100 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                </div>
-                <span className="text-sm text-base-content/80">{p}</span>
-              </div>
+          <ul className="mt-8 flex flex-col divide-y divide-ink/12 border-y border-ink/15">
+            {points.map((p) => (
+              <li key={p} className="flex items-center gap-3 py-3.5">
+                <Check
+                  className="h-4 w-4 flex-shrink-0 text-lime"
+                  strokeWidth={3}
+                />
+                <span className="text-[15px] font-medium text-ink/80">{p}</span>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <Link
-            to="/om-oss"
-            className="btn btn-secondary border-2 border-secondary rounded-md px-6 h-auto py-3 text-sm font-medium hover:bg-base-100 hover:text-secondary"
-          >
-            Lær mer om oss
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="mt-9">
+            <LiveryCta to="/om-oss" variant="ghost-dark">
+              Lær mer om oss
+              <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+            </LiveryCta>
+          </div>
         </div>
       </div>
     </section>

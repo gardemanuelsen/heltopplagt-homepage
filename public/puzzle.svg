@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1290" fill="none">
+  <!--
+    Helt Opplagt's puzzle piece, traced from the brand mark: a tab on top,
+    a socket on each side, a flat slightly flared foot.
+
+    Drawn as one closed path with `fill="currentColor"` so it can be tinted
+    from the palette, and so it also works as a CSS mask-image (the alpha of
+    the filled shape is what a mask reads).
+
+    Geometry, in the 1000 x 1290 grid:
+      body        x 70-930, shoulder y 420, foot y 1225 (flared to 60/950)
+      tab         neck 370-630 (260 wide), lobe 330-670 (340 wide), apex y 30
+      sockets     neck y 735-1005 (270 tall), lobe y 700-1040 (340 tall),
+                  biting 280 deep to x 350 (left) and x 650 (right)
+      waist       300 of solid material between the two sockets
+
+    Every tab and socket has the neck pinched narrower than the lobe it opens
+    into. That undercut is what makes the shape read as interlocking rather
+    than as a bump with a dent.
+  -->
+  <path
+    fill="currentColor"
+    d="
+      M 70 420
+      L 370 420
+      C 400 330, 330 300, 330 200
+      C 330 85, 415 30, 500 30
+      C 585 30, 670 85, 670 200
+      C 670 300, 600 330, 630 420
+      L 930 420
+      L 930 735
+      C 860 760, 820 690, 770 700
+      C 690 715, 650 790, 650 870
+      C 650 950, 690 1025, 770 1040
+      C 820 1050, 860 980, 930 1005
+      L 950 1225
+      L 60 1225
+      L 70 1005
+      C 140 1030, 180 1050, 230 1040
+      C 310 1025, 350 950, 350 870
+      C 350 790, 310 715, 230 700
+      C 180 690, 140 710, 70 735
+      Z
+    "
+  />
+</svg>

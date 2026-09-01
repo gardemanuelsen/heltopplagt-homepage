@@ -1,5 +1,6 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/inneklima/inneklima.png";
+import openingImg from "../../../images/hero/web/hero-inneklima.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -8,14 +9,15 @@ export const inneklimaData: ServicePageData = {
   badge: "Arbeidsmiljø",
   title: (
     <>
-      Vi kan{" "}
-      <span className="text-[#0078C4] italic font-light">inneklima!</span>
+      Inneklima
     </>
   ),
+  subtitle: "Ren luft og rett temperatur. Uten byggtekniske endringer.",
   intro:
     "Inneklimaet i norske virksomheter har hvert år skyld i mye sykdom blant ansatte. Vår lange erfaring og dokumenterte løsninger hjelper deg å ta de rette valgene. Vi leverer ren luft og rett temperatur, helt uten byggtekniske endringer.",
   image: heroImg,
   imageAlt: "Inneklima fra Helt Opplagt",
+  heroImage: openingImg,
   brochureUrl:
     "https://heltopplagt.no/application/files/7716/8682/5172/Helt_Opplagt_Inneklima_2023.pdf",
   subServices: [

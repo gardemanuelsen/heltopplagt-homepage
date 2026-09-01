@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Quote, ArrowUpRight, ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
+import { LIVERY_CONTAINER, SectionPlate, StencilPlate } from "./livery";
 
 const reviews = [
   {
@@ -8,7 +9,7 @@ const reviews = [
     company: "Kronos Titan",
     role: "Styremedlem",
     service: "Kantine",
-    rating: 5,
+    code: "KA",
     text: "Helt Opplagt leverer god, variert og sunn mat – fersk og frisk. De gir oss det lille ekstra for at vi skal få et hyggelig avbrekk og en bra matopplevelse – hver dag! Helt Opplagt er fleksible, imøtekommende med høy servicegrad – vi er superfornøyd!",
   },
   {
@@ -16,7 +17,7 @@ const reviews = [
     company: "Team Verksted AS Avd Follo",
     role: "Avdelingsleder",
     service: "Lunsj",
-    rating: 5,
+    code: "LU",
     text: "Med denne ordningen sparer vi tid, da vi ikke trenger å reise ut for å kjøpe lunsj lenger. Våre ansatte opplever ordningen som et flott tilbud og nå som alle spiser samtidig og er samlet i kantinen gjør det også godt for arbeidsmiljøet og det sosiale. Helt Opplagt fungerer helt utmerket som leverandør for oss.",
   },
   {
@@ -24,7 +25,7 @@ const reviews = [
     company: "Vinmonopolet AS",
     role: "Kontorsjef",
     service: "Frukt",
-    rating: 5,
+    code: "FR",
     text: "Vinmonopolet har fått frukt til 170 ansatte fra Helt Opplagt siden 2018. Vi hadde et ønske om å tilføre de ansatte ny energi i form av sunne alternativer så vi kan holde energien oppe ut dagen. Frukten er veldig populær og det er konkurranse om å kaste seg over kurvene når de kommer. Vi er veldig godt fornøyd med Helt Opplagt. De er svært fleksible og raske til å følge opp ønsker.",
   },
   {
@@ -32,20 +33,10 @@ const reviews = [
     company: "Schibsted Trykk Oslo AS",
     role: "Driftsansvarlig",
     service: "Renhold",
-    rating: 5,
+    code: "RE",
     text: "Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Når ansatte kommenterer at det er rent blir man trygg på at man har gjort riktig valg av leverandør. Jeg vil spesielt trekke frem positiviteten Helt Opplagt viser. De er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om.",
   },
 ];
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
 
 const COUNT = reviews.length;
 /** Three copies back to back so there's always a real card to scroll to in either direction; the middle copy is "home". */
@@ -58,7 +49,11 @@ export function Reviews() {
   const pollToken = useRef(0);
 
   useEffect(() => {
-    cardRefs.current[COUNT]?.scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+    cardRefs.current[COUNT]?.scrollIntoView({
+      behavior: "auto",
+      inline: "start",
+      block: "nearest",
+    });
   }, []);
 
   /** Waits until the row's smooth-scroll animation has actually settled (scrollLeft unchanged for a few frames), rather than guessing a fixed duration. */
@@ -101,58 +96,54 @@ export function Reviews() {
       else if (target < COUNT) landed = target + COUNT;
 
       if (landed !== target) {
-        cardRefs.current[landed]?.scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
+        cardRefs.current[landed]?.scrollIntoView({
+          behavior: "auto",
+          inline: "start",
+          block: "nearest",
+        });
         activeRef.current = landed;
       }
     });
   }
 
   return (
-    <section className="py-24 bg-base-100">
-      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24">
-        {/* Header row */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-14 border-b border-base-300 pb-8">
-          <div>
-            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-primary mb-2.5">
-              Kundehistorier
-            </p>
-            <h2 className="text-3xl lg:text-[44px] font-bold text-base-content tracking-tight leading-[1.1]">
-              Hva kundene
-              <br />
-              våre sier
-            </h2>
-          </div>
-          <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <Link
-              to="/referanser"
-              className="btn btn-sm h-auto border-[1.5px] border-base-300 bg-base-100 text-base-content/80 px-5 py-2.5 rounded-md text-[13px] font-medium hover:border-primary hover:text-primary flex-shrink-0"
-            >
-              Se alle referanser
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-            <button
-              type="button"
-              onClick={() => goTo(activeRef.current - 1)}
-              aria-label="Forrige"
-              className="btn btn-circle btn-sm btn-outline border-base-300 text-base-content hover:border-primary hover:text-primary hover:bg-transparent"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => goTo(activeRef.current + 1)}
-              aria-label="Neste"
-              className="btn btn-circle btn-sm btn-outline border-base-300 text-base-content hover:border-primary hover:text-primary hover:bg-transparent"
-            >
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+    <section className="bg-tint py-20 lg:py-28">
+      <div className={LIVERY_CONTAINER}>
+        <SectionPlate
+          title="Våre kunder"
+          proof="Ekte tilbakemeldinger fra bedrifter vi leverer til hver dag"
+          action={
+            <div className="flex items-center gap-3">
+              <Link
+                to="/referanser"
+                className="inline-flex items-center gap-1.5 border border-ink/25 px-4 py-2.5 font-jakarta text-[13px] font-semibold text-ink transition-colors hover:border-signal hover:text-signal"
+              >
+                Alle referanser
+                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+              </Link>
+              <button
+                type="button"
+                onClick={() => goTo(activeRef.current - 1)}
+                aria-label="Forrige"
+                className="inline-flex h-10 w-10 items-center justify-center border border-ink/25 text-ink transition-colors hover:border-signal hover:text-signal"
+              >
+                <ArrowLeft className="h-4 w-4" strokeWidth={2.5} />
+              </button>
+              <button
+                type="button"
+                onClick={() => goTo(activeRef.current + 1)}
+                aria-label="Neste"
+                className="inline-flex h-10 w-10 items-center justify-center border border-ink/25 text-ink transition-colors hover:border-signal hover:text-signal"
+              >
+                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+              </button>
+            </div>
+          }
+        />
 
-        {/* Reviews row */}
         <div
           ref={rowRef}
-          className="flex gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="mt-12 flex gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {loopedReviews.map((review, index) => (
             <div
@@ -160,44 +151,23 @@ export function Reviews() {
               ref={(el) => {
                 cardRefs.current[index] = el;
               }}
-              className="card bg-base-100 border border-base-300 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-shadow duration-300 w-[340px] sm:w-[420px] lg:w-[460px] flex-shrink-0"
+              className="flex w-[280px] flex-shrink-0 flex-col border border-ink/12 bg-white p-6 text-ink transition-[box-shadow,border-color] duration-300 hover:border-ink/22 hover:shadow-[0_16px_36px_rgba(13,26,45,0.11)] sm:w-[320px] lg:w-[380px]"
             >
-              <div className="card-body p-8">
-                <div className="flex items-center justify-between mb-5">
-                  <span className="badge badge-sm h-auto px-3 py-1 bg-base-200 text-primary border-none text-[11px] font-semibold tracking-[0.08em] uppercase">
-                    {review.service}
-                  </span>
-                  <div className="rating rating-sm" aria-label={`${review.rating} av 5 stjerner`}>
-                    {[...Array(5)].map((_, i) =>
-                      i < review.rating ? (
-                        <div key={i} className="mask mask-star bg-primary" aria-hidden="true" />
-                      ) : (
-                        <div key={i} className="mask mask-star bg-base-300" aria-hidden="true" />
-                      )
-                    )}
-                  </div>
-                </div>
-
-                <Quote className="w-6 h-6 text-primary/30 mb-3 rotate-180" />
-                <p className="text-[15px] text-base-content/80 leading-relaxed mb-6 flex-1">
-                  {review.text}
+              <StencilPlate label={review.service} className="self-start" />
+              <Quote
+                className="mt-5 h-6 w-6 rotate-180 text-signal/30"
+                strokeWidth={2}
+              />
+              <p className="mt-3 flex-1 text-[15px] leading-relaxed text-ink/80">
+                {review.text}
+              </p>
+              <div className="mt-5 border-t border-ink/15 pt-4">
+                <p className="font-jakarta text-[15px] font-semibold text-ink">
+                  {review.name}
                 </p>
-
-                <div className="border-t border-base-300 pt-4 flex items-center gap-3">
-                  <div className="avatar avatar-placeholder">
-                    <div className="bg-base-300 text-base-content w-10 rounded-full">
-                      <span className="text-xs font-semibold">{getInitials(review.name)}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-base-content">
-                      {review.name}
-                    </p>
-                    <p className="text-sm text-base-content/50">
-                      {review.role}, {review.company}
-                    </p>
-                  </div>
-                </div>
+                <p className="mt-0.5 text-[13px] text-ink/70">
+                  {review.role}, {review.company}
+                </p>
               </div>
             </div>
           ))}

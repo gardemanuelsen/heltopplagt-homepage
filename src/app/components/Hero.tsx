@@ -7,6 +7,7 @@ import heroFrukt from "../../images/hero/web/hero-frukt.jpg";
 import heroCatering from "../../images/hero/web/hero-catering.jpg";
 import heroInneklima from "../../images/hero/web/hero-inneklima.jpg";
 import heroRenhold from "../../images/hero/web/hero-renhold.jpg";
+import { LIVERY_CONTAINER, LiveryCta } from "./livery";
 
 const SLIDE_DURATION = 6000;
 
@@ -38,111 +39,94 @@ export function Hero() {
   }, [active]);
 
   return (
-    <section className="h-[calc(100vh-5rem)] bg-base-100">
-      <div className="max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] mx-auto h-full px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24 flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-12 2xl:gap-16 3xl:gap-20 4xl:gap-24">
-        {/* Text */}
-        <div className="flex items-center py-10 sm:py-14 lg:py-0">
-          <div className="max-w-[700px] 2xl:max-w-[820px] 3xl:max-w-[900px] 4xl:max-w-[980px] 5xl:max-w-[1060px]">
-            <h1 className="text-4xl lg:text-[48px] xl:text-[52px] 2xl:text-[60px] 3xl:text-[68px] 4xl:text-[76px] 5xl:text-[84px] font-semibold text-base-content leading-[1.1] mb-6 tracking-tight">
-              Det{" "}
-              <span className="text-primary italic font-light ">
-                Helt Opplagte
-              </span>{" "}
-              valg for en sunnere, renere og enklere hverdag!
-            </h1>
+    <section className="relative isolate overflow-hidden bg-white text-ink">
+      <div
+        className={`${LIVERY_CONTAINER} grid min-h-[calc(100svh-9rem)] items-center gap-y-9 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-14 lg:py-14 xl:gap-x-20 2xl:gap-x-24`}
+      >
+        <div className="relative z-10 max-w-[42rem] lg:max-w-none">
+          <h1 className="font-jakarta text-[32px] font-bold leading-[1.1] tracking-[-0.02em] text-ink sm:text-[40px] lg:text-[46px] xl:text-[56px] 2xl:text-[64px]">
+            Det{" "}
+            <span className="font-normal italic text-signal">Helt Opplagte</span>{" "}
+            valg for en sunnere, renere og enklere hverdag
+          </h1>
 
-            <p className="text-base lg:text-[17px] 2xl:text-lg 3xl:text-xl 4xl:text-xl 5xl:text-2xl text-base-content/65 leading-relaxed mb-9 max-w-[550px] 2xl:max-w-[680px] 3xl:max-w-[740px] 4xl:max-w-[800px] 5xl:max-w-[860px]">
-              Helt Opplagt på jobben er en markedsorientert leverandør av løpende
-              abonnementsbaserte tjenester innen helse og trivsel på arbeidsplassen.
-            </p>
+          <p className="mt-6 max-w-[34rem] text-[15px] leading-relaxed text-ink/70 lg:text-[17px] xl:mt-8 xl:max-w-[42rem] xl:text-[19px]">
+            Helt Opplagt på jobben er en markedsorientert leverandør av løpende
+            abonnementsbaserte tjenester innen helse og trivsel på arbeidsplassen.
+          </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                to="/kontakt"
-                className="btn btn-primary rounded-md px-6 h-auto py-3.5 text-sm 2xl:text-base 4xl:text-lg font-medium"
-              >
-                Kontakt oss i dag
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href="#tjenester"
-                className="btn btn-sm h-auto px-6 py-3.5 rounded-md text-sm 2xl:text-base 4xl:text-lg font-medium bg-transparent border border-base-300 text-base-content/80 hover:bg-transparent hover:border-primary hover:text-primary"
-              >
-                Se våre tjenester
-              </a>
-            </div>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row xl:mt-10">
+            <LiveryCta to="/kontakt">
+              Kontakt oss i dag
+              <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+            </LiveryCta>
+            <LiveryCta href="#tjenester" variant="ghost-dark">
+              Se tjenestene
+            </LiveryCta>
           </div>
         </div>
 
-        {/* Image carousel */}
-        <div className="group/frame relative flex-1 mt-4 mb-4 sm:mt-5 sm:mb-5 lg:mt-6 lg:mb-6 min-h-[300px]">
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute inset-0 rounded-2xl border border-primary/50 translate-x-4 -translate-y-4 transition-[translate] duration-300 ease-out group-hover/frame:translate-x-5 group-hover/frame:-translate-y-5 z-0"
-          />
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute inset-0 rounded-2xl border border-primary/80 translate-x-2 -translate-y-2 transition-[translate] duration-300 ease-out group-hover/frame:translate-x-3 group-hover/frame:-translate-y-3 z-0"
-          />
-
-          <div className="relative z-10 w-full h-full overflow-hidden rounded-2xl">
-          {slides.map((slide, i) => (
-            <div
-              key={slide.label}
-              className={
-                i === active
-                  ? "absolute inset-0 z-[1] opacity-100 transition-opacity duration-[1200ms] ease-in-out"
-                  : "absolute inset-0 z-0 opacity-0 transition-opacity duration-[1200ms] ease-in-out"
-              }
-            >
-              <img
-                src={slide.src}
-                alt={slide.label}
+        {/* Image carousel — window-cut panel. */}
+        <div className="relative z-10 text-ink lg:h-[clamp(26rem,64vh,44rem)] xl:h-[clamp(30rem,68vh,52rem)]">
+          <div className="livery-panel livery-notch relative h-[62vw] max-h-[30rem] w-full overflow-hidden sm:h-[26rem] lg:h-full lg:max-h-none">
+            {slides.map((slide, i) => (
+              <div
+                key={slide.label}
                 className={
                   i === active
-                    ? "w-full h-full object-cover scale-110 transition-transform duration-[7500ms] ease-out"
-                    : "w-full h-full object-cover scale-100"
+                    ? "absolute inset-0 z-[1] opacity-100 transition-opacity duration-[1200ms] ease-in-out"
+                    : "absolute inset-0 z-0 opacity-0 transition-opacity duration-[1200ms] ease-in-out"
                 }
-              />
-            </div>
-          ))}
+              >
+                <img
+                  src={slide.src}
+                  alt={slide.label}
+                  className={
+                    i === active
+                      ? "h-full w-full scale-110 object-cover transition-transform duration-[7500ms] ease-out"
+                      : "h-full w-full scale-100 object-cover"
+                  }
+                />
+              </div>
+            ))}
 
-          {/* Slide indicators, overlaid on the image */}
-          <div className="absolute inset-x-0 bottom-0 z-[3] bg-gradient-to-t from-neutral/85 via-neutral/40 to-transparent pt-24 pb-5 px-6 sm:px-8">
-            <div className="flex gap-2 sm:gap-4">
-              {slides.map((slide, i) => (
-                <button
-                  key={slide.label}
-                  onClick={() => setActive(i)}
-                  className="group flex-1 text-left"
-                  aria-label={`Vis ${slide.label}`}
-                >
-                  <div className="h-[3px] w-full bg-neutral-content/25 rounded-full overflow-hidden mb-2">
-                    {i === active ? (
-                      <div
-                        className={
-                          progressRunning
-                            ? "h-full w-full bg-neutral-content rounded-full transition-[width] duration-[6000ms] ease-linear"
-                            : "h-full w-0 bg-neutral-content rounded-full"
-                        }
-                      />
-                    ) : (
-                      <div className="h-full w-0 bg-neutral-content rounded-full transition-[width,background-color] duration-300 group-hover:w-full group-hover:bg-neutral-content/50" />
-                    )}
-                  </div>
-                  <span
-                    className={
-                      i === active
-                        ? "hidden sm:block text-[11px] font-semibold tracking-[0.1em] uppercase transition-colors text-neutral-content"
-                        : "hidden sm:block text-[11px] font-semibold tracking-[0.1em] uppercase transition-colors text-neutral-content/45 group-hover:text-neutral-content/75"
-                    }
+            {/* Slide labels over a graded foot. */}
+            <div className="absolute inset-x-0 bottom-0 z-[3] bg-gradient-to-t from-ink/85 via-ink/40 to-transparent px-3 pb-3 pt-20 sm:px-4">
+              <div className="flex gap-1.5 sm:gap-2">
+                {slides.map((slide, i) => (
+                  <button
+                    key={slide.label}
+                    onClick={() => setActive(i)}
+                    className="group flex-1 text-left"
+                    aria-label={`Vis ${slide.label}`}
                   >
-                    {slide.label}
-                  </span>
-                </button>
-              ))}
+                    <div className="mb-2 h-[3px] w-full overflow-hidden bg-white/25">
+                      {i === active ? (
+                        <div
+                          className={
+                            progressRunning
+                              ? "h-full w-full bg-amber transition-[width] duration-[6000ms] ease-linear"
+                              : "h-full w-0 bg-amber"
+                          }
+                        />
+                      ) : (
+                        <div className="h-full w-0 bg-amber transition-[width] duration-300 group-hover:w-full" />
+                      )}
+                    </div>
+                    <span
+                      className={
+                        "hidden font-jakarta text-[11px] font-semibold transition-colors sm:inline-flex sm:items-center sm:border sm:px-2 sm:py-0.5 " +
+                        (i === active
+                          ? "border-amber text-white"
+                          : "border-white/25 text-white/60 group-hover:border-white/50 group-hover:text-white/90")
+                      }
+                    >
+                      {slide.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>

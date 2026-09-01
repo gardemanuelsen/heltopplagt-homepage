@@ -7,6 +7,7 @@ import { kantineData } from "./tjenester/Kantine";
 import { lunsjData } from "./tjenester/Lunsj";
 import { inneklimaData } from "./tjenester/Inneklima";
 import { renholdData } from "./tjenester/Renhold";
+import { useDocumentMeta } from "../../lib/use-document-meta";
 
 const services = [
     {
@@ -49,8 +50,13 @@ const services = [
 ];
 
 export function TjenesterPage() {
+  useDocumentMeta(
+    "Våre tjenester",
+    "Frukt, lunsj, kantine, catering, inneklima og renhold, samlet hos én leverandør for bedrifter i Oslo-området."
+  );
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-dvh bg-white">
       {/* Page heading */}
       <div className="max-w-[1280px] mx-auto px-8 pt-32 lg:pt-36">
         <h1 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-4">
