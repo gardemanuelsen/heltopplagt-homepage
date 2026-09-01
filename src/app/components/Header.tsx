@@ -1,4 +1,4 @@
-import { Menu, X, ChevronDown, Utensils, Coffee, Apple, Sparkles, Wind, Mail, Phone, Linkedin } from "lucide-react";
+import { Menu, X, ChevronDown, Utensils, Coffee, Apple, Sparkles, Wind, Mail, Phone } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
@@ -249,7 +249,7 @@ export function Header() {
               className="btn btn-circle btn-sm btn-ghost border border-neutral-content/20 text-neutral-content"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-4 h-4" />
+              <span className="w-4 h-4">in</span>
             </a>
           </div>
         </div>

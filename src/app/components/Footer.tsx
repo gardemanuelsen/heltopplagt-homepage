@@ -1,4 +1,4 @@
-import { Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
 
@@ -31,7 +31,7 @@ export function Footer() {
             renhold, frukt og mer.
           </p>
           <div className="flex gap-2">
-            {[Linkedin, Mail].map((Icon, i) => (
+            {[Mail].map((Icon, i) => (
               <div
                 key={i}
                 className="btn btn-circle btn-ghost bg-neutral-content/[0.07] text-neutral-content/60 hover:bg-primary hover:text-primary-content"
