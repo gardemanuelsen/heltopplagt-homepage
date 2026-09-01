@@ -1,13 +1,23 @@
-import { Menu, X, Mail, Phone, Linkedin } from "lucide-react";
+import { Menu, X, Mail, Phone, ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
-import { LIVERY_CONTAINER, SERVICES } from "./livery";
+import { CONTAINER } from "./site";
+import { SERVICES } from "./livery";
+
+const navLinks = [
+  { label: "Tjenester", to: "/tjenester" },
+  { label: "Om oss", to: "/om-oss" },
+  { label: "Referanser", to: "/referanser" },
+  { label: "Aktuelt", to: "/aktuelt" },
+  { label: "Karriere", to: "/karriere" },
+];
 
 const secondaryLinks = [
   { label: "Om oss", to: "/om-oss" },
   { label: "Referanser", to: "/referanser" },
   { label: "Aktuelt", to: "/aktuelt" },
+  { label: "Ansvar", to: "/ansvar" },
   { label: "Karriere", to: "/karriere" },
   { label: "Kontakt", to: "/kontakt" },
 ];
@@ -50,57 +60,43 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink/10 bg-white text-ink">
-      <div
-        className={`${LIVERY_CONTAINER} flex h-16 items-center gap-6`}
-      >
+    <header className="sticky top-0 z-50 border-b border-navy/8 bg-white/95 backdrop-blur">
+      <div className={`${CONTAINER} flex h-[4.5rem] items-center gap-8`}>
         <Link to="/" className="flex-shrink-0">
           <img src={logoSrc} alt="Helt Opplagt" className="h-8 object-contain" />
         </Link>
 
-        <nav
-          aria-label="Tjenester"
-          className="hidden items-center gap-3.5 lg:flex xl:gap-5"
-        >
-          {SERVICES.map((s) => (
+        <nav aria-label="Hovedmeny" className="hidden items-center gap-6 lg:flex xl:gap-8">
+          {navLinks.map((l) => (
             <Link
-              key={s.href}
-              to={s.href}
-              className="font-jakarta text-[13.5px] font-medium text-ink/70 transition-colors hover:text-signal"
+              key={l.to}
+              to={l.to}
+              className="text-[14px] font-medium text-navy/70 transition-colors hover:text-brand"
             >
-              {s.name}
+              {l.label}
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 sm:gap-3">
-          <div className="mr-1 hidden items-center gap-4 border-r border-ink/12 pr-4 lg:flex">
-            <a
-              href="mailto:bli@heltopplagt.no"
-              className="flex items-center gap-1.5 text-[13px] text-ink/60 transition-colors hover:text-signal"
-            >
-              <Mail className="h-3.5 w-3.5" strokeWidth={2} />
-              <span className="hidden xl:inline">bli@heltopplagt.no</span>
-            </a>
-            <a
-              href="tel:02346"
-              className="flex items-center gap-1.5 text-[13px] font-medium text-ink/75 transition-colors hover:text-signal"
-            >
-              <Phone className="h-3.5 w-3.5" strokeWidth={2} />
-              02346
-            </a>
-          </div>
+        <div className="ml-auto flex items-center gap-2.5 sm:gap-3">
+          <a
+            href="tel:02346"
+            className="hidden items-center gap-2 text-[14px] font-semibold text-navy transition-colors hover:text-brand md:flex"
+          >
+            <Phone className="h-4 w-4 text-brand" strokeWidth={2.25} />
+            02346
+          </a>
 
           <Link
             to="/kontakt"
-            className="livery-notch hidden bg-deck px-4 py-2 font-jakarta text-[13px] font-semibold text-white transition-colors hover:bg-signal sm:inline-flex"
+            className="hidden items-center justify-center rounded-full bg-brand px-5 py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-brand-deep sm:inline-flex"
           >
             Kontakt oss
           </Link>
 
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 border border-ink/25 px-3.5 py-2 font-jakarta text-[13px] font-semibold text-ink transition-colors hover:border-signal hover:text-signal"
+            className="inline-flex items-center gap-2 rounded-full border border-navy/20 px-4 py-2.5 text-[13.5px] font-semibold text-navy transition-colors hover:border-brand hover:text-brand"
             {...({ popovertarget: MENU_POPOVER_ID } as Record<string, string>)}
           >
             <Menu className="h-4 w-4" />
@@ -118,11 +114,11 @@ export function Header() {
       >
         <div
           className={
-            "modal-box flex h-full max-h-none w-full max-w-none flex-col rounded-none bg-ink p-0 text-white transition-[scale,opacity] duration-300 ease-out " +
+            "modal-box flex h-full max-h-none w-full max-w-none flex-col rounded-none bg-navy p-0 text-white transition-[scale,opacity] duration-300 ease-out " +
             (menuExpanded ? "scale-100 opacity-100" : "scale-95 opacity-0")
           }
         >
-          <div className="flex h-16 flex-shrink-0 items-center justify-between border-b border-white/10 px-6 sm:px-8">
+          <div className="flex h-[4.5rem] flex-shrink-0 items-center justify-between border-b border-white/10 px-6 sm:px-8">
             <Link to="/" onClick={closeMenu} className="flex-shrink-0">
               <img
                 src={logoSrc}
@@ -133,7 +129,7 @@ export function Header() {
             <button
               type="button"
               aria-label="Lukk meny"
-              className="inline-flex h-9 w-9 items-center justify-center border border-white/20 text-white"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition-colors hover:border-white hover:bg-white/10"
               {...({
                 popovertarget: MENU_POPOVER_ID,
                 popovertargetaction: "hide",
@@ -146,7 +142,8 @@ export function Header() {
           <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-8 sm:py-14">
             <div className="mx-auto grid max-w-[1000px] gap-10 sm:grid-cols-2 sm:gap-16">
               <nav>
-                <p className="mb-4 font-jakarta text-[12px] font-semibold uppercase tracking-[0.08em] text-aqua">
+                <p className="mb-5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50">
+                  <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
                   Tjenester
                 </p>
                 <ul className="flex flex-col gap-1">
@@ -161,7 +158,7 @@ export function Header() {
                             : "0ms",
                         }}
                         className={
-                          "inline-block py-1.5 font-jakarta text-2xl font-bold tracking-tight transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-3xl " +
+                          "inline-block py-1.5 font-lato text-3xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-4xl " +
                           (menuExpanded
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-3 opacity-0")
@@ -175,7 +172,8 @@ export function Header() {
               </nav>
 
               <nav>
-                <p className="mb-4 font-jakarta text-[12px] font-semibold uppercase tracking-[0.08em] text-aqua">
+                <p className="mb-5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50">
+                  <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
                   Om Helt Opplagt
                 </p>
                 <ul className="flex flex-col gap-1">
@@ -190,7 +188,7 @@ export function Header() {
                             : "0ms",
                         }}
                         className={
-                          "inline-block py-1.5 font-jakarta text-2xl font-bold tracking-tight transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-3xl " +
+                          "inline-block py-1.5 font-lato text-3xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-4xl " +
                           (menuExpanded
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-3 opacity-0")
@@ -216,7 +214,7 @@ export function Header() {
               </a>
               <a
                 href="tel:02346"
-                className="flex items-center gap-2 font-archivo text-sm font-bold uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-aqua"
+                className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-aqua"
               >
                 <Phone className="h-4 w-4" />
                 02346
@@ -226,10 +224,10 @@ export function Header() {
               href="https://www.linkedin.com/company/helt-opplagt"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-9 w-9 items-center justify-center border border-white/20 text-white transition-colors hover:border-aqua hover:text-aqua"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition-colors hover:border-aqua hover:text-aqua"
               aria-label="LinkedIn"
             >
-              <Linkedin className="h-4 w-4" />
+              <ExternalLink className="h-4 w-4" />
             </a>
           </div>
         </div>

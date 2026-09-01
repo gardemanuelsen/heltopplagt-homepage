@@ -1,16 +1,17 @@
 /*
- * Helt Opplagt homepage — seed 26b45123. Light, calm, corporate.
+ * Helt Opplagt homepage — "Opplagt" refresh (2026-09-01). Calm, airy,
+ * photo-forward, per the reference language of compass-group.no, detrestuer.no
+ * and incworks.no.
  *
- * Section grounds alternate white and a neutral near-white grey (--color-tint,
- * NOT blue), each transition marked by a single hairline seam. Blue is detail
- * only: deep #004b8d on the primary CTA, signal #0078c4 on links / the hero
- * accent word. Headings are Plus Jakarta Sans, sentence case, semibold, ink;
- * body is Inter; Archivo survives only on the giant footer phone number.
- * Photo panels take an 18px window-cut notch; no drop shadows. One authored
- * motion: the hero image carousel and its amber progress indicator.
- * Section order follows a delivery-run logic: what we carry (Services) → who we
- * are (About) → who we serve (References) → what they say (Reviews) → latest
- * (Aktuelt) → get in touch (Contact).
+ * Section grounds carry the rhythm (no hairline seams): white hero + logo
+ * strip → cloud (pale blue) services → white about → sand (warm) reviews →
+ * white aktuelt → navy contact panel → navy footer. Headings are Lato Light,
+ * body Inter; every action is a pill; the arch photo crop (hero, About) is the
+ * one signature shape.
+ *
+ * Order: what we deliver (Services) → who we are (About) → what customers say
+ * (Reviews) → latest (Aktuelt) → get in touch (Contact), with the customer
+ * logos promoted to a trust strip directly under the hero.
  */
 import { Hero } from "../components/Hero";
 import { Services } from "../components/Services";
@@ -19,23 +20,16 @@ import { Contact } from "../components/Contact";
 import { Aktuelt } from "../components/Aktuelt";
 import { References } from "../components/References";
 import { Reviews } from "../components/Reviews";
-import { Seam } from "../components/livery";
 
 export function HomePage() {
   return (
     <>
       <Hero />
-      <Seam />
-      <Services />
-      <Seam />
-      <About />
-      <Seam />
       <References />
-      <Seam />
+      <Services />
+      <About />
       <Reviews />
-      <Seam />
       <Aktuelt />
-      <Seam />
       <Contact />
     </>
   );

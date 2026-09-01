@@ -1,6 +1,6 @@
 import { Mail, Phone, MapPin, ArrowRight, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
-import { LIVERY_CONTAINER, SectionPlate } from "./livery";
+import { CONTAINER, Kicker } from "./site";
 
 const services = ["Lunsj", "Kantine", "Catering", "Frukt", "Inneklima", "Renhold"];
 
@@ -20,11 +20,12 @@ interface ContactProps {
 }
 
 const CHIP_ON =
-  "border border-signal bg-signal px-3.5 py-2 font-archivo text-[12px] font-bold uppercase tracking-[0.1em] text-white";
+  "rounded-full border border-brand bg-brand px-4 py-2 text-[13px] font-semibold text-white transition-colors";
 const CHIP_OFF =
-  "border border-ink/20 px-3.5 py-2 font-archivo text-[12px] font-bold uppercase tracking-[0.1em] text-ink/60 transition-colors hover:border-signal hover:text-signal";
+  "rounded-full border border-navy/20 px-4 py-2 text-[13px] font-semibold text-navy/60 transition-colors hover:border-brand hover:text-brand";
 const FIELD =
-  "w-full border border-ink/20 bg-tint px-3.5 py-2.5 text-[15px] text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-signal";
+  "w-full rounded-xl border border-navy/15 bg-cloud/50 px-4 py-3 text-[15px] text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-brand focus:bg-white";
+const LABEL = "mb-1.5 block text-[13px] font-medium text-navy/70";
 
 export function Contact({ initialServices }: ContactProps) {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -43,34 +44,41 @@ export function Contact({ initialServices }: ContactProps) {
   };
 
   return (
-    <section id="kontakt" className="scroll-mt-20 bg-tint text-ink">
-      <div className={`${LIVERY_CONTAINER} py-20 lg:py-28`}>
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
-          {/* The order slip header */}
-          <div>
-            <SectionPlate
-              title="Kontakt oss"
-              proof="Uforpliktende — vi setter sammen ett tilbud på alt dere velger"
-            />
-            <p className="mt-6 max-w-[40ch] text-[15px] leading-relaxed text-ink/70 lg:text-[17px]">
-              Vi er klare til å hjelpe deg med løsninger tilpasset dine behov. Ta
-              kontakt i dag for en uforpliktende samtale.
+    <section id="kontakt" className="scroll-mt-20 bg-white">
+      <div className={`${CONTAINER} py-20 lg:py-28`}>
+        <div className="relative isolate grid gap-12 overflow-hidden rounded-[2rem] bg-navy p-7 sm:p-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:p-14">
+          {/* Puzzle motif — outline variant on the panel's bottom-left edge,
+              in the open navy below the contact rows, clear of the form.
+              lg+ only: on the stacked mobile layout the form card sits there. */}
+          <span
+            aria-hidden="true"
+            className="livery-puzzle-outline aspect-[100/129] -bottom-12 hidden w-52 -rotate-[14deg] bg-aqua/30 lg:-left-6 lg:block"
+          />
+          <div className="relative z-10">
+            <Kicker onDark>Kontakt oss</Kicker>
+            <h2 className="mt-4 font-lato text-[30px] font-light leading-[1.12] tracking-[-0.01em] text-white sm:text-[38px] lg:text-[44px]">
+              Klar for en litt bedre arbeidsdag?
+            </h2>
+            <p className="mt-5 max-w-[40ch] text-[15px] leading-relaxed text-white/70 lg:text-[16px]">
+              Ta kontakt for en uforpliktende samtale — vi setter sammen ett
+              tilbud på alt dere velger.
             </p>
 
-            <div className="mt-9 flex flex-col divide-y divide-ink/12 border-y border-ink/15">
+            <div className="mt-10 flex flex-col gap-6">
               {contactItems.map((item) => {
                 const Icon = item.icon;
                 const body = (
                   <>
-                    <Icon
-                      className="h-5 w-5 flex-shrink-0 text-signal"
-                      strokeWidth={2}
-                    />
-                    <span className="font-archivo text-[11px] font-bold uppercase tracking-[0.14em] text-ink/45">
-                      {item.label}
+                    <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-white/10">
+                      <Icon className="h-5 w-5 text-aqua" strokeWidth={2} />
                     </span>
-                    <span className="ml-auto text-[15px] font-medium text-ink">
-                      {item.value}
+                    <span>
+                      <span className="block text-[12px] font-semibold uppercase tracking-[0.1em] text-white/45">
+                        {item.label}
+                      </span>
+                      <span className="mt-0.5 block text-[16px] font-semibold text-white">
+                        {item.value}
+                      </span>
                     </span>
                   </>
                 );
@@ -78,12 +86,12 @@ export function Contact({ initialServices }: ContactProps) {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="flex items-center gap-3 py-4 transition-colors hover:text-signal"
+                    className="flex items-center gap-4 transition-opacity hover:opacity-80"
                   >
                     {body}
                   </a>
                 ) : (
-                  <div key={item.label} className="flex items-center gap-3 py-4">
+                  <div key={item.label} className="flex items-center gap-4">
                     {body}
                   </div>
                 );
@@ -91,17 +99,22 @@ export function Contact({ initialServices }: ContactProps) {
             </div>
           </div>
 
-          {/* The docket */}
-          <div className="livery-notch bg-white p-7 text-ink sm:p-9 lg:p-10">
-            <div className="mb-8 flex border border-ink/15">
+          {/* Form card */}
+          <div className="relative z-10 rounded-[1.5rem] bg-white p-6 sm:p-8 lg:p-10">
+            <div
+              role="tablist"
+              className="mb-8 flex rounded-full bg-navy/5 p-1"
+            >
               <button
                 type="button"
+                role="tab"
+                aria-selected={activeTab === "form"}
                 onClick={() => setActiveTab("form")}
                 className={
-                  "flex flex-1 items-center justify-center gap-2 py-3 font-archivo text-[12px] font-bold uppercase tracking-[0.12em] transition-colors " +
+                  "flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold transition-colors " +
                   (activeTab === "form"
-                    ? "bg-signal text-white"
-                    : "text-ink/50 hover:text-signal")
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-navy/50 hover:text-navy")
                 }
               >
                 <Mail className="h-4 w-4" strokeWidth={2.25} />
@@ -109,12 +122,14 @@ export function Contact({ initialServices }: ContactProps) {
               </button>
               <button
                 type="button"
+                role="tab"
+                aria-selected={activeTab === "booking"}
                 onClick={() => setActiveTab("booking")}
                 className={
-                  "flex flex-1 items-center justify-center gap-2 py-3 font-archivo text-[12px] font-bold uppercase tracking-[0.12em] transition-colors " +
+                  "flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] font-semibold transition-colors " +
                   (activeTab === "booking"
-                    ? "bg-signal text-white"
-                    : "text-ink/50 hover:text-signal")
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-navy/50 hover:text-navy")
                 }
               >
                 <Calendar className="h-4 w-4" strokeWidth={2.25} />
@@ -130,9 +145,7 @@ export function Contact({ initialServices }: ContactProps) {
               >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label className="block">
-                    <span className="mb-1.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
-                      Navn
-                    </span>
+                    <span className={LABEL}>Navn</span>
                     <input
                       type="text"
                       name="name"
@@ -141,9 +154,7 @@ export function Contact({ initialServices }: ContactProps) {
                     />
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
-                      Firmanavn
-                    </span>
+                    <span className={LABEL}>Firmanavn</span>
                     <input
                       type="text"
                       name="company"
@@ -155,9 +166,7 @@ export function Contact({ initialServices }: ContactProps) {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label className="block">
-                    <span className="mb-1.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
-                      E-post
-                    </span>
+                    <span className={LABEL}>E-post</span>
                     <input
                       type="email"
                       name="email"
@@ -169,9 +178,7 @@ export function Contact({ initialServices }: ContactProps) {
                     </p>
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
-                      Telefon
-                    </span>
+                    <span className={LABEL}>Telefon</span>
                     <input
                       type="tel"
                       name="phone"
@@ -188,7 +195,7 @@ export function Contact({ initialServices }: ContactProps) {
                 </div>
 
                 <div>
-                  <span className="mb-2.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
+                  <span className="mb-2.5 block text-[13px] font-medium text-navy/70">
                     Jeg er interessert i
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -210,9 +217,7 @@ export function Contact({ initialServices }: ContactProps) {
                 </div>
 
                 <label className="block">
-                  <span className="mb-1.5 block font-archivo text-[11px] font-bold uppercase tracking-[0.12em] text-ink/60">
-                    Melding
-                  </span>
+                  <span className={LABEL}>Melding</span>
                   <textarea
                     name="message"
                     rows={4}
@@ -223,7 +228,7 @@ export function Contact({ initialServices }: ContactProps) {
 
                 <button
                   type="submit"
-                  className="livery-notch mt-1 inline-flex items-center justify-center gap-2 bg-deck px-8 py-3.5 font-archivo text-[13px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-signal"
+                  className="mt-1 inline-flex items-center justify-center gap-2 self-start rounded-full bg-brand px-7 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-brand-deep"
                 >
                   Send melding
                   <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
@@ -234,21 +239,21 @@ export function Contact({ initialServices }: ContactProps) {
                 key="booking"
                 className="flex flex-col items-center py-6 text-center motion-safe:transition-opacity motion-safe:duration-200 starting:opacity-0"
               >
-                <div className="livery-notch flex h-14 w-14 items-center justify-center bg-signal/10">
-                  <Calendar className="h-7 w-7 text-signal" strokeWidth={1.75} />
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/10">
+                  <Calendar className="h-7 w-7 text-brand" strokeWidth={1.75} />
                 </div>
-                <h3 className="mt-6 font-archivo text-[22px] font-black uppercase tracking-[-0.01em] text-ink">
+                <h3 className="mt-6 font-lato text-[24px] font-bold text-navy">
                   Book et møte med oss
                 </h3>
-                <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink/65">
-                  Velg et tidspunkt som passer for deg, så tar vi en uforpliktende
-                  samtale om løsninger tilpasset dine behov.
+                <p className="mt-3 max-w-md text-[15px] leading-relaxed text-navy/60">
+                  Velg et tidspunkt som passer for deg, så tar vi en
+                  uforpliktende samtale om løsninger tilpasset dine behov.
                 </p>
                 <a
                   href="https://outlook.office.com/book/Bookmtemedmeg@heltopplagt.no/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="livery-notch mt-8 inline-flex items-center justify-center gap-2 bg-deck px-8 py-3.5 font-archivo text-[13px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-signal"
+                  className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3 text-[14px] font-semibold text-white transition-colors hover:bg-brand-deep"
                 >
                   Velg tidspunkt
                   <ArrowRight className="h-4 w-4" strokeWidth={2.5} />

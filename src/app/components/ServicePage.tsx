@@ -1,41 +1,28 @@
 /**
- * Bildekoren / "The Livery" — the service-page template.
+ * "Opplagt" — the service-page template (2026-09-01 refresh).
  *
- * Composition seed 485bdd0d, surface scope, Persuade. One template carries all
- * six services (/tjenester/*).
+ * One template carries all six services (/tjenester/*). The section ORDER is
+ * unchanged from the previous template — it runs in the order a buyer asks
+ * the questions:
+ *   Hero + promise strip  (what is this, and the facts at a glance)
+ *   Explainer             (what it actually is, plainly)
+ *   Catalogs              (what can I get — the brochure's own spreads)
+ *   Benefits              (why should I care)
+ *   FAQ                   (what else)
+ *   Les mer + ServiceFooter (deeper reading, then act)
  *
- * Sections run in the order a buyer asks the questions:
- *   Slik fungerer det (how does this work) — an ordered, numbered process
- *   Catalogs          (what can I get)     — the printed brochure's own spreads
- *   Hvorfor …         (why should I care)  — the brochure's benefit list
- *   Spørsmål …        (what else)          — expandable FAQ
- *   Closing statement (the brand's line)   — the page lands, then acts
- *
- * The process leads because a first-time visitor asks it before they are ready
- * to choose a variant. Each section is a distinct layout family on purpose:
- * borderless numbered steps, centred text panels, bordered product cards, a
- * wide band, a statement-plus-checklist split, hairline accordion rules.
- *
- * Catalog layout is lifted from the print brochure; its palette is not — the
- * brochure's maroon and orange stay out, and everything renders in the Livery
- * blues.
- *
- * Section separation is one treatment only: THE SECTION CURVE
- * (`.livery-curve-b` / `-t`), a shallow ellipse arc. A curve belongs to a
- * boundary, never to a section: nothing curves both edges, and straight is the
- * default, so the page stays a mix rather than a ripple. A second, sharper
- * edge was tried on the hero and removed; two competing edge treatments read
- * as noise. Coloured sections carry a pale sky fill (`aqua/12`); components
- * inside keep hard corners and the notch.
- *
- * This supersedes DESIGN.md's Every-Other Rule (white ↔ grey tint) and its
- * flat-edge shape language for this template, at the client's direction.
+ * The skin is the homepage's Opplagt system: Lato Light display headings,
+ * pill actions, white rounded-[1.5rem] cards, and section grounds alternating
+ * white ↔ cloud with no seams or curves. Every coloured section carries ONE
+ * puzzle motif (the brand's own logo piece, masked and tinted) — filled
+ * variants behind the content, outline variants over a corner, never over
+ * running text, always bleeding off an edge with its own rotation and size.
  */
 import { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, ArrowUpRight, Check, ChevronRight, Download, Phone, Plus } from "lucide-react";
 import { Link } from "react-router";
-import { LIVERY_CONTAINER, LiveryCta, SectionPlate, StencilPlate } from "./livery";
+import { CONTAINER, Pill } from "./site";
 import { useDocumentMeta } from "../../lib/use-document-meta";
 
 export const allServices = [
@@ -48,23 +35,15 @@ export const allServices = [
 ];
 
 /**
- * The puzzle-motif set. Two variants, alternating, and deliberately sparse:
- * only every other coloured section takes one, so the mark stays an accent
- * rather than a rhythm. A page ends up with two or three, not one per band.
- *
- * `livery-puzzle`         filled, low alpha, BEHIND the content.
- * `livery-puzzle-outline` stroked, stronger alpha, ON TOP of the content, and
- *                         only ever placed over a section edge or a panel,
- *                         never over running text.
- *
- * Every instance carries its own rotation, size, corner and colour, because
- * repeats of one shape at one angle read as a stamp rather than as texture.
+ * The puzzle-motif set for coloured sections, cycled in order. Every instance
+ * carries its own rotation, size, corner and colour, because repeats of one
+ * shape at one angle read as a stamp rather than as texture.
  */
 const MOTIFS = [
-  "livery-puzzle aspect-[100/129] -left-16 top-8 w-40 -rotate-[17deg] bg-lime/14 lg:-left-10 lg:w-56",
-  "livery-puzzle-outline aspect-[100/129] -right-12 -bottom-10 w-40 rotate-[22deg] bg-deck/25 lg:-right-6 lg:w-56",
-  "livery-puzzle aspect-[100/129] -right-20 top-10 w-48 rotate-[9deg] bg-amber/12 lg:-right-12 lg:w-64",
-  "livery-puzzle-outline aspect-[100/129] -left-14 -top-8 w-36 -rotate-[12deg] bg-ink/15 lg:-left-8 lg:w-52",
+  "livery-puzzle-outline aspect-[100/129] -right-12 -bottom-10 w-40 rotate-[22deg] bg-brand/25 lg:-right-6 lg:w-56",
+  "livery-puzzle aspect-[100/129] -right-20 top-10 w-48 rotate-[9deg] bg-lime/15 lg:-right-12 lg:w-64",
+  "livery-puzzle-outline aspect-[100/129] -left-14 -bottom-8 w-36 -rotate-[12deg] bg-navy/20 lg:-left-8 lg:w-52",
+  "livery-puzzle-outline aspect-[100/129] -right-14 top-8 w-40 rotate-[15deg] bg-brand/20 lg:-right-8 lg:w-56",
 ];
 
 /** Small breadcrumb trail, e.g. Alle tjenester / Frukt / Jobbsmoothie */
@@ -76,26 +55,47 @@ export function Breadcrumb({
   return (
     <nav
       aria-label="Brødsmulesti"
-      className="mb-5 flex flex-wrap items-center gap-1.5 font-jakarta text-[13px]"
+      className="mb-5 flex flex-wrap items-center gap-1.5 text-[13px]"
     >
       {items.map((item, i) => (
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && (
-            <ChevronRight className="h-3.5 w-3.5 text-ink/30" aria-hidden="true" />
+            <ChevronRight className="h-3.5 w-3.5 text-navy/30" aria-hidden="true" />
           )}
           {item.to ? (
             <Link
               to={item.to}
-              className="text-ink/55 transition-colors hover:text-signal"
+              className="text-navy/55 transition-colors hover:text-brand"
             >
               {item.label}
             </Link>
           ) : (
-            <span className="font-semibold text-ink">{item.label}</span>
+            <span className="font-semibold text-navy">{item.label}</span>
           )}
         </span>
       ))}
     </nav>
+  );
+}
+
+/**
+ * The per-section heading: a light Lato display line with one plain proof
+ * caption beneath. The template's counterpart to the homepage SectionHead,
+ * without a kicker — the page's sections answer questions, they don't need
+ * department labels.
+ */
+function Head({ title, proof }: { title: string; proof?: string }) {
+  return (
+    <div className="max-w-[46rem]">
+      <h2 className="font-lato text-[26px] font-light leading-[1.15] tracking-[-0.01em] text-navy sm:text-[32px] lg:text-[38px]">
+        {title}
+      </h2>
+      {proof && (
+        <p className="mt-3 max-w-[52ch] text-[15px] leading-relaxed text-navy/60">
+          {proof}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -122,47 +122,46 @@ export function ServiceFooter({
     <section
       className={
         "relative isolate overflow-hidden " +
-        (sky
-          ? "livery-curve-t bg-aqua/12 py-[4.5rem] lg:py-[6rem]"
-          : "bg-white py-16 lg:py-20")
+        (sky ? "bg-cloud py-[4.5rem] lg:py-[6rem]" : "bg-white py-16 lg:py-20")
       }
     >
       {sky && (
         <span
           aria-hidden="true"
-          className="livery-puzzle-outline aspect-[100/129] -right-16 -top-10 w-40 rotate-[18deg] bg-deck/20 lg:-right-8 lg:w-56"
+          className="livery-puzzle-outline aspect-[100/129] -right-16 -top-10 w-40 rotate-[18deg] bg-brand/20 lg:-right-8 lg:w-56"
         />
       )}
 
-      <div className={`${LIVERY_CONTAINER} relative z-10`}>
+      <div className={`${CONTAINER} relative z-10`}>
         <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-jakarta text-[30px] font-bold leading-[1.1] tracking-[-0.02em] text-ink sm:text-[38px] lg:text-[44px]">
-              Bli Helt Opplagt
+            {/* The brand's own line, in the payoff face. */}
+            <h2 className="payoff-marker font-payoff text-[30px] font-bold leading-[1.1] text-navy sm:text-[38px] lg:text-[44px]">
+              Bli <span className="text-brand">Helt Opplagt</span>
             </h2>
-            <p className="mt-4 max-w-[48ch] text-[17px] leading-relaxed text-ink/70">
+            <p className="mt-4 max-w-[48ch] text-[16px] leading-relaxed text-navy/65">
               Én leverandør, én kontaktperson, én faktura. Fortell oss hvordan
               dere har det på jobben, så setter vi sammen et forslag som passer.
             </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-shrink-0 sm:flex-row sm:items-center">
-            <LiveryCta to="/kontakt">
+            <Pill to="/kontakt">
               Snakk med oss
               <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-            </LiveryCta>
+            </Pill>
             <a
               href="tel:+4702346"
-              className="inline-flex items-center gap-2 font-jakarta text-[15px] font-semibold text-ink transition-colors hover:text-signal"
+              className="inline-flex items-center gap-2 text-[15px] font-semibold text-navy transition-colors hover:text-brand"
             >
-              <Phone className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+              <Phone className="h-4 w-4 text-brand" strokeWidth={2.5} aria-hidden="true" />
               02346
             </a>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-ink/12 pt-9">
-          <h3 className="font-jakarta text-[17px] font-bold tracking-[-0.01em] text-ink">
+        <div className="mt-12 border-t border-navy/10 pt-9">
+          <h3 className="text-[16px] font-semibold text-navy">
             Andre tjenester
           </h3>
           <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -170,13 +169,18 @@ export function ServiceFooter({
               <Link
                 key={s.to}
                 to={s.to}
-                className="livery-notch group flex items-center justify-between gap-3 bg-white px-5 py-4 shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] transition-shadow duration-300 hover:shadow-[inset_0_0_0_1px_rgba(13,26,45,0.28)]"
+                className={
+                  "group flex items-center justify-between gap-3 rounded-[1.25rem] bg-white px-5 py-4 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(13,43,64,0.18)] " +
+                  (sky
+                    ? "shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
+                    : "border border-navy/10")
+                }
               >
-                <span className="font-jakarta text-[15px] font-semibold text-ink transition-colors group-hover:text-signal">
+                <span className="text-[15px] font-semibold text-navy transition-colors group-hover:text-brand">
                   {s.label}
                 </span>
                 <ArrowUpRight
-                  className="h-4 w-4 flex-shrink-0 text-ink/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal"
+                  className="h-4 w-4 flex-shrink-0 text-navy/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand"
                   strokeWidth={2.5}
                 />
               </Link>
@@ -283,7 +287,7 @@ export interface CatalogItem {
    * layout, which is text only.
    */
   image?: string;
-  /** Small plate carried over from the printed brochure, e.g. "Populær". */
+  /** Small tag carried over from the printed brochure, e.g. "Populær". */
   tag?: string;
   /** One short checked fact under the description, e.g. "Ny kurv hver uke". */
   spec?: string;
@@ -293,7 +297,7 @@ export interface CatalogItem {
  * A catalog section, lifted from the printed fruit brochure.
  *
  * The brochure's maroon-and-orange palette does NOT come with the layout;
- * these render in the Livery blues per DESIGN.md.
+ * these render in the DESIGN.md palette.
  */
 export interface CatalogSection {
   heading: string;
@@ -363,66 +367,50 @@ function SubServiceCard({ to, sub }: { to: string; sub: SubService }) {
   return (
     <Link
       to={to}
-      /* drop-shadow on the unclipped wrapper so the lift follows the notched
-         silhouette (a box-shadow on the clipped card would be cut away) */
-      className="group block transition duration-300 [filter:drop-shadow(0_1px_2px_rgba(13,26,45,0.05))] hover:[filter:drop-shadow(0_16px_30px_rgba(13,26,45,0.13))]"
+      className="group flex flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-12px_rgba(13,43,64,0.18)]"
     >
-      <div className="livery-notch flex h-full flex-col bg-white shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] transition-shadow duration-300 group-hover:shadow-[inset_0_0_0_1px_rgba(13,26,45,0.22)]">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <img
-            src={sub.image}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent px-5 pb-4 pt-16">
-            <h3 className="font-jakarta text-[19px] font-bold leading-tight tracking-[-0.01em] text-white sm:text-[22px]">
-              {sub.title}
-            </h3>
-          </div>
-        </div>
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img
+          src={sub.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
 
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
-          <p className="flex-1 text-[15px] leading-relaxed text-ink/70">
-            {sub.description}
-          </p>
-          <span className="mt-5 inline-flex items-center gap-1.5 font-jakarta text-[13px] font-semibold text-ink transition-colors group-hover:text-signal">
-            Se tjenesten
-            <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              strokeWidth={2.5}
-            />
-          </span>
-        </div>
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <h3 className="font-lato text-[20px] font-bold text-navy sm:text-[22px]">
+          {sub.title}
+        </h3>
+        <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-navy/60">
+          {sub.description}
+        </p>
+        <span className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand">
+          Les mer
+          <ArrowRight
+            className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+            strokeWidth={2.5}
+          />
+        </span>
       </div>
     </Link>
   );
 }
 
-/**
- * "Slik jobber vi" — every proof fact in one grid. Deliberately NOT cards:
- * no border, no fill, no notch on a container. A photograph, the figure, the
- * sentence. That keeps it distinct from the bordered sub-service cards it sits
- * near, and puts three facts in the space one used to take.
- */
 function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
   /*
-     Cards are always white with a 1px inset ring and the same faint resting
-     drop-shadow as the homepage service cards, so the two card grids on the
-     site are one component in two places.
-
-     No tinted panel: six colour photographs on a tinted card on a tinted
-     section was more colour than the grid could carry. The photo cell stays
-     white for the multiply blend, and `object-contain` keeps each basket
-     whole where `cover` would crop it.
+     Cards are white with the same soft resting shadow as the homepage service
+     cards, so the card grids across the site are one component in two places.
+     The photo cell stays white for the multiply blend, and `object-contain`
+     keeps each basket whole where `cover` would crop it.
   */
   return (
     <>
-      <SectionPlate title={catalog.heading} proof={catalog.proof} />
+      <Head title={catalog.heading} proof={catalog.proof} />
 
       {catalog.note && (
-        <p className="mt-5 max-w-[70ch] font-jakarta text-[15px] font-semibold text-signal">
+        <p className="mt-5 max-w-[70ch] text-[15px] font-semibold text-brand">
           {catalog.note}
         </p>
       )}
@@ -434,12 +422,12 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
           {catalog.items.map((item) => (
             <div
               key={item.name}
-              className="livery-notch flex flex-col items-center bg-white px-6 py-9 text-center shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] [filter:drop-shadow(0_1px_2px_rgba(13,26,45,0.05))]"
+              className="flex flex-col items-center rounded-[1.5rem] bg-white px-6 py-9 text-center shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
             >
-              <h3 className="font-jakarta text-[20px] font-bold leading-tight tracking-[-0.01em] text-ink">
+              <h3 className="font-lato text-[20px] font-bold leading-tight text-navy">
                 {item.name}
               </h3>
-              <p className="mt-3.5 max-w-[30ch] text-[15px] leading-relaxed text-ink/70">
+              <p className="mt-3.5 max-w-[30ch] text-[15px] leading-relaxed text-navy/65">
                 {item.description}
               </p>
             </div>
@@ -450,7 +438,7 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
           {catalog.items.map((item) => (
             <div
               key={item.name}
-              className="livery-notch grid bg-white shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] [filter:drop-shadow(0_1px_2px_rgba(13,26,45,0.05))] sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-center"
+              className="grid overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-center"
             >
               <div className="relative isolate aspect-[4/3] bg-white sm:aspect-square">
                 <img
@@ -462,11 +450,15 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
                 />
               </div>
               <div className="p-6 sm:py-7 sm:pl-6 sm:pr-8">
-                {item.tag && <StencilPlate label={item.tag} className="mb-3" />}
-                <h3 className="font-jakarta text-[20px] font-bold leading-tight tracking-[-0.01em] text-ink">
+                {item.tag && (
+                  <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
+                    {item.tag}
+                  </span>
+                )}
+                <h3 className="font-lato text-[20px] font-bold leading-tight text-navy">
                   {item.name}
                 </h3>
-                <p className="mt-2.5 max-w-[58ch] text-[15px] leading-relaxed text-ink/70">
+                <p className="mt-2.5 max-w-[58ch] text-[15px] leading-relaxed text-navy/65">
                   {item.description}
                 </p>
               </div>
@@ -474,11 +466,11 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
           ))}
         </div>
       ) : (
-        <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {catalog.items.map((item) => (
             <div
               key={item.name}
-              className="livery-notch flex flex-col bg-white shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] [filter:drop-shadow(0_1px_2px_rgba(13,26,45,0.05))]"
+              className="flex flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
             >
               {/*
                 The produce plate. A fixed height, not an aspect ratio: these
@@ -496,16 +488,20 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
                 />
               </div>
 
-              <div className="flex flex-1 flex-col items-center p-5 text-center">
-                {item.tag && <StencilPlate label={item.tag} className="mb-3" />}
-                <h3 className="font-jakarta text-[19px] font-bold leading-tight tracking-[-0.01em] text-ink">
+              <div className="flex flex-1 flex-col items-center p-6 text-center">
+                {item.tag && (
+                  <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
+                    {item.tag}
+                  </span>
+                )}
+                <h3 className="font-lato text-[19px] font-bold leading-tight text-navy">
                   {item.name}
                 </h3>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-ink/70">
+                <p className="mt-2.5 text-[14px] leading-relaxed text-navy/65">
                   {item.description}
                 </p>
                 {item.spec && (
-                  <p className="mt-3.5 inline-flex items-center gap-1.5 font-jakarta text-[13px] font-semibold text-ink">
+                  <p className="mt-3.5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy">
                     <Check
                       className="h-3.5 w-3.5 flex-shrink-0 text-lime"
                       strokeWidth={3}
@@ -522,10 +518,10 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
 
       {catalog.link && (
         <div className="mt-8">
-          <LiveryCta to={catalog.link.to} variant="ghost-dark">
+          <Pill to={catalog.link.to} variant="outline">
             {catalog.link.label}
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
-          </LiveryCta>
+          </Pill>
         </div>
       )}
     </>
@@ -537,9 +533,7 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
  *
  * Deliberately inside the hero section but below its grid: the hero's own
  * stack stays at headline, lede and actions, while the strip carries the three
- * or four operational facts that make the offer legible at a glance. Vertical
- * hairlines rather than cards, so it reads as one band and not as a fourth
- * grid of tiles.
+ * or four operational facts that make the offer legible at a glance.
  */
 function HeroPointStrip({ points }: { points: HeroPoint[] }) {
   return (
@@ -550,16 +544,16 @@ function HeroPointStrip({ points }: { points: HeroPoint[] }) {
           <li key={point.label} className="flex gap-3.5">
             <span
               aria-hidden="true"
-              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-deck"
+              className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand/10"
             >
-              <Icon className="h-4 w-4 text-white" strokeWidth={2.5} />
+              <Icon className="h-4.5 w-4.5 text-brand" strokeWidth={2.25} />
             </span>
             <div className="min-w-0">
-              <p className="font-jakarta text-[15px] font-semibold leading-snug text-ink">
+              <p className="text-[15px] font-semibold leading-snug text-navy">
                 {point.label}
               </p>
               {point.body && (
-                <p className="mt-1.5 text-[14px] leading-relaxed text-ink/65">
+                <p className="mt-1.5 text-[14px] leading-relaxed text-navy/60">
                   {point.body}
                 </p>
               )}
@@ -573,10 +567,8 @@ function HeroPointStrip({ points }: { points: HeroPoint[] }) {
 
 /**
  * The benefit grid: the page's main argument, one icon and one line each.
- *
- * Borderless on the ground rather than in cards. The catalog sections below
- * are already bordered panels, and a bordered icon grid on top of them is the
- * "wall of identical tiles" this page has been pulled out of twice.
+ * Borderless on the ground rather than in cards — the catalog sections are
+ * already carded, and two card walls in a row read as tiles.
  */
 function BenefitGrid({ items }: { items: BenefitItem[] }) {
   return (
@@ -585,16 +577,18 @@ function BenefitGrid({ items }: { items: BenefitItem[] }) {
         const Icon = item.icon ?? Check;
         return (
           <li key={item.label}>
-            <Icon
-              className="h-6 w-6 text-signal"
-              strokeWidth={1.75}
-              aria-hidden="true"
-            />
-            <h3 className="mt-4 font-jakarta text-[17px] font-bold leading-tight tracking-[-0.01em] text-ink">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand/10">
+              <Icon
+                className="h-5 w-5 text-brand"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+            </span>
+            <h3 className="mt-4 text-[16px] font-semibold leading-tight text-navy">
               {item.label}
             </h3>
             {item.body && (
-              <p className="mt-2 max-w-[42ch] text-[15px] leading-relaxed text-ink/70">
+              <p className="mt-2 max-w-[42ch] text-[15px] leading-relaxed text-navy/60">
                 {item.body}
               </p>
             )}
@@ -616,20 +610,20 @@ function ReadMoreList({ links }: { links: ReadMoreLink[] }) {
         <Link
           key={link.to}
           to={link.to}
-          className="group flex items-center justify-between gap-6 border-b border-ink/12 py-5 first:border-t first:border-ink/12"
+          className="group flex items-center justify-between gap-6 border-b border-navy/10 py-5 first:border-t first:border-navy/10"
         >
           <span className="min-w-0">
-            <span className="block font-jakarta text-[17px] font-semibold leading-snug text-ink transition-colors group-hover:text-signal">
+            <span className="block text-[16px] font-semibold leading-snug text-navy transition-colors group-hover:text-brand">
               {link.label}
             </span>
             {link.description && (
-              <span className="mt-1 block text-[15px] leading-relaxed text-ink/65">
+              <span className="mt-1 block text-[15px] leading-relaxed text-navy/60">
                 {link.description}
               </span>
             )}
           </span>
           <ArrowUpRight
-            className="h-5 w-5 flex-shrink-0 text-ink/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal"
+            className="h-5 w-5 flex-shrink-0 text-navy/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand"
             strokeWidth={2.5}
             aria-hidden="true"
           />
@@ -653,17 +647,17 @@ function FaqList({ items }: { items: FaqItem[] }) {
       {items.map((item, i) => (
         <details
           key={i}
-          className="group border-b border-ink/12 first:border-t first:border-ink/12"
+          className="group border-b border-navy/10 first:border-t first:border-navy/10"
         >
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-jakarta text-[17px] font-semibold leading-snug text-ink transition-colors hover:text-signal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-[16px] font-semibold leading-snug text-navy transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
             <span>{item.question}</span>
             <Plus
-              className="mt-0.5 h-5 w-5 flex-shrink-0 text-signal transition-transform duration-300 group-open:rotate-45"
+              className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand transition-transform duration-300 group-open:rotate-45"
               strokeWidth={2.5}
               aria-hidden="true"
             />
           </summary>
-          <div className="max-w-[68ch] pb-6 text-[15px] leading-relaxed text-ink/75">
+          <div className="max-w-[68ch] pb-6 text-[15px] leading-relaxed text-navy/70">
             {item.answer}
           </div>
         </details>
@@ -682,23 +676,16 @@ export function ServicePage({ data }: { data: ServicePageData }) {
 
   /*
    * The visitor's order of questions:
-   *   why should I bother   → the benefit grid, leading
-   *   what can I get        → the catalogs
-   *   what else do I ask    → the FAQ
-   *   where do I read more  → the "Les mer" links
-   *
-   * Benefits lead because that is the case this page has to make; the
-   * operational detail (packing, routes, cold chain) lives on the routines
-   * sub-page, reachable from "Les mer", rather than taking a section here.
+   *   what is this actually  → the explainer
+   *   why should I bother    → the benefit grid
+   *   what can I get         → the catalogs
+   *   what else do I ask     → the FAQ
+   *   where do I read more   → the "Les mer" links
    *
    * Every entry is optional, so a service that has only its sub-service cards
    * still reads as a finished page; nothing renders an empty section.
    */
   const blocks: ReactNode[] = [];
-
-  /* A block's index decides its ground, and blocks.length is that index at
-     push time — so a section can be built already knowing what it sits on. */
-  const groundAt = (i: number): "white" | "sky" => (i % 2 === 0 ? "sky" : "white");
 
   if (data.explainer) {
     const ex = data.explainer;
@@ -708,13 +695,13 @@ export function ServicePage({ data }: { data: ServicePageData }) {
          the copy keeps the rest. */
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
         <div>
-          <h2 className="max-w-[20ch] font-jakarta text-[26px] font-bold leading-[1.15] tracking-[-0.015em] text-ink sm:text-[32px] lg:text-[38px]">
+          <h2 className="max-w-[20ch] font-lato text-[26px] font-light leading-[1.15] tracking-[-0.01em] text-navy sm:text-[32px] lg:text-[38px]">
             {ex.heading ?? "Hva tilbyr vi"}
           </h2>
           {ex.body.map((p, n) => (
             <p
               key={n}
-              className="mt-5 max-w-[54ch] text-[17px] leading-relaxed text-ink/75"
+              className="mt-5 max-w-[54ch] text-[16px] leading-relaxed text-navy/70"
             >
               {p}
             </p>
@@ -723,12 +710,14 @@ export function ServicePage({ data }: { data: ServicePageData }) {
             <ul className="mt-8 grid gap-x-8 gap-y-3.5 sm:grid-cols-2">
               {ex.points.map((point) => (
                 <li key={point} className="flex items-start gap-3">
-                  <Check
-                    className="mt-1 h-4 w-4 flex-shrink-0 text-lime"
-                    strokeWidth={3}
-                    aria-hidden="true"
-                  />
-                  <span className="text-[15px] leading-relaxed text-ink/80">
+                  <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-lime/15">
+                    <Check
+                      className="h-3.5 w-3.5 text-lime"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="text-[15px] leading-relaxed text-navy/75">
                     {point}
                   </span>
                 </li>
@@ -737,7 +726,8 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           )}
         </div>
 
-        <div className="livery-notch relative aspect-[4/3] w-full max-w-[380px] overflow-hidden bg-white shadow-[inset_0_0_0_1px_rgba(13,26,45,0.12)] lg:aspect-[4/5] lg:w-[260px] xl:w-[300px]">
+        {/* The explainer photo takes the arch — the site's signature shape. */}
+        <div className="relative aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-t-full rounded-b-[1.5rem] lg:w-[280px] xl:w-[320px]">
           <img
             src={ex.image}
             alt={ex.imageAlt}
@@ -753,31 +743,26 @@ export function ServicePage({ data }: { data: ServicePageData }) {
   if (data.benefits) {
     blocks.push(
       <>
-        <SectionPlate
-          title={data.benefits.heading}
-          proof={data.benefits.proof}
-        />
+        <Head title={data.benefits.heading} proof={data.benefits.proof} />
         <BenefitGrid items={data.benefits.items} />
       </>
     );
   }
 
   (data.catalogs ?? []).forEach((catalog) => {
-    blocks.push(
-      <CatalogSectionView catalog={catalog} />
-    );
+    blocks.push(<CatalogSectionView catalog={catalog} />);
   });
 
   if (data.subServices.length > 0 && !data.hideSubServiceCards) {
     blocks.push(
       <>
-        <SectionPlate
+        <Head
           title={data.subServicesHeading ?? `Dette leverer vi innen ${lowerLabel}`}
           proof={data.subServicesProof}
         />
         <div
           className={
-            "mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2" +
+            "mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2" +
             /* two cards stranded in a three-column grid read as a gap, not a pair */
             (data.subServices.length > 2 ? " lg:grid-cols-3" : "")
           }
@@ -797,20 +782,18 @@ export function ServicePage({ data }: { data: ServicePageData }) {
   if (data.quote) {
     blocks.push(
       <figure className="mx-auto max-w-[820px] text-center">
-        <blockquote className="font-jakarta text-[22px] font-bold leading-[1.35] tracking-[-0.015em] text-ink sm:text-[26px]">
-          <span aria-hidden="true" className="text-signal">
+        <blockquote className="font-lato text-[22px] font-light leading-[1.4] text-navy sm:text-[26px]">
+          <span aria-hidden="true" className="text-amber">
             &ldquo;
           </span>
           {data.quote.text}
-          <span aria-hidden="true" className="text-signal">
+          <span aria-hidden="true" className="text-amber">
             &rdquo;
           </span>
         </blockquote>
         <figcaption className="mt-7 text-[15px] leading-relaxed">
-          <span className="font-jakarta font-semibold text-ink">
-            {data.quote.name}
-          </span>
-          <span className="block text-ink/60">
+          <span className="font-semibold text-navy">{data.quote.name}</span>
+          <span className="block text-navy/55">
             {data.quote.role}
             {data.quote.company ? `, ${data.quote.company}` : ""}
           </span>
@@ -822,7 +805,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
   if (data.faq && data.faq.length > 0) {
     blocks.push(
       <>
-        <SectionPlate
+        <Head
           title={data.faqHeading ?? "Spørsmål vi ofte får"}
           proof={data.faqProof}
         />
@@ -834,41 +817,31 @@ export function ServicePage({ data }: { data: ServicePageData }) {
   if (data.readMore && data.readMore.length > 0) {
     blocks.push(
       <>
-        <SectionPlate title={data.readMoreHeading ?? "Les mer"} />
+        <Head title={data.readMoreHeading ?? "Les mer"} />
         <ReadMoreList links={data.readMore} />
       </>
     );
   }
 
   /* Grounds keep alternating past the blocks, so the last content section and
-     the two closing sections never collide on the same fill. */
+     the closing section never collide on the same fill. */
   const otherServicesGround = blocks.length % 2 === 0 ? "sky" : "white";
-  /* The closing band takes a curved TOP so it lifts off the white above it,
-     and stays straight at the bottom where it meets the ink footer. */
-  const closeGround =
-    otherServicesGround === "sky"
-      ? "bg-white"
-      : "livery-curve-t bg-aqua/12";
 
   return (
     <div className="min-h-dvh bg-white">
       {/*
-        The hero: a tinted field with the photograph bleeding off the right
-        viewport edge, rather than a contained panel on white.
-
-        The photo is absolutely positioned to the right half from `lg` up, so it
-        reaches the viewport edge instead of stopping at the container gutter;
-        below `lg` it returns to normal flow underneath the copy, so the
+        The hero: a cloud field with the photograph bleeding off the right
+        viewport edge. From `lg` up the photo's LEFT edge is a full semicircle
+        (rounded-l-full) — the service-page echo of the homepage's arch crop.
+        Below `lg` it returns to normal flow underneath the copy, so the
         headline and the primary action stay first on a phone.
       */}
-      <section className="livery-curve-b relative isolate overflow-hidden bg-aqua/25 text-ink">
-        {/* The hero carries two: a filled piece behind the copy column, and a
-            white outline laid over the photograph. */}
+      <section className="relative isolate overflow-hidden bg-cloud text-navy">
         <span
           aria-hidden="true"
-          className="livery-puzzle aspect-[100/129] -left-20 bottom-[-3rem] w-44 -rotate-[14deg] bg-lime/14 lg:-left-12 lg:w-64"
+          className="livery-puzzle aspect-[100/129] -left-20 bottom-[-3rem] w-44 -rotate-[14deg] bg-brand/10 lg:-left-12 lg:w-64"
         />
-        <div className={`${LIVERY_CONTAINER} relative z-10`}>
+        <div className={`${CONTAINER} relative z-10`}>
           <div className="lg:grid lg:grid-cols-[1fr_46%]">
             <div className="max-w-[42rem] py-12 lg:max-w-none lg:py-24 lg:pr-14 xl:py-28">
               <Breadcrumb
@@ -878,44 +851,44 @@ export function ServicePage({ data }: { data: ServicePageData }) {
                 ]}
               />
 
-              <h1 className="font-jakarta text-[30px] font-bold leading-[1.05] tracking-[-0.025em] text-ink sm:text-[38px] lg:text-[44px] xl:text-[52px] 2xl:text-[58px]">
+              <h1 className="font-lato text-[34px] font-light leading-[1.08] tracking-[-0.01em] text-navy sm:text-[42px] lg:text-[48px] xl:text-[56px]">
                 {data.title}
               </h1>
 
               {data.subtitle && (
-                <p className="mt-5 max-w-[30rem] font-jakarta text-[17px] font-bold leading-snug tracking-[-0.01em] text-ink lg:text-[20px]">
+                <p className="mt-5 max-w-[30rem] text-[17px] font-semibold leading-snug text-navy lg:text-[19px]">
                   {data.subtitle}
                 </p>
               )}
 
-              <p className="mt-5 max-w-[34rem] text-[15px] leading-relaxed text-ink/70 lg:text-[17px]">
+              <p className="mt-5 max-w-[34rem] text-[15px] leading-relaxed text-navy/65 lg:text-[16px]">
                 {data.intro}
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row xl:mt-10">
                 {/* Same label as the footer's: both go to /kontakt with the
                     same intent, so two wordings would read as two offers. */}
-                <LiveryCta to="/kontakt">
+                <Pill to="/kontakt">
                   Snakk med oss
                   <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-                </LiveryCta>
+                </Pill>
                 {data.brochureUrl && (
-                  <LiveryCta
+                  <Pill
                     href={data.brochureUrl}
-                    variant="ghost-dark"
+                    variant="outline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <Download className="h-4 w-4" strokeWidth={2.5} />
                     Last ned brosjyren
-                  </LiveryCta>
+                  </Pill>
                 )}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="relative h-[62vw] max-h-[24rem] w-full sm:h-[26rem] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-[46%]">
+        <div className="relative h-[62vw] max-h-[24rem] w-full overflow-hidden sm:h-[26rem] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:max-h-none lg:w-[46%] lg:rounded-l-full">
           <img
             src={data.heroImage ?? data.image}
             alt={data.imageAlt}
@@ -929,49 +902,35 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         </div>
       </section>
 
-      {/* The promise strip, on white directly under the torn hero edge. */}
+      {/* The promise strip, on white directly under the hero. */}
       {data.heroPoints && data.heroPoints.length > 0 && (
         <section className="bg-white py-10 lg:py-12">
-          <div className={LIVERY_CONTAINER}>
+          <div className={CONTAINER}>
             <HeroPointStrip points={data.heroPoints} />
           </div>
         </section>
       )}
 
       {/*
-        Sections alternate white and a pale sky field. The sky sections are torn
-        top and bottom, so the white page ground shows through the teeth; the
-        white sections need no divider at all, because the torn band above and
-        below already does the separating. No hairline seams, no grey.
+        Sections alternate white and the cloud field — flat ground changes, no
+        seams or curves, exactly as on the homepage. Every cloud section takes
+        one puzzle motif, cycled through the MOTIFS set so filled and outline
+        variants alternate down the page with varied rotation and size.
       */}
       {blocks.map((block, i) => {
         const sky = i % 2 === 0;
-        /*
-          Not every coloured band curves. Straight is the default; a curve
-          marks a change of chapter, so the page reads as layered paper rather
-          than a ripple. Coloured bands sit at even `i`, and every other one of
-          those takes the curve — offset by 2 so the first band after the
-          curved hero stays straight and the two curves never crowd.
-        */
-        const curved = sky && i % 4 === 2;
-        /* Only every OTHER coloured section takes a motif, so the mark stays
-           an accent. Coloured bands sit at even `i`, so `i % 4 === 0` picks
-           half of them; the index into MOTIFS keeps filled and outline
-           variants alternating down the page. */
-        const motif = sky && i % 4 === 0 ? MOTIFS[(i / 4) % MOTIFS.length] : null;
+        const motif = sky ? MOTIFS[(i / 2) % MOTIFS.length] : null;
         return (
           <section
             key={i}
             className={
               sky
-                ? `relative isolate overflow-hidden ${
-                    curved ? "livery-curve-b " : ""
-                  }bg-aqua/12 py-[4.5rem] lg:py-[5.5rem]`
+                ? "relative isolate overflow-hidden bg-cloud py-[4.5rem] lg:py-[5.5rem]"
                 : "bg-white py-16 lg:py-20"
             }
           >
             {motif && <span aria-hidden="true" className={motif} />}
-            <div className={`${LIVERY_CONTAINER} relative z-10`}>{block}</div>
+            <div className={`${CONTAINER} relative z-10`}>{block}</div>
           </section>
         );
       })}

@@ -98,6 +98,37 @@
 
   /* Painted-name display face. Set at 900, tracked tight, often cropped by an edge. */
   --font-archivo: "Archivo", "Arial Narrow", system-ui, sans-serif;
+
+  /*
+   * "Opplagt" system (2026-09-01 refresh) — the homepage/Header/Footer design.
+   * Brand palette straight from DESIGN.md, plus derived neutrals (a navy for
+   * text/dark grounds, and two low-alpha tints used as full section grounds).
+   * One job per color:
+   *   brand  #0077be — primary CTAs, links, accents (DESIGN.md main color)
+   *   aqua   #70c4e9 — detail on dark grounds; its tint "cloud" = cool section ground
+   *   amber  #f8a924 — warm accent; its tint "sand" = the one warm section ground
+   *   lime   #8dbe23 — checkmarks / proof only
+   *   navy   — headings, body text, footer + contact panel ground
+   */
+  --color-brand: #0077be;
+  --color-brand-deep: #005f98;
+  --color-navy: #0d2b40;
+  --color-cloud: #eaf4fa;
+  --color-sand: #fcf4e4;
+
+  /* DESIGN.md heading face: Lato Light for display, Regular/Bold below. */
+  --font-lato: "Lato", "Inter", system-ui, sans-serif;
+
+  /*
+   * DESIGN.md payoff face: Sketchetik Bold — per the brand manual a bold,
+   * squared geometric (Klavika-style) sans, NOT a hand-drawn face. No licensed
+   * webfont file exists in this repo, so Titillium Web Bold/Black (Google
+   * Fonts, the classic free squared-sans match, full Norwegian glyphs) stands
+   * in. When the Sketchetik file arrives: add its @font-face and put it first
+   * in this stack. Used ONLY for the brand's own voice — payoff lines and the
+   * brand phrase — never for headings, UI or body copy.
+   */
+  --font-payoff: "Titillium Web", "Inter", system-ui, sans-serif;
 }
 
 /*
@@ -106,6 +137,28 @@
  * seam, rivet, plate, and sheen instead of re-deriving them.
  */
 @layer components {
+  /*
+   * Marker-hatch fill for the payoff face, per the brand manual's
+   * "Undergrupper og pay off" page: Sketchetik letters are coloured in with
+   * diagonal marker strokes — parallel "/" hatching, slight lighter gaps
+   * between strokes, grainy edges. Recreated as a procedural SVG mask: a
+   * rotated stripe pattern (stroke at 95% ink, gap at 40%) eroded by fine
+   * feTurbulence noise so the strokes read as hand-drawn, not ruled. No
+   * texture asset; works on any background. Always pair with `font-payoff`;
+   * never apply to headings, UI or body copy.
+   * Tuning: rotate() = stroke angles (two layers, 28° and 21°, so strokes
+   * cross like real marker passes); the rect widths (2.5/0.7 of a 3.2px
+   * period) = stroke/gap thickness; fill-opacity '0.3' = how much the gaps
+   * show; the second layer's opacity '0.4' = crosshatch strength; the
+   * discrete tableValues = grain strength.
+   */
+  .payoff-marker {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeComponentTransfer%20result='na'%3E%3CfeFuncA%20type='discrete'%20tableValues='0.35%200.8%201%201'/%3E%3C/feComponentTransfer%3E%3CfeComposite%20in='SourceGraphic'%20in2='na'%20operator='arithmetic'%20k1='1'%20k2='0'%20k3='0'%20k4='0'/%3E%3C/filter%3E%3Cpattern%20id='p'%20width='3.2'%20height='3.2'%20patternUnits='userSpaceOnUse'%20patternTransform='rotate(28)'%3E%3Crect%20width='2.5'%20height='3.2'%20fill='black'%20fill-opacity='0.95'/%3E%3Crect%20x='2.5'%20width='0.7'%20height='3.2'%20fill='black'%20fill-opacity='0.3'/%3E%3C/pattern%3E%3Cpattern%20id='q'%20width='3.8'%20height='3.8'%20patternUnits='userSpaceOnUse'%20patternTransform='rotate(21)'%3E%3Crect%20width='3'%20height='3.8'%20fill='black'/%3E%3C/pattern%3E%3Cg%20filter='url(%23r)'%3E%3Crect%20width='220'%20height='220'%20fill='url(%23p)'/%3E%3Crect%20width='220'%20height='220'%20fill='url(%23q)'%20opacity='0.4'/%3E%3C/g%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cfilter%20id='r'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20seed='5'%20stitchTiles='stitch'/%3E%3CfeComponentTransfer%20result='na'%3E%3CfeFuncA%20type='discrete'%20tableValues='0.35%200.8%201%201'/%3E%3C/feComponentTransfer%3E%3CfeComposite%20in='SourceGraphic'%20in2='na'%20operator='arithmetic'%20k1='1'%20k2='0'%20k3='0'%20k4='0'/%3E%3C/filter%3E%3Cpattern%20id='p'%20width='3.2'%20height='3.2'%20patternUnits='userSpaceOnUse'%20patternTransform='rotate(28)'%3E%3Crect%20width='2.5'%20height='3.2'%20fill='black'%20fill-opacity='0.95'/%3E%3Crect%20x='2.5'%20width='0.7'%20height='3.2'%20fill='black'%20fill-opacity='0.3'/%3E%3C/pattern%3E%3Cpattern%20id='q'%20width='3.8'%20height='3.8'%20patternUnits='userSpaceOnUse'%20patternTransform='rotate(21)'%3E%3Crect%20width='3'%20height='3.8'%20fill='black'/%3E%3C/pattern%3E%3Cg%20filter='url(%23r)'%3E%3Crect%20width='220'%20height='220'%20fill='url(%23p)'/%3E%3Crect%20width='220'%20height='220'%20fill='url(%23q)'%20opacity='0.4'/%3E%3C/g%3E%3C/svg%3E");
+    -webkit-mask-size: 220px 220px;
+    mask-size: 220px 220px;
+  }
+
   /* Section divider — a single calm hairline between major sections. */
   .livery-seam {
     height: 1px;
@@ -250,18 +303,15 @@
 }
 
 /*
- * Text selection, caret, and scrollbar carry the livery, not the browser default.
+ * Text selection and caret carry the brand; the scrollbar stays the browser
+ * default (a coloured scrollbar was tried and removed at the user's request).
  */
 ::selection {
-  background: var(--color-sky);
-  color: var(--color-ink);
+  background: var(--color-aqua);
+  color: var(--color-navy);
 }
 :root {
-  caret-color: var(--color-signal);
-  accent-color: var(--color-signal);
+  caret-color: var(--color-brand);
+  accent-color: var(--color-brand);
 }
-@supports (scrollbar-color: auto) {
-  :root {
-    scrollbar-color: var(--color-signal) var(--color-enamel);
-  }
-}
+

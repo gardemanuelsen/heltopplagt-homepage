@@ -7,22 +7,21 @@ import heroFrukt from "../../images/hero/web/hero-frukt.jpg";
 import heroCatering from "../../images/hero/web/hero-catering.jpg";
 import heroInneklima from "../../images/hero/web/hero-inneklima.jpg";
 import heroRenhold from "../../images/hero/web/hero-renhold.jpg";
-import { LIVERY_CONTAINER, LiveryCta } from "./livery";
+import { CONTAINER, Kicker, Pill } from "./site";
 
 const SLIDE_DURATION = 6000;
 
 const slides = [
-  { src: heroFrukt, label: "Frukt" },
-  { src: heroLunsj, label: "Lunsj" },
-  { src: heroKantine, label: "Kantine" },
-  { src: heroCatering, label: "Catering" },
-  { src: heroInneklima, label: "Inneklima" },
-  { src: heroRenhold, label: "Renhold" },
+  { src: heroFrukt, label: "Frukt", href: "/tjenester/frukt" },
+  { src: heroLunsj, label: "Lunsj", href: "/tjenester/lunsj" },
+  { src: heroKantine, label: "Kantine", href: "/tjenester/kantine" },
+  { src: heroCatering, label: "Catering", href: "/tjenester/catering" },
+  { src: heroInneklima, label: "Inneklima", href: "/tjenester/inneklima" },
+  { src: heroRenhold, label: "Renhold", href: "/tjenester/renhold" },
 ];
 
 export function Hero() {
   const [active, setActive] = useState(0);
-  const [progressRunning, setProgressRunning] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(
@@ -32,101 +31,77 @@ export function Hero() {
     return () => clearInterval(timer);
   }, [active]);
 
-  useEffect(() => {
-    setProgressRunning(false);
-    const raf = requestAnimationFrame(() => setProgressRunning(true));
-    return () => cancelAnimationFrame(raf);
-  }, [active]);
-
   return (
-    <section className="relative isolate overflow-hidden bg-white text-ink">
+    <section className="bg-white">
       <div
-        className={`${LIVERY_CONTAINER} grid min-h-[calc(100svh-9rem)] items-center gap-y-9 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-14 lg:py-14 xl:gap-x-20 2xl:gap-x-24`}
+        className={`${CONTAINER} grid items-center gap-y-12 py-14 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-16 lg:py-16 xl:gap-x-24`}
       >
-        <div className="relative z-10 max-w-[42rem] lg:max-w-none">
-          <h1 className="font-jakarta text-[32px] font-bold leading-[1.1] tracking-[-0.02em] text-ink sm:text-[40px] lg:text-[46px] xl:text-[56px] 2xl:text-[64px]">
+        <div className="max-w-[42rem] lg:max-w-none">
+          <Kicker>Helt Opplagt på jobben</Kicker>
+
+          <h1 className="mt-5 font-lato text-[38px] font-light leading-[1.1] tracking-[-0.01em] text-navy sm:text-[48px] lg:text-[54px] xl:text-[64px]">
             Det{" "}
-            <span className="font-normal italic text-signal">Helt Opplagte</span>{" "}
+            {/* The brand phrase carries the payoff face — its one hero moment. */}
+            <span className="payoff-marker font-payoff font-bold text-brand">
+              Helt Opplagte
+            </span>{" "}
             valg for en sunnere, renere og enklere hverdag
           </h1>
 
-          <p className="mt-6 max-w-[34rem] text-[15px] leading-relaxed text-ink/70 lg:text-[17px] xl:mt-8 xl:max-w-[42rem] xl:text-[19px]">
-            Helt Opplagt på jobben er en markedsorientert leverandør av løpende
-            abonnementsbaserte tjenester innen helse og trivsel på arbeidsplassen.
+          <p className="mt-6 max-w-[36rem] text-[15px] leading-relaxed text-navy/65 lg:text-[17px] xl:mt-7">
+            Frukt, lunsj, kantine, catering, inneklima og renhold — levert til
+            arbeidsplassen av én leverandør, med én kontaktperson og én faktura.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row xl:mt-10">
-            <LiveryCta to="/kontakt">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Pill to="/kontakt">
               Kontakt oss i dag
               <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-            </LiveryCta>
-            <LiveryCta href="#tjenester" variant="ghost-dark">
+            </Pill>
+            <Pill to="/tjenester" variant="outline">
               Se tjenestene
-            </LiveryCta>
+            </Pill>
           </div>
         </div>
 
-        {/* Image carousel — window-cut panel. */}
-        <div className="relative z-10 text-ink lg:h-[clamp(26rem,64vh,44rem)] xl:h-[clamp(30rem,68vh,52rem)]">
-          <div className="livery-panel livery-notch relative h-[62vw] max-h-[30rem] w-full overflow-hidden sm:h-[26rem] lg:h-full lg:max-h-none">
+        {/* Arch photo carousel — the site's one signature shape. */}
+        <div>
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] overflow-hidden rounded-t-full rounded-b-[2rem] lg:max-w-[30rem] xl:max-w-[33rem]">
             {slides.map((slide, i) => (
-              <div
+              <img
                 key={slide.label}
+                src={slide.src}
+                alt={slide.label}
                 className={
-                  i === active
-                    ? "absolute inset-0 z-[1] opacity-100 transition-opacity duration-[1200ms] ease-in-out"
-                    : "absolute inset-0 z-0 opacity-0 transition-opacity duration-[1200ms] ease-in-out"
+                  "absolute inset-0 h-full w-full object-cover transition-opacity duration-[1200ms] ease-in-out " +
+                  (i === active ? "z-[1] opacity-100" : "z-0 opacity-0")
                 }
-              >
-                <img
-                  src={slide.src}
-                  alt={slide.label}
-                  className={
-                    i === active
-                      ? "h-full w-full scale-110 object-cover transition-transform duration-[7500ms] ease-out"
-                      : "h-full w-full scale-100 object-cover"
-                  }
-                />
-              </div>
+              />
             ))}
+            <Link
+              to={slides[active].href}
+              className="absolute bottom-4 left-1/2 z-[2] -translate-x-1/2 rounded-full bg-white/90 px-5 py-2 text-[13px] font-semibold text-navy shadow-sm backdrop-blur transition-colors hover:bg-white hover:text-brand"
+            >
+              {slides[active].label}
+            </Link>
+          </div>
 
-            {/* Slide labels over a graded foot. */}
-            <div className="absolute inset-x-0 bottom-0 z-[3] bg-gradient-to-t from-ink/85 via-ink/40 to-transparent px-3 pb-3 pt-20 sm:px-4">
-              <div className="flex gap-1.5 sm:gap-2">
-                {slides.map((slide, i) => (
-                  <button
-                    key={slide.label}
-                    onClick={() => setActive(i)}
-                    className="group flex-1 text-left"
-                    aria-label={`Vis ${slide.label}`}
-                  >
-                    <div className="mb-2 h-[3px] w-full overflow-hidden bg-white/25">
-                      {i === active ? (
-                        <div
-                          className={
-                            progressRunning
-                              ? "h-full w-full bg-amber transition-[width] duration-[6000ms] ease-linear"
-                              : "h-full w-0 bg-amber"
-                          }
-                        />
-                      ) : (
-                        <div className="h-full w-0 bg-amber transition-[width] duration-300 group-hover:w-full" />
-                      )}
-                    </div>
-                    <span
-                      className={
-                        "hidden font-jakarta text-[11px] font-semibold transition-colors sm:inline-flex sm:items-center sm:border sm:px-2 sm:py-0.5 " +
-                        (i === active
-                          ? "border-amber text-white"
-                          : "border-white/25 text-white/60 group-hover:border-white/50 group-hover:text-white/90")
-                      }
-                    >
-                      {slide.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="mt-5 flex justify-center gap-2">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.label}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`Vis ${slide.label}`}
+                aria-current={i === active}
+                className={
+                  "h-2 rounded-full transition-all duration-300 " +
+                  (i === active
+                    ? "w-6 bg-brand"
+                    : "w-2 bg-navy/20 hover:bg-navy/40")
+                }
+              />
+            ))}
           </div>
         </div>
       </div>
