@@ -55,38 +55,75 @@ export function SubServicePage() {
     );
   }
 
-  const siblings = entry.data.subServices.filter((s) => s.slug !== sub.slug);
+  /*
+   * Related sub-pages: with many sub-pages (Inneklima has 15), listing every
+   * sibling became a wall. Grouped sub-pages ("Produkter"/"Artikler") show
+   * only their own group, capped at 7 — plus a "Se alt" card back to the
+   * service page, so nothing is unreachable.
+   */
+  const allSiblings = entry.data.subServices.filter((s) => s.slug !== sub.slug);
+  const siblings = (
+    sub.group ? allSiblings.filter((s) => s.group === sub.group) : allSiblings
+  ).slice(0, 7);
+  const siblingsHeading =
+    sub.group === "Produkter"
+      ? "Flere produkter"
+      : `Mer innen ${entry.label.toLowerCase()}`;
+
+  /* The sub-service's card photo — skipped when the content below already
+     leads with an image block, so nothing shows twice. */
+  const showImage = Boolean(sub.image) && sub.content?.[0]?.type !== "image";
 
   return (
     <div className="min-h-dvh bg-white">
-      {/* Page heading */}
+      {/* Page heading — copy left, photo right on larger screens. */}
       <div className="max-w-[1280px] mx-auto px-8 pt-32 lg:pt-36">
-        <Breadcrumb
-          items={[
-            { label: "Alle tjenester", to: "/tjenester" },
-            { label: entry.label, to: entry.data.path },
-            { label: sub.title },
-          ]}
-        />
+        <div
+          className={
+            showImage
+              ? "lg:grid lg:grid-cols-[1fr_minmax(0,460px)] lg:items-center lg:gap-16"
+              : ""
+          }
+        >
+          <div>
+            <Breadcrumb
+              items={[
+                { label: "Alle tjenester", to: "/tjenester" },
+                { label: entry.label, to: entry.data.path },
+                { label: sub.title },
+              ]}
+            />
 
-        <h1 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-4">
-          {sub.title}
-        </h1>
+            <h1 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-4">
+              {sub.title}
+            </h1>
 
-        {sub.description && (
-          <p className="text-base lg:text-[17px] text-gray-600 leading-relaxed max-w-[680px] mb-6">
-            {sub.description}
-          </p>
-        )}
+            {sub.description && (
+              <p className="text-base lg:text-[17px] text-gray-600 leading-relaxed max-w-[680px] mb-6">
+                {sub.description}
+              </p>
+            )}
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Link
-            to="/kontakt"
-            className="bg-[#0078C4] text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-[#0062a3] transition-colors inline-flex items-center justify-center gap-2"
-          >
-            Ta kontakt for tilbud
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                to="/kontakt"
+                className="bg-[#0078C4] text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-[#0062a3] transition-colors inline-flex items-center justify-center gap-2"
+              >
+                Ta kontakt for tilbud
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+
+          {showImage && (
+            <div className="rounded-2xl overflow-hidden max-w-[780px] mt-10 lg:mt-0">
+              <img
+                src={sub.image}
+                alt={sub.title}
+                className="w-full aspect-[16/9] lg:aspect-[4/3] object-cover"
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -109,21 +146,42 @@ export function SubServicePage() {
               Utforsk mer
             </p>
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight mb-8">
-              Mer innen {entry.label.toLowerCase()}
+              {siblingsHeading}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {siblings.map((s) => (
                 <Link
                   key={s.slug}
                   to={`${entry.data.path}/${s.slug}`}
-                  className="group border border-gray-200 rounded-xl p-5 flex items-center justify-between gap-3 hover:border-[#0078C4]/40 hover:shadow-[0_8px_24px_rgba(0,120,196,0.08)] transition-all duration-300"
+                  className="group border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:border-[#0078C4]/40 hover:shadow-[0_8px_24px_rgba(0,120,196,0.08)] transition-all duration-300"
                 >
-                  <span className="text-sm font-semibold text-gray-900">
+                  {s.image && (
+                    <span className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-white">
+                      <img
+                        src={s.image}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
+                    </span>
+                  )}
+                  <span className="flex-1 text-sm font-semibold text-gray-900">
                     {s.title}
                   </span>
                   <ArrowUpRight className="w-4 h-4 flex-shrink-0 text-gray-300 group-hover:text-[#0078C4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                 </Link>
               ))}
+              {/* Everything not listed stays reachable via the service page. */}
+              <Link
+                to={entry.data.path}
+                className="group border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:border-[#0078C4]/40 hover:shadow-[0_8px_24px_rgba(0,120,196,0.08)] transition-all duration-300"
+              >
+                <span className="flex-1 text-sm font-semibold text-[#0078C4]">
+                  Se alt innen {entry.label.toLowerCase()}
+                </span>
+                <ArrowUpRight className="w-4 h-4 flex-shrink-0 text-[#0078C4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+              </Link>
             </div>
           </div>
         </section>
@@ -162,6 +220,32 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
     );
   }
 
+  if (block.type === "link") {
+    const cls =
+      "inline-flex items-center gap-2 rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-900 hover:border-[#0078C4]/40 hover:text-[#0078C4] transition-colors";
+    const isExternal = /^https?:\/\//.test(block.href);
+    return (
+      <div>
+        {isExternal ? (
+          <a
+            href={block.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cls}
+          >
+            {block.label}
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+        ) : (
+          <Link to={block.href} className={cls}>
+            {block.label}
+            <ArrowUpRight className="w-4 h-4" />
+          </Link>
+        )}
+      </div>
+    );
+  }
+
   if (block.type === "table") {
     return (
       <div>
@@ -170,7 +254,9 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
             {block.heading}
           </h2>
         )}
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
+        {/* overflow-x-auto, not hidden: wide tables (3–4 columns) must scroll
+            inside their container on small screens instead of being clipped. */}
+        <div className="border border-gray-200 rounded-xl overflow-x-auto">
           <table className="w-full text-[15px]">
             <tbody>
               {block.rows.map((row, i) => (

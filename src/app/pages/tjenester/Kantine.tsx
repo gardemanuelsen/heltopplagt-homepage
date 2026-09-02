@@ -1,6 +1,21 @@
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/kantine/kantine.png";
 import openingImg from "../../../images/hero/web/hero-kantine.jpg";
+/* NOT div/web/kantine.jpg — that is the same shot as the hero. */
+import explainerImg from "../../../images/div/web/kjokken.jpg";
+import lunsjCardImg from "../../../images/lunsj/lunsj.png";
+/* Module photos: Unsplash stock (free license, no attribution required) —
+   swap for Helt Opplagt's own food photography when available.
+   Exception: palegg.jpg is already their own tray (div/Hof2.jpg);
+   Hof1/Hof3.jpg are further own-tray variants sitting unused in div/. */
+import modFrokost from "../../../images/kantine/moduler/frokost.jpg";
+import modBrod from "../../../images/kantine/moduler/brod.jpg";
+import modPalegg from "../../../images/kantine/moduler/palegg.jpg";
+import modSalater from "../../../images/kantine/moduler/salater.jpg";
+import modSmaretter from "../../../images/kantine/moduler/smaretter.jpg";
+import modVarmmat from "../../../images/kantine/moduler/varmmat.jpg";
+import modDrikke from "../../../images/kantine/moduler/drikke.jpg";
+import modVafler from "../../../images/kantine/moduler/vafler.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -20,6 +35,197 @@ export const kantineData: ServicePageData = {
   heroImage: openingImg,
   brochureUrl:
     "https://heltopplagt.no/application/files/9016/9636/6182/Helt_Opplagt_Kantinebrosjyre_2023_WEB.pdf",
+  /* Copy sourced from heltopplagt.no /kantine + sub-pages. No prices exist
+     for kantine on the site — none invented. */
+  heroPoints: [
+    {
+      label: "Fersk mat, levert daglig",
+      body: "Varierte menyer laget fra bunnen av på vårt eget kjøkken.",
+    },
+    {
+      label: "Egen vert eller vertinne",
+      body: "Vi dekker på, serverer, tar oppvasken og holder kantinen ren — dere kan bare nyte.",
+    },
+    {
+      label: "Mindre matsvinn",
+      body: "Daglig levering og buffet på fat treffer behovet og fjerner svinnproblematikk.",
+    },
+    {
+      label: "For 15 til 300 ansatte",
+      body: "Rundt 100 betjente kantiner i dag — vi tar de små like seriøst som de store.",
+    },
+  ],
+  explainer: {
+    body: [
+      "Proffkantine er vårt fullservicetilbud: vi leverer maten ferskt hver dag fra eget kjøkken, og en egen vert eller vertinne dekker på, serverer buffeten og tar alt etterarbeidet. De ansatte får en god kantine — du slipper administrasjonen.",
+      "Tilbudet er modulbasert med åtte moduler å velge blant, fungerer også helt uten storkjøkken, og kan kombineres med renhold hos én leverandør.",
+    ],
+    points: [
+      "Modulbasert buffet — åtte moduler å velge blant",
+      "Egen vert eller vertinne hver dag",
+      "Fungerer uten storkjøkken — fra 15 ansatte",
+      "Daglig levering fra vårt eget kjøkken",
+      "Kan kombineres med renhold — ett kontaktpunkt",
+    ],
+    image: explainerImg,
+    imageAlt: "Kokker fra Helt Opplagt anretter mat på eget kjøkken",
+  },
+  catalogs: [
+    {
+      heading: "Modulene i kantinetilbudet",
+      proof:
+        "Velg deler, alt hver dag, eller en kombinasjon der noen moduler er faste og andre rullerer.",
+      layout: "grid",
+      photo: true,
+      items: [
+        {
+          name: "Frokostblanding og yoghurt",
+          description: "Som alternativ eller tillegg til lunsjbuffeten.",
+          image: modFrokost,
+        },
+        {
+          name: "Brød og knekkebrød",
+          description:
+            "Sunne og grove brød etter egne oppskrifter, uten unødvendige tilsetningsstoffer — og fiberrike knekkebrødvarianter.",
+          image: modBrod,
+        },
+        {
+          name: "Pålegg",
+          description:
+            "Pyntede fat og skåler med kjøtt- og fiskepålegg, oster, majonessalater og smørepålegg, variert fra dag til dag.",
+          image: modPalegg,
+        },
+        {
+          name: "Ferske salater",
+          description: "Daglig variasjon mellom spennende salater som tilberedes ferskt hos dere.",
+          image: modSalater,
+        },
+        {
+          name: "Småretter",
+          description: "Omelett, tunfisksalat, grønnsakspanne og andre småretter.",
+          image: modSmaretter,
+        },
+        {
+          name: "Varmmat",
+          description: "Laget fra bunn av på vårt eget kjøkken.",
+          image: modVarmmat,
+        },
+        {
+          name: "Drikke",
+          description:
+            "Juice og melk — deriblant kundefavoritten eplejuice fra Askim frukt- og bærpresseri.",
+          image: modDrikke,
+        },
+        {
+          name: "Vafler og småkaker",
+          description: "Perfekt som fredagskos — vi rydder og tar oppvasken etterpå.",
+          image: modVafler,
+        },
+      ],
+    },
+    {
+      heading: "Kantine uten kjøkken? Ja, Helt Opplagt!",
+      proof: "Fullverdig kantine for bedrifter helt ned i 15 personer.",
+      layout: "band",
+      photo: true,
+      items: [
+        {
+          name: "Kantine — helt uten storkjøkken",
+          tag: "Fra 15 ansatte",
+          description:
+            "Dere trenger ikke storkjøkken: en komfyr, et kjøleskap og en oppvaskmaskin er nok. Maten kommer ferdig til kontoret, pakket i resirkulerte esker, klar til servering.",
+          image: `${thumbs}/bb139f5c56abdc875066d1f6e8ca80c3.jpg`,
+        },
+      ],
+      link: {
+        label: "Les mer om kantine uten kjøkken",
+        to: "/tjenester/kantine/kantine-pa-jobben-uten-kjokken",
+      },
+    },
+    {
+      heading: "Verter og vertinner",
+      proof: "Dyktige, blide og serviceinnstilte — de skaper rammen rundt lunsjen.",
+      layout: "band",
+      photo: true,
+      items: [
+        {
+          name: "En god lunsjopplevelse i en travel hverdag",
+          description:
+            "Av- og pådekking, tilbereding av buffeten, oppvask og rene kjøkken- og kantineområder — og gjerne annet forefallende arbeid eller vask av lokalene deres.",
+          image: `${thumbs}/a29ba39192bb1cdb321cad644af15f53.jpg`,
+        },
+      ],
+      link: {
+        label: "Møt vertene våre",
+        to: "/tjenester/kantine/verter-og-vertinner",
+      },
+    },
+  ],
+  hideSubServiceCards: true,
+  faq: [
+    {
+      question: "Må vi ha eget kjøkken for å få kantine?",
+      answer:
+        "Nei. En komfyr, et kjøleskap og en oppvaskmaskin er nok — maten kommer ferdig, klar til servering, og verten tar seg av oppdekking, rydding og etterarbeid.",
+    },
+    {
+      question: "Kan vi prøve før vi bestemmer oss?",
+      answer:
+        "Ja. Vi tilbyr alle våre kunder en prøveperiode hvor vi skal bevise hva vi duger til — og med over 30 års bransjeerfaring har vi ekstremt få tilfeller av frafall etter prøveperioden. Du kan også besøke en av referansekundene våre for å se tjenesten i praksis.",
+    },
+    {
+      question: "Hvordan unngår dere matsvinn?",
+      answer:
+        "Vi leverer daglig, som gjør det lett å tilpasse mengden til antall brukere og gjester. Maten presenteres helst på fat i buffet — det hindrer svinn og er gunstigere for miljøet enn kuvertbegre.",
+    },
+    {
+      question: "Hvor store bedrifter passer tilbudet for?",
+      answer:
+        "Fra 15 til 300 ansatte. I dag driver vi rundt 100 betjente kantiner.",
+    },
+    {
+      question: "Kan vi kombinere kantine og renhold?",
+      answer:
+        "Ja — ett kontaktpunkt og fast oppfølging, og mindre selskaper kan bruke samme person på både renhold og kantine. Det effektiviserer tiden og sparer penger.",
+    },
+    {
+      question: "Hva gjør verten eller vertinnen hos oss?",
+      answer:
+        "Av- og pådekking, tilbereding av maten i buffeten, oppvask og renhold av kjøkken- og kantineområdet — og ved behov annet forefallende kontorarbeid eller vask av lokalene.",
+    },
+  ],
+  readMore: [
+    {
+      label: "Om våre kantiner",
+      description: "Modulene, menyene og hvordan leveransen fungerer.",
+      to: "/tjenester/kantine/om-vare-kantiner",
+      image: `${thumbs}/1e7046a1804a25a379a1d086b08d75ee.jpg`,
+    },
+    {
+      label: "Kantine på jobben — uten kjøkken",
+      description: "Fullverdig kantine for små og mellomstore bedrifter.",
+      to: "/tjenester/kantine/kantine-pa-jobben-uten-kjokken",
+      image: `${thumbs}/bb139f5c56abdc875066d1f6e8ca80c3.jpg`,
+    },
+    {
+      label: "Verter og vertinner",
+      description: "Menneskene som skaper lunsjopplevelsen.",
+      to: "/tjenester/kantine/verter-og-vertinner",
+      image: `${thumbs}/a29ba39192bb1cdb321cad644af15f53.jpg`,
+    },
+    {
+      label: "Kombiner kantine og renhold",
+      description: "Én leverandør, ett kontaktpunkt, store besparelser.",
+      to: "/tjenester/kantine/kombiner-kantine-og-renhold",
+      image: `${thumbs}/37b164159bb2d27e7dd7c3be6e7d98de.jpg`,
+    },
+    {
+      label: "Lunsjordninger for mindre team",
+      description: "Fra 5 personer — lunsjesker, ferdige fat og varm lunsj.",
+      to: "/tjenester/lunsj",
+      image: lunsjCardImg,
+    },
+  ],
   subServices: [
     {
       slug: "om-vare-kantiner",

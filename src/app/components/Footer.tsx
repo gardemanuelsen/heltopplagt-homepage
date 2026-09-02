@@ -19,10 +19,13 @@ const HEADING =
 export function Footer() {
   return (
     <footer className="bg-navy text-white">
+      {/* Two columns already on mobile, so the link lists sit side by side
+          instead of stacking into one long scroll. Brand and contact span
+          the full width until the four-column layout kicks in on lg. */}
       <div
-        className={`${CONTAINER} grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.3fr] lg:gap-10 lg:py-20`}
+        className={`${CONTAINER} grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-[1.6fr_1fr_1fr_1.3fr] lg:gap-10 lg:py-20`}
       >
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <img
             src={logoSrc}
             alt="Helt Opplagt"
@@ -79,7 +82,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <h2 className={HEADING}>Kontakt</h2>
           <a
             href="tel:02346"

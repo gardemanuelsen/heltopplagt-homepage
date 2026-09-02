@@ -1,17 +1,33 @@
-import { Menu, X, Mail, Phone, ExternalLink } from "lucide-react";
+import {
+  Apple,
+  ChefHat,
+  ChevronDown,
+  ExternalLink,
+  Mail,
+  Menu,
+  Phone,
+  Sandwich,
+  Sparkles,
+  UtensilsCrossed,
+  Wind,
+  X,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
 import { CONTAINER } from "./site";
 import { SERVICES } from "./livery";
 
-const navLinks = [
-  { label: "Tjenester", to: "/tjenester" },
-  { label: "Om oss", to: "/om-oss" },
-  { label: "Referanser", to: "/referanser" },
-  { label: "Aktuelt", to: "/aktuelt" },
-  { label: "Karriere", to: "/karriere" },
-];
+/** One icon per service for the small-screen dropdown. */
+const SERVICE_ICONS: Record<string, LucideIcon> = {
+  Frukt: Apple,
+  Lunsj: Sandwich,
+  Kantine: UtensilsCrossed,
+  Catering: ChefHat,
+  Inneklima: Wind,
+  Renhold: Sparkles,
+};
 
 const secondaryLinks = [
   { label: "Om oss", to: "/om-oss" },
@@ -41,7 +57,18 @@ function closeMenu() {
 
 export function Header() {
   const menuRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDetailsElement>(null);
   const [menuExpanded, setMenuExpanded] = useState(false);
+
+  /* The <details>-based dropdown doesn't close on outside clicks by itself. */
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const el = servicesRef.current;
+      if (el?.open && !el.contains(e.target as Node)) el.removeAttribute("open");
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
   useEffect(() => {
     const el = menuRef.current;
@@ -61,22 +88,52 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/8 bg-white/95 backdrop-blur">
-      <div className={`${CONTAINER} flex h-[4.5rem] items-center gap-8`}>
+      <div className={`${CONTAINER} flex h-[4.5rem] items-center gap-5 lg:gap-7`}>
         <Link to="/" className="flex-shrink-0">
           <img src={logoSrc} alt="Helt Opplagt" className="h-8 object-contain" />
         </Link>
 
-        <nav aria-label="Hovedmeny" className="hidden items-center gap-6 lg:flex xl:gap-8">
-          {navLinks.map((l) => (
+        {/* The six services, directly clickable (lg+). Page links live in the menu. */}
+        <nav aria-label="Tjenester" className="hidden items-center gap-4 lg:flex xl:gap-6">
+          {SERVICES.map((s) => (
             <Link
-              key={l.to}
-              to={l.to}
+              key={s.href}
+              to={s.href}
               className="text-[14px] font-medium text-navy/70 transition-colors hover:text-brand"
             >
-              {l.label}
+              {s.name}
             </Link>
           ))}
         </nav>
+
+        {/* Below lg the services collapse into a dropdown. */}
+        <details ref={servicesRef} className="dropdown lg:hidden">
+          <summary className="flex cursor-pointer list-none items-center gap-1 text-[14px] font-medium text-navy/70 transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
+            Tjenester
+            <ChevronDown className="h-4 w-4" strokeWidth={2.25} />
+          </summary>
+          <ul className="dropdown-content menu z-[60] mt-3 w-52 rounded-2xl border border-navy/10 bg-white p-2 shadow-[0_16px_36px_-12px_rgba(13,43,64,0.25)]">
+            {SERVICES.map((s) => {
+              const Icon = SERVICE_ICONS[s.name] ?? ChevronDown;
+              return (
+                <li key={s.href}>
+                  <Link
+                    to={s.href}
+                    onClick={() => servicesRef.current?.removeAttribute("open")}
+                    className="flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-[14px] font-medium text-navy hover:bg-cloud hover:text-brand"
+                  >
+                    <Icon
+                      className="h-4 w-4 flex-shrink-0 text-brand"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                    {s.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
 
         <div className="ml-auto flex items-center gap-2.5 sm:gap-3">
           <a

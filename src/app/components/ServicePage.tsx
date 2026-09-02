@@ -202,7 +202,9 @@ export type ContentBlock =
       type: "cards";
       heading?: string;
       items: { title: string; description?: string; image?: string }[];
-    };
+    }
+  /** External link, e.g. "Se produktet hos produsenten" on product pages. */
+  | { type: "link"; label: string; href: string };
 
 export interface SubService {
   /** URL slug, e.g. "fruktkurv" → /tjenester/frukt/fruktkurv */
@@ -210,6 +212,12 @@ export interface SubService {
   title: string;
   description: string;
   image: string;
+  /**
+   * Optional relatedness group (e.g. "Produkter" / "Artikler"). When a service
+   * has many sub-pages, the "Mer innen …" grid on a sub-page shows only
+   * siblings from the same group. Ungrouped sub-pages show all siblings.
+   */
+  group?: string;
   /** Page content copied from heltopplagt.no */
   content?: ContentBlock[];
 }
@@ -261,6 +269,12 @@ export interface ReadMoreLink {
   label: string;
   description?: string;
   to: string;
+  /**
+   * Optional thumbnail; renders as a rounded square left of the text (the
+   * homepage Aktuelt-list grammar). Keep a list all-image or all-text — a
+   * mixed list mis-aligns the text column.
+   */
+  image?: string;
 }
 
 /** Why this service pays off. The page's main argument. */
@@ -291,6 +305,12 @@ export interface CatalogItem {
   tag?: string;
   /** One short checked fact under the description, e.g. "Ny kurv hver uke". */
   spec?: string;
+  /**
+   * Optional link target ("grid" and "band" layouts): the whole card becomes
+   * a link with a "Les mer" arrow — used where the catalog itself is the
+   * sub-page navigation (Renhold's services, Frukt's baskets and smoothie).
+   */
+  to?: string;
 }
 
 /**
@@ -313,6 +333,12 @@ export interface CatalogSection {
    *   would look overblown as a full card section of its own.
    */
   layout?: "panels" | "grid" | "band";
+  /**
+   * true = item images are real photographs, rendered edge-to-edge
+   * (object-cover). Default false = white-background product cut-outs,
+   * rendered padded with mix-blend-multiply so the white drops out.
+   */
+  photo?: boolean;
   link?: { label: string; to: string };
 }
 
@@ -435,84 +461,143 @@ function CatalogSectionView({ catalog }: { catalog: CatalogSection }) {
         </div>
       ) : catalog.layout === "band" ? (
         <div className="mt-9 flex flex-col gap-5">
-          {catalog.items.map((item) => (
-            <div
-              key={item.name}
-              className="grid overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-center"
-            >
-              <div className="relative isolate aspect-[4/3] bg-white sm:aspect-square">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-contain p-4 mix-blend-multiply"
-                />
+          {catalog.items.map((item) => {
+            const inner = (
+              <>
+                <div className="relative isolate aspect-[4/3] overflow-hidden bg-white sm:aspect-square">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    decoding="async"
+                    className={
+                      catalog.photo
+                        ? "absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        : "absolute inset-0 h-full w-full object-contain p-4 mix-blend-multiply"
+                    }
+                  />
+                </div>
+                <div className="p-6 sm:py-7 sm:pl-6 sm:pr-8">
+                  {item.tag && (
+                    <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
+                      {item.tag}
+                    </span>
+                  )}
+                  <h3 className="font-lato text-[20px] font-bold leading-tight text-navy">
+                    {item.name}
+                  </h3>
+                  <p className="mt-2.5 max-w-[58ch] text-[15px] leading-relaxed text-navy/65">
+                    {item.description}
+                  </p>
+                  {item.to && (
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand">
+                      Les mer
+                      <ArrowRight
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                        strokeWidth={2.5}
+                      />
+                    </span>
+                  )}
+                </div>
+              </>
+            );
+            return item.to ? (
+              <Link
+                key={item.name}
+                to={item.to}
+                className="group grid overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] transition-shadow duration-300 hover:shadow-[0_10px_24px_-12px_rgba(13,43,64,0.14)] sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-center"
+              >
+                {inner}
+              </Link>
+            ) : (
+              <div
+                key={item.name}
+                className="grid overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-center"
+              >
+                {inner}
               </div>
-              <div className="p-6 sm:py-7 sm:pl-6 sm:pr-8">
-                {item.tag && (
-                  <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
-                    {item.tag}
-                  </span>
-                )}
-                <h3 className="font-lato text-[20px] font-bold leading-tight text-navy">
-                  {item.name}
-                </h3>
-                <p className="mt-2.5 max-w-[58ch] text-[15px] leading-relaxed text-navy/65">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {catalog.items.map((item) => (
-            <div
-              key={item.name}
-              className="flex flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
-            >
-              {/*
-                The produce plate. A fixed height, not an aspect ratio: these
-                cut-outs vary in proportion, so a ratio made the cards tall and
-                uneven. `isolate` keeps the multiply blend from reaching past
-                this plate into the card behind it.
-              */}
-              <div className="relative isolate h-44 bg-white">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-contain p-4 mix-blend-multiply"
-                />
-              </div>
-
-              <div className="flex flex-1 flex-col items-center p-6 text-center">
-                {item.tag && (
-                  <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
-                    {item.tag}
-                  </span>
-                )}
-                <h3 className="font-lato text-[19px] font-bold leading-tight text-navy">
-                  {item.name}
-                </h3>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-navy/65">
-                  {item.description}
-                </p>
-                {item.spec && (
-                  <p className="mt-3.5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy">
-                    <Check
-                      className="h-3.5 w-3.5 flex-shrink-0 text-lime"
-                      strokeWidth={3}
-                      aria-hidden="true"
+          {catalog.items.map((item) => {
+            const inner = (
+              <>
+                {/*
+                  The produce plate. A fixed height, not an aspect ratio: these
+                  cut-outs vary in proportion, so a ratio made the cards tall and
+                  uneven. `isolate` keeps the multiply blend from reaching past
+                  this plate into the card behind it. Optional: a grid can also
+                  run text-only (Kantine's moduler).
+                */}
+                {item.image && (
+                  <div className="relative isolate h-44 overflow-hidden bg-white">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={
+                        catalog.photo
+                          ? "absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          : "absolute inset-0 h-full w-full object-contain p-4 mix-blend-multiply"
+                      }
                     />
-                    {item.spec}
-                  </p>
+                  </div>
                 )}
+
+                <div className="flex flex-1 flex-col items-center p-6 text-center">
+                  {item.tag && (
+                    <span className="mb-3 inline-flex rounded-full bg-amber/15 px-3.5 py-1 text-[12px] font-semibold text-navy">
+                      {item.tag}
+                    </span>
+                  )}
+                  <h3 className="font-lato text-[19px] font-bold leading-tight text-navy">
+                    {item.name}
+                  </h3>
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-navy/65">
+                    {item.description}
+                  </p>
+                  {item.spec && (
+                    <p className="mt-3.5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-navy">
+                      <Check
+                        className="h-3.5 w-3.5 flex-shrink-0 text-lime"
+                        strokeWidth={3}
+                        aria-hidden="true"
+                      />
+                      {item.spec}
+                    </p>
+                  )}
+                  {item.to && (
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand">
+                      Les mer
+                      <ArrowRight
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                        strokeWidth={2.5}
+                      />
+                    </span>
+                  )}
+                </div>
+              </>
+            );
+            return item.to ? (
+              <Link
+                key={item.name}
+                to={item.to}
+                className="group flex flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] transition-shadow duration-300 hover:shadow-[0_10px_24px_-12px_rgba(13,43,64,0.14)]"
+              >
+                {inner}
+              </Link>
+            ) : (
+              <div
+                key={item.name}
+                className="flex flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
+              >
+                {inner}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -610,9 +695,20 @@ function ReadMoreList({ links }: { links: ReadMoreLink[] }) {
         <Link
           key={link.to}
           to={link.to}
-          className="group flex items-center justify-between gap-6 border-b border-navy/10 py-5 first:border-t first:border-navy/10"
+          className="group flex items-center gap-6 border-b border-navy/10 py-5 first:border-t first:border-navy/10"
         >
-          <span className="min-w-0">
+          {link.image && (
+            <span className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-[1rem] sm:h-20 sm:w-20">
+              <img
+                src={link.image}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </span>
+          )}
+          <span className="min-w-0 flex-1">
             <span className="block text-[16px] font-semibold leading-snug text-navy transition-colors group-hover:text-brand">
               {link.label}
             </span>
@@ -690,10 +786,9 @@ export function ServicePage({ data }: { data: ServicePageData }) {
   if (data.explainer) {
     const ex = data.explainer;
     blocks.push(
-      /* `auto` on the image column, not a fraction: the photograph is a
-         supporting detail here, so it takes only the width it is given and
-         the copy keeps the rest. */
-      <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+      /* Copy left, photo right — the photo takes a real share of the width
+         (~42%) so the section doesn't read as text with a thumbnail. */
+      <div className="grid items-center gap-10 lg:grid-cols-[1fr_42%] lg:gap-16">
         <div>
           <h2 className="max-w-[20ch] font-lato text-[26px] font-light leading-[1.15] tracking-[-0.01em] text-navy sm:text-[32px] lg:text-[38px]">
             {ex.heading ?? "Hva tilbyr vi"}
@@ -726,8 +821,10 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           )}
         </div>
 
-        {/* The explainer photo takes the arch — the site's signature shape. */}
-        <div className="relative aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-t-full rounded-b-[1.5rem] lg:w-[280px] xl:w-[320px]">
+        {/* The explainer photo: always a plain rounded window (user's call —
+            the arch lives on the homepage and the service-hero edge only).
+            Fills its column; 4:3 so the extra width doesn't make it a tower. */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem]">
           <img
             src={ex.image}
             alt={ex.imageAlt}

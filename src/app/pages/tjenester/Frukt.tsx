@@ -1,8 +1,9 @@
-import { Gift, ShieldCheck, Smile, Zap } from "lucide-react";
 import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import packehallImg from "../../../images/frukt/frukt2.png";
 import pakkerImg from "../../../images/frukt/frukt.png";
 import heroFruktImg from "../../../images/hero/web/hero-frukt.jpg";
+import teamImg from "../../../images/hele_gjengen.jpg";
+import lunsjCardImg from "../../../images/lunsj/lunsj.png";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
 
@@ -34,22 +35,18 @@ export const fruktData: ServicePageData = {
    */
   heroPoints: [
     {
-      icon: Zap,
       label: "Energi og konsentrasjon",
       body: "Rask energi midt i arbeidsdagen, som varer lenger enn den fra kaker og sjokolade.",
     },
     {
-      icon: Smile,
       label: "Bedre trivsel og yteevne",
       body: "Frukt på arbeidsplassen øker både trivselen og yteevnen.",
     },
     {
-      icon: ShieldCheck,
       label: "Lavere sykefravær",
       body: "Styrker immunforsvaret og bidrar til å redusere korttidsfraværet.",
     },
     {
-      icon: Gift,
       label: "Et gode som synes",
       body: "Lønnsomt og godt synlig for de ansatte, og det merkes hver eneste dag.",
     },
@@ -62,13 +59,13 @@ export const fruktData: ServicePageData = {
   explainer: {
     /* No `heading`: the template's shared "Hva tilbyr vi" is the point. */
     body: [
-      "Helt Opplagt leverer fruktkurver og faste fruktabonnement til bedrifter i Oslo og Stor-Oslo.",
+      "Helt Opplagt leverer fruktkurver og faste fruktabonnement til bedrifter i Oslo og Stor-Oslo — seks kurvtyper, fra enkel basisfrukt til eksotiske sesongvarer med grønnsaker og nøtter, pluss jobbsmoothie laget på vårt eget kjøkken.",
       "Vi hjelper dere å velge riktig kurv, mengde og leveringsrytme etter antall ansatte, budsjett og hvor ofte dere ønsker påfyll.",
     ],
     points: [
-      "Daglige utkjøringer",
-      "Flere kurver for ulike behov og budsjetter",
-      "Pakkes tett opp mot levering",
+      "Seks kurvtyper for ulike behov og budsjetter",
+      "Jobbsmoothie fra vårt eget kjøkken",
+      "Daglige utkjøringer, pakket tett opp mot levering",
       "Leveres helt inn på ønsket kontor eller avdeling",
     ],
     image: pakkerImg,
@@ -101,6 +98,7 @@ export const fruktData: ServicePageData = {
           description:
             "Epler, sitrus, bananer, pærer, druer, plommer og nektariner, variert etter sesong. Innimellom også nøtter eller eksotisk frukt.",
           image: `${thumbs}/96803673f7a94df5f3913f6f4a4cf2bc.jpg`,
+          to: "/tjenester/frukt/gokurven",
         },
         {
           name: "Knaskekurven",
@@ -109,6 +107,7 @@ export const fruktData: ServicePageData = {
           description:
             "Frukt kombinert med grønnsaker og nøtter: minigulrøtter, cherrytomater, reddiker og sukkererter i tillegg til basisfrukten.",
           image: `${thumbs}/e11c93ca2acda77f28dc85d6fcfbbbc4.jpg`,
+          to: "/tjenester/frukt/knaskekurven",
         },
         {
           name: "Hverdagskurven",
@@ -117,6 +116,7 @@ export const fruktData: ServicePageData = {
           description:
             "Tre typer basisfrukt, variert mellom eple, pære, banan og sitrus. Helsefordelen ved frukt, til lavest mulig pris.",
           image: `${thumbs}/a34edd7c2592381df8dcfa444f2055c0.jpg`,
+          to: "/tjenester/frukt/hverdagskurven",
         },
         {
           name: "Superkurven",
@@ -125,6 +125,7 @@ export const fruktData: ServicePageData = {
           description:
             "Basisfrukt toppet med sesongfrukt og eksotisk frukt: plommer, nektariner, jordbær, kiwi, sharon og melon, pluss nøtter.",
           image: `${thumbs}/9dc25befdd6ba298943344f1b5453847.jpg`,
+          to: "/tjenester/frukt/superkurven",
         },
         {
           name: "Rullekurven",
@@ -135,6 +136,7 @@ export const fruktData: ServicePageData = {
           /* NOTE: this thumbnail has green promo text burned into it. Replace
              with the brochure's clean Rullekurven photo when it is available. */
           image: `${thumbs}/2b069cde48e3d0e523b00bd639165d78.png`,
+          to: "/tjenester/frukt/rullekurven",
         },
         {
           name: "Smoothiekurven",
@@ -142,6 +144,7 @@ export const fruktData: ServicePageData = {
           description:
             "Basisfrukt kombinert med ferske smoothies. For dere som vil både spise og drikke frukten sin.",
           image: `${thumbs}/bf97eb8f29a91dc54881f086962d7fab.jpg`,
+          to: "/tjenester/frukt/smoothiekurven",
         },
       ],
     },
@@ -157,6 +160,7 @@ export const fruktData: ServicePageData = {
           description:
             "Næringsrike, ferske smoothies laget på vårt eget kjøkken, av frisk frukt og bær. Vi rullerer gjennom åtte smaker, så det kommer noe nytt hver uke.",
           image: `${thumbs}/84880641e437bfb7b441396f2b721a9d.jpg`,
+          to: "/tjenester/frukt/jobbsmoothie",
         },
       ],
     },
@@ -218,23 +222,29 @@ export const fruktData: ServicePageData = {
       description:
         "Smakspanelet, pakkingen, kjølekjeden og kvalitetskontrollen bak hver leveranse.",
       to: "/tjenester/frukt/vare-fruktrutiner",
+      image: `${thumbs}/3660ed1a222d7d3dde58c2ee0b824500.jpg`,
     },
     {
       label: "Jobbsmoothie",
       description: "Alle smaker og pakkestørrelser, laget på vårt eget kjøkken.",
       to: "/tjenester/frukt/jobbsmoothie",
+      image: `${thumbs}/0f4e0649d2119d89e9f23b17cfc2ae78.jpg`,
     },
     {
       label: "Vårt samfunnsansvar",
       description:
         "Miljøfyrtårn, gjenbrukskurver, nullutslipp på transport innen 2028 og fruktpakkeskolen.",
       to: "/ansvar",
+      image: teamImg,
     },
+    /* The old "Alle tjenestene våre" row duplicated the ServiceFooter's
+       "Andre tjenester" grid right below it — replaced with the concrete
+       cross-sell the other service pages carry. */
     {
-      label: "Alle tjenestene våre",
-      description:
-        "Lunsj, kantine, catering, inneklima og renhold, fra samme leverandør.",
-      to: "/tjenester",
+      label: "Lunsj levert hver dag",
+      description: "Lunsjesker, ferdige fat og varm lunsj — fra 5 personer.",
+      to: "/tjenester/lunsj",
+      image: lunsjCardImg,
     },
   ],
 
@@ -341,6 +351,144 @@ export const fruktData: ServicePageData = {
             "Bilparken er nøye planlagt i forhold til utslipp.",
             "Alt avfall kildesorteres: Frukt som sorteres ut av vår strenge kvalitetskontroll, men som fremdeles er brukbar, blir gitt bort til lokale barnehager og organisasjoner. Frukt som ikke lenger kan benyttes gis bort som heste- og grisefôr, eller gjenvinnes som biogass.",
             "Økologisk frukt blir benyttet såfremt det er tilgjengelig.",
+          ],
+        },
+      ],
+    },
+
+    /*
+     * The six basket sub-pages, reached from the clickable basket cards in the
+     * catalog. Copy taken from heltopplagt.no/frukt/fruktkurv/<slug> (obvious
+     * typos in the source normalized). No prices exist on those pages.
+     */
+    {
+      slug: "gokurven",
+      title: "Go'kurven",
+      description:
+        "Vårt mest populære alternativ — både rimelig, variert og spennende.",
+      image: `${thumbs}/96803673f7a94df5f3913f6f4a4cf2bc.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Go'kurven™ er vårt mest populære alternativ, da den er både rimelig, variert og spennende. Dere får friske fruktkurver bestående av eple, sitrus, banan, pære, drue, plomme og nektarin, variert etter sesong og tilgang. I tillegg får dere en gang i blant knaskerøtter, cherrytomater eller eksotisk frukt som en hyggelig overraskelse.",
+            "Leveres i kurver à ca. 6 kg, 9 kg og 15 kg.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "knaskekurven",
+      title: "Knaskekurven",
+      description:
+        "Et sunt og spennende alternativ som er skapt for kos — frukt, grønnsaker og nøtter.",
+      image: `${thumbs}/e11c93ca2acda77f28dc85d6fcfbbbc4.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Knaskekurven™ er et sunt og spennende alternativ som er skapt for kos. Den inneholder epler, pærer, bananer, druer, minigulrøtter, cherrytomater, reddiker, sukkererter og nøtter.",
+            "Ønsker dere jobbfrukt med masse spennende innhold uten å være avhengige av redskaper for å behandle det, er dette fruktkurven for dere!",
+            "Leveres i kurver à ca. 5,5 kg og 8 kg.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "hverdagskurven",
+      title: "Hverdagskurven",
+      description:
+        "Helsefordelen ved frukt på jobben, til lavest mulig pris.",
+      image: `${thumbs}/a34edd7c2592381df8dcfa444f2055c0.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Den perfekte fruktkurven for dere som ønsker å oppnå helsefordelen ved å benytte frukt og samtidig holde prisen på det minimale. Hverdagskurven™ består av tre ulike typer basisfrukt, der det varieres mellom eple, pære, banan og sitrus.",
+            "Leveres i kurver à ca. 6 kg, 9 kg og 15 kg.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "superkurven",
+      title: "Superkurven",
+      description:
+        "Vårt flaggskip — for dere som ønsker «alt» i deres jobbfrukt.",
+      image: `${thumbs}/9dc25befdd6ba298943344f1b5453847.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Superkurven™ er vårt flaggskip, for dere som ønsker «alt» i deres jobbfrukt! Denne kurven finnes i to størrelser og består av henholdsvis 3–4 eller 5–6 kg frisk frukt som eple, pære, banan, sitrus og druer.",
+            "I tillegg toppes den av eksotisk og sesongfrukt som plommer, nektariner, jordbær, kiwi, sharon, melon osv., samt knaskegrønnsaker, nøtter og tørkede frukter. Innholdet i kurven varierer fra uke til uke, og etter sesong og tilgang.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "rullekurven",
+      title: "Rullekurven",
+      description:
+        "For dere som ønsker mer variasjon — ny kurvtype hver uke.",
+      image: `${thumbs}/2b069cde48e3d0e523b00bd639165d78.png`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Rullekurven™ er for dere som ønsker mer variasjon, eller ganske enkelt ikke klarer å bestemme dere. Varierer fra uke til uke mellom de fire ulike typene fruktkurv, og kan leveres i to størrelser — stor og liten.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
+          ],
+        },
+      ],
+    },
+    {
+      slug: "smoothiekurven",
+      title: "Smoothiekurven",
+      description:
+        "Fruktkurv med basisfrukt og smoothie — for dere som liker både å spise og drikke frukt.",
+      image: `${thumbs}/bf97eb8f29a91dc54881f086962d7fab.jpg`,
+      content: [
+        {
+          type: "text",
+          paragraphs: [
+            "Fruktkurv med basisfrukt og smoothie. Ideell for dere som liker både å spise og drikke frukt. Våre hjemmelagede kvalitetssmoothier inneholder kun sunne og ferske ingredienser.",
+            "Leveres i kurver i to størrelser.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Ring oss på 0 23 46 eller bruk skjema under for en uforpliktende prat!",
           ],
         },
       ],
