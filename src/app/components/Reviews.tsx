@@ -1,37 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Quote, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { CONTAINER, Pill, SectionHead } from "./site";
-
-const reviews = [
-  {
-    name: "Wenche Revhaug",
-    company: "Kronos Titan",
-    role: "Styremedlem",
-    service: "Kantine",
-    text: "Helt Opplagt leverer god, variert og sunn mat – fersk og frisk. De gir oss det lille ekstra for at vi skal få et hyggelig avbrekk og en bra matopplevelse – hver dag! Helt Opplagt er fleksible, imøtekommende med høy servicegrad – vi er superfornøyd!",
-  },
-  {
-    name: "Tor Anders Andersen",
-    company: "Team Verksted AS Avd Follo",
-    role: "Avdelingsleder",
-    service: "Lunsj",
-    text: "Med denne ordningen sparer vi tid, da vi ikke trenger å reise ut for å kjøpe lunsj lenger. Våre ansatte opplever ordningen som et flott tilbud og nå som alle spiser samtidig og er samlet i kantinen gjør det også godt for arbeidsmiljøet og det sosiale. Helt Opplagt fungerer helt utmerket som leverandør for oss.",
-  },
-  {
-    name: "Maria Bergström",
-    company: "Vinmonopolet AS",
-    role: "Kontorsjef",
-    service: "Frukt",
-    text: "Vinmonopolet har fått frukt til 170 ansatte fra Helt Opplagt siden 2018. Vi hadde et ønske om å tilføre de ansatte ny energi i form av sunne alternativer så vi kan holde energien oppe ut dagen. Frukten er veldig populær og det er konkurranse om å kaste seg over kurvene når de kommer. Vi er veldig godt fornøyd med Helt Opplagt. De er svært fleksible og raske til å følge opp ønsker.",
-  },
-  {
-    name: "Helge Stensrud",
-    company: "Schibsted Trykk Oslo AS",
-    role: "Driftsansvarlig",
-    service: "Renhold",
-    text: "Et godt renhold gir et bra arbeidsmiljø, og Helt Opplagt innfrir alle forventningene vi hadde til kvalitet. Når ansatte kommenterer at det er rent blir man trygg på at man har gjort riktig valg av leverandør. Jeg vil spesielt trekke frem positiviteten Helt Opplagt viser. De er løsningsorienterte, bestandig imøtekommende og fikser alt vi ber om.",
-  },
-];
+import { reviews } from "../../lib/reviews";
 
 const COUNT = reviews.length;
 /** Three copies back to back so there's always a real card to scroll to in either direction; the middle copy is "home". */
@@ -43,12 +13,25 @@ export function Reviews() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pollToken = useRef(0);
 
+  /**
+   * Horizontal-only scroll to a card. Deliberately NOT scrollIntoView: that
+   * also scrolls the PAGE vertically to reveal the row, which made the
+   * homepage load scrolled down to this section.
+   */
+  function scrollToCard(index: number, behavior: ScrollBehavior) {
+    const row = rowRef.current;
+    const el = cardRefs.current[index];
+    if (!row || !el) return;
+    const left =
+      el.getBoundingClientRect().left -
+      row.getBoundingClientRect().left +
+      row.scrollLeft;
+    row.scrollTo({ left, behavior });
+  }
+
   useEffect(() => {
-    cardRefs.current[COUNT]?.scrollIntoView({
-      behavior: "auto",
-      inline: "start",
-      block: "nearest",
-    });
+    scrollToCard(COUNT, "auto");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** Waits until the row's smooth-scroll animation has actually settled (scrollLeft unchanged for a few frames), rather than guessing a fixed duration. */
@@ -78,11 +61,7 @@ export function Reviews() {
   }
 
   function goTo(target: number) {
-    cardRefs.current[target]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-      block: "nearest",
-    });
+    scrollToCard(target, "smooth");
     activeRef.current = target;
 
     whenScrollSettles(() => {
@@ -91,11 +70,7 @@ export function Reviews() {
       else if (target < COUNT) landed = target + COUNT;
 
       if (landed !== target) {
-        cardRefs.current[landed]?.scrollIntoView({
-          behavior: "auto",
-          inline: "start",
-          block: "nearest",
-        });
+        scrollToCard(landed, "auto");
         activeRef.current = landed;
       }
     });
@@ -169,7 +144,9 @@ export function Reviews() {
                   {review.name}
                 </p>
                 <p className="mt-0.5 text-[13px] text-navy/55">
-                  {review.role}, {review.company}
+                  {review.role === review.company
+                    ? review.company
+                    : `${review.role}, ${review.company}`}
                 </p>
               </div>
             </div>

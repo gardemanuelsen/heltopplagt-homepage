@@ -84,7 +84,7 @@ export function Breadcrumb({
  * without a kicker — the page's sections answer questions, they don't need
  * department labels.
  */
-function Head({ title, proof }: { title: string; proof?: string }) {
+export function Head({ title, proof }: { title: string; proof?: string }) {
   return (
     <div className="max-w-[46rem]">
       <h2 className="font-lato text-[26px] font-light leading-[1.15] tracking-[-0.01em] text-navy sm:text-[32px] lg:text-[38px]">
@@ -218,6 +218,15 @@ export interface SubService {
    * siblings from the same group. Ungrouped sub-pages show all siblings.
    */
   group?: string;
+  /**
+   * Variant-set id (e.g. "fruktkurver", "lunsjesker"). Sub-pages sharing the
+   * same variantOf render a thumbnail switcher for flipping between them, and
+   * are excluded from each other's "Mer innen …" sibling grid.
+   */
+  variantOf?: string;
+  /** Short price line, e.g. "Fra kr 32,- pr hode / dag". Shown on the
+      sub-page header and switcher thumbs only — never in main-page catalogs. */
+  priceNote?: string;
   /** Page content copied from heltopplagt.no */
   content?: ContentBlock[];
 }
@@ -737,7 +746,7 @@ function ReadMoreList({ links }: { links: ReadMoreLink[] }) {
  * Rules, not boxes — a hairline between each row, no card, no fill. The plus
  * rotates 45° into a close mark; that is the section's only motion.
  */
-function FaqList({ items }: { items: FaqItem[] }) {
+export function FaqList({ items }: { items: FaqItem[] }) {
   return (
     <div className="mt-10 max-w-[900px]">
       {items.map((item, i) => (

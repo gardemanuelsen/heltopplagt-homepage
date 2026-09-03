@@ -6,6 +6,8 @@ import {
   ServiceFooter,
   ServicePageData,
 } from "../../components/ServicePage";
+import { VariantSwitcher } from "../../components/VariantSwitcher";
+import { CONTAINER, Kicker, Pill } from "../../components/site";
 import { fruktData } from "./Frukt";
 import { cateringData } from "./Catering";
 import { kantineData } from "./Kantine";
@@ -23,10 +25,17 @@ const services: Record<string, { label: string; data: ServicePageData }> = {
   renhold: { label: "Renhold", data: renholdData },
 };
 
+/** Accessible names for the variant switcher, per variant-set id. */
+const VARIANT_LABELS: Record<string, string> = {
+  fruktkurver: "Velg fruktkurv",
+  lunsjesker: "Velg lunsjeske",
+};
+
 /**
- * Placeholder page for all sub-services (e.g. /tjenester/frukt/fruktkurv).
- * Renders title, description and image from the parent service's data.
- * Replace with dedicated content per subpage when ready.
+ * Shared page for all sub-services (e.g. /tjenester/frukt/gokurven).
+ * Renders title, description, image and content blocks from the parent
+ * service's data. Sub-pages sharing a `variantOf` (fruit baskets, lunch
+ * boxes) get a thumbnail switcher for flipping between the variants.
  */
 export function SubServicePage() {
   const { service, slug } = useParams<{ service: string; slug: string }>();
@@ -40,28 +49,39 @@ export function SubServicePage() {
 
   if (!entry || !sub) {
     return (
-      <div className="min-h-dvh bg-white flex flex-col items-center justify-center px-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-white px-8 text-center">
+        <h1 className="mb-4 font-lato text-3xl font-light text-navy">
           Fant ikke siden
         </h1>
         <Link
           to="/"
-          className="text-[#0078C4] font-medium inline-flex items-center gap-2"
+          className="inline-flex items-center gap-2 font-semibold text-brand"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Til forsiden
         </Link>
       </div>
     );
   }
 
+  /* The other members of this sub-page's variant set (fruit baskets, lunch
+     boxes) — shown in the switcher below the header when there are any. */
+  const variants = sub.variantOf
+    ? entry.data.subServices.filter((s) => s.variantOf === sub.variantOf)
+    : [];
+  const hasVariants = variants.length > 1;
+
   /*
    * Related sub-pages: with many sub-pages (Inneklima has 15), listing every
    * sibling became a wall. Grouped sub-pages ("Produkter"/"Artikler") show
    * only their own group, capped at 7 — plus a "Se alt" card back to the
-   * service page, so nothing is unreachable.
+   * service page, so nothing is unreachable. Variant siblings are excluded:
+   * they already sit in the switcher above.
    */
-  const allSiblings = entry.data.subServices.filter((s) => s.slug !== sub.slug);
+  const allSiblings = entry.data.subServices.filter(
+    (s) =>
+      s.slug !== sub.slug && !(sub.variantOf && s.variantOf === sub.variantOf)
+  );
   const siblings = (
     sub.group ? allSiblings.filter((s) => s.group === sub.group) : allSiblings
   ).slice(0, 7);
@@ -77,7 +97,7 @@ export function SubServicePage() {
   return (
     <div className="min-h-dvh bg-white">
       {/* Page heading — copy left, photo right on larger screens. */}
-      <div className="max-w-[1280px] mx-auto px-8 pt-32 lg:pt-36">
+      <div className={`${CONTAINER} pt-10 lg:pt-14`}>
         <div
           className={
             showImage
@@ -94,43 +114,60 @@ export function SubServicePage() {
               ]}
             />
 
-            <h1 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-[1.15] tracking-tight mb-4">
+            <h1 className="mb-4 font-lato text-[34px] font-light leading-[1.08] tracking-[-0.01em] text-navy sm:text-[40px] lg:text-[46px]">
               {sub.title}
             </h1>
 
-            {sub.description && (
-              <p className="text-base lg:text-[17px] text-gray-600 leading-relaxed max-w-[680px] mb-6">
-                {sub.description}
+            {sub.priceNote && (
+              <p className="mb-4 text-[17px] font-semibold text-brand">
+                {sub.priceNote}
               </p>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                to="/kontakt"
-                className="bg-[#0078C4] text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-[#0062a3] transition-colors inline-flex items-center justify-center gap-2"
-              >
-                Ta kontakt for tilbud
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            {/* Variant pages show the full content text right here under the
+                heading — one text, not a short teaser plus a long version.
+                (The short description still feeds the meta tag.) */}
+            {hasVariants ? (
+              sub.content && (
+                <div className="space-y-5">
+                  {sub.content.map((block, i) => (
+                    <ContentBlockView key={i} block={block} />
+                  ))}
+                </div>
+              )
+            ) : (
+              <>
+                {sub.description && (
+                  <p className="max-w-[680px] text-[15px] leading-relaxed text-navy/65 lg:text-[17px]">
+                    {sub.description}
+                  </p>
+                )}
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                  <Pill to="/kontakt">
+                    Ta kontakt for tilbud
+                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+                  </Pill>
+                </div>
+              </>
+            )}
           </div>
 
           {showImage && (
-            <div className="rounded-2xl overflow-hidden max-w-[780px] mt-10 lg:mt-0">
+            <div className="mt-10 max-w-[780px] overflow-hidden rounded-[1.5rem] lg:mt-0">
               <img
                 src={sub.image}
                 alt={sub.title}
-                className="w-full aspect-[16/9] lg:aspect-[4/3] object-cover"
+                className="aspect-[16/9] w-full object-cover lg:aspect-[4/3]"
               />
             </div>
           )}
         </div>
       </div>
 
-      {/* Page content */}
-      {sub.content && sub.content.length > 0 && (
-        <section className="py-14 bg-white border-b border-gray-100">
-          <div className="max-w-[1280px] mx-auto px-8 space-y-12">
+      {/* Page content — on variant pages it already rendered in the header. */}
+      {!hasVariants && sub.content && sub.content.length > 0 && (
+        <section className="border-b border-navy/10 bg-white py-14">
+          <div className={`${CONTAINER} space-y-12`}>
             {sub.content.map((block, i) => (
               <ContentBlockView key={i} block={block} />
             ))}
@@ -138,22 +175,35 @@ export function SubServicePage() {
         </section>
       )}
 
+      {/* Variant pages close with the switcher — flip to a sibling basket
+          or box without going back. */}
+      {hasVariants && (
+        <section className="border-b border-navy/10 bg-white pt-12 pb-14">
+          <div className={CONTAINER}>
+            <VariantSwitcher
+              label={VARIANT_LABELS[sub.variantOf!] ?? "Velg variant"}
+              items={variants}
+              activeSlug={sub.slug}
+              basePath={entry.data.path}
+            />
+          </div>
+        </section>
+      )}
+
       {/* More from this service */}
       {siblings.length > 0 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-[1280px] mx-auto px-8">
-            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2">
-              Utforsk mer
-            </p>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight mb-8">
+        <section className="bg-white py-14 lg:py-16">
+          <div className={CONTAINER}>
+            <Kicker>Utforsk mer</Kicker>
+            <h2 className="mt-3 mb-8 font-lato text-[26px] font-light leading-[1.15] tracking-[-0.01em] text-navy sm:text-[32px]">
               {siblingsHeading}
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {siblings.map((s) => (
                 <Link
                   key={s.slug}
                   to={`${entry.data.path}/${s.slug}`}
-                  className="group border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:border-[#0078C4]/40 hover:shadow-[0_8px_24px_rgba(0,120,196,0.08)] transition-all duration-300"
+                  className="group flex items-center gap-3 rounded-[1.25rem] border border-navy/10 p-4 transition-all duration-300 hover:border-brand/40 hover:shadow-[0_8px_24px_rgba(0,119,190,0.08)]"
                 >
                   {s.image && (
                     <span className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-white">
@@ -166,21 +216,21 @@ export function SubServicePage() {
                       />
                     </span>
                   )}
-                  <span className="flex-1 text-sm font-semibold text-gray-900">
+                  <span className="flex-1 text-sm font-semibold text-navy">
                     {s.title}
                   </span>
-                  <ArrowUpRight className="w-4 h-4 flex-shrink-0 text-gray-300 group-hover:text-[#0078C4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                  <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-navy/25 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand" />
                 </Link>
               ))}
               {/* Everything not listed stays reachable via the service page. */}
               <Link
                 to={entry.data.path}
-                className="group border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:border-[#0078C4]/40 hover:shadow-[0_8px_24px_rgba(0,120,196,0.08)] transition-all duration-300"
+                className="group flex items-center gap-3 rounded-[1.25rem] border border-navy/10 p-4 transition-all duration-300 hover:border-brand/40 hover:shadow-[0_8px_24px_rgba(0,119,190,0.08)]"
               >
-                <span className="flex-1 text-sm font-semibold text-[#0078C4]">
+                <span className="flex-1 text-sm font-semibold text-brand">
                   Se alt innen {entry.label.toLowerCase()}
                 </span>
-                <ArrowUpRight className="w-4 h-4 flex-shrink-0 text-[#0078C4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-brand transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
           </div>
@@ -197,13 +247,13 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
     return (
       <div className="max-w-[780px]">
         {block.heading && (
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-4">
+          <h2 className="mb-4 font-lato text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-navy sm:text-[28px]">
             {block.heading}
           </h2>
         )}
         <div className="space-y-4">
           {block.paragraphs.map((p, i) => (
-            <p key={i} className="text-[17px] text-gray-600 leading-relaxed">
+            <p key={i} className="text-[17px] leading-relaxed text-navy/70">
               {p}
             </p>
           ))}
@@ -214,7 +264,7 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
 
   if (block.type === "image") {
     return (
-      <div className="rounded-2xl overflow-hidden max-w-[780px]">
+      <div className="max-w-[780px] overflow-hidden rounded-[1.5rem]">
         <img src={block.src} alt={block.alt ?? ""} className="w-full" />
       </div>
     );
@@ -222,7 +272,7 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
 
   if (block.type === "link") {
     const cls =
-      "inline-flex items-center gap-2 rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-900 hover:border-[#0078C4]/40 hover:text-[#0078C4] transition-colors";
+      "inline-flex items-center gap-2 rounded-full border border-navy/15 px-5 py-2.5 text-sm font-semibold text-navy hover:border-brand/40 hover:text-brand transition-colors";
     const isExternal = /^https?:\/\//.test(block.href);
     return (
       <div>
@@ -234,12 +284,12 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
             className={cls}
           >
             {block.label}
-            <ArrowUpRight className="w-4 h-4" />
+            <ArrowUpRight className="h-4 w-4" />
           </a>
         ) : (
           <Link to={block.href} className={cls}>
             {block.label}
-            <ArrowUpRight className="w-4 h-4" />
+            <ArrowUpRight className="h-4 w-4" />
           </Link>
         )}
       </div>
@@ -250,25 +300,22 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
     return (
       <div>
         {block.heading && (
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-5">
+          <h2 className="mb-5 font-lato text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-navy sm:text-[28px]">
             {block.heading}
           </h2>
         )}
         {/* overflow-x-auto, not hidden: wide tables (3–4 columns) must scroll
             inside their container on small screens instead of being clipped. */}
-        <div className="border border-gray-200 rounded-xl overflow-x-auto">
+        <div className="overflow-x-auto rounded-[1.25rem] border border-navy/10">
           <table className="w-full text-[15px]">
             <tbody>
               {block.rows.map((row, i) => (
-                <tr
-                  key={i}
-                  className={i % 2 === 1 ? "bg-[#f5f9fc]" : "bg-white"}
-                >
+                <tr key={i} className={i % 2 === 1 ? "bg-cloud/60" : "bg-white"}>
                   {row.map((cell, j) => (
                     <td
                       key={j}
-                      className={`px-4 py-3 align-top text-gray-700 ${
-                        j === 0 ? "font-medium text-gray-900" : ""
+                      className={`px-4 py-3 align-top text-navy/70 ${
+                        j === 0 ? "font-medium text-navy" : ""
                       } ${j === row.length - 1 ? "text-right whitespace-nowrap" : ""}`}
                     >
                       {cell}
@@ -280,7 +327,7 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
           </table>
         </div>
         {block.footnote && (
-          <p className="text-sm text-gray-500 italic mt-3 leading-relaxed">
+          <p className="mt-3 text-sm italic leading-relaxed text-navy/55">
             {block.footnote}
           </p>
         )}
@@ -292,17 +339,17 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
     return (
       <div className="max-w-[780px]">
         {block.heading && (
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-5">
+          <h2 className="mb-5 font-lato text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-navy sm:text-[28px]">
             {block.heading}
           </h2>
         )}
         <ul className="space-y-3.5">
           {block.items.map((item, i) => (
             <li key={i} className="flex items-start gap-3">
-              <span className="w-5 h-5 rounded-full bg-[#f5f9fc] flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Check className="w-3 h-3 text-[#0078C4]" strokeWidth={3} />
+              <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-lime/15">
+                <Check className="h-3 w-3 text-lime" strokeWidth={3} />
               </span>
-              <span className="text-[15px] text-gray-700 leading-relaxed">
+              <span className="text-[15px] leading-relaxed text-navy/70">
                 {item}
               </span>
             </li>
@@ -315,31 +362,31 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
   return (
     <div>
       {block.heading && (
-        <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-6">
+        <h2 className="mb-6 font-lato text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-navy sm:text-[28px]">
           {block.heading}
         </h2>
       )}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {block.items.map((item, i) => (
           <div
             key={i}
-            className="rounded-2xl border border-gray-200 overflow-hidden"
+            className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_2px_rgba(13,43,64,0.06)] ring-1 ring-navy/10"
           >
             {item.image && (
               <div className="aspect-[16/10] overflow-hidden">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
             )}
             <div className="p-5">
-              <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1.5">
+              <h3 className="mb-1.5 text-base font-bold tracking-tight text-navy">
                 {item.title}
               </h3>
               {item.description && (
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm leading-relaxed text-navy/65">
                   {item.description}
                 </p>
               )}

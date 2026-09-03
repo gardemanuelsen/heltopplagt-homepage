@@ -1,39 +1,24 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
-import grillingImg from "../../images/garden/grilling.jpg";
-import newsKantine from "../../images/hero/web/hero-kantine.jpg";
-import newsFrukt from "../../images/hero/web/hero-frukt.jpg";
 import { CONTAINER, Pill, SectionHead } from "./site";
+import { articles } from "../../lib/articles";
 
 /**
- * Homepage teaser for Aktuelt. The farm/venue story (Helt Opplagt på gården)
- * runs as the featured item since it's the most visual, evergreen story.
- * NOTE: the two list items below are placeholder headlines carried over from
- * AktueltPage — swap for real news before launch (thumbnails are self-hosted).
+ * Homepage teaser for Aktuelt, driven by the real article data in
+ * src/lib/articles.ts. The farm/venue story runs as the featured item since
+ * it's the most visual, evergreen story; the next two articles fill the list.
  */
-const listItems = [
-  {
-    title: "Helt Opplagt vinner bransjepris",
-    date: "15. februar 2026",
-    category: "Priser",
-    image: newsFrukt,
-  },
-  {
-    title: "Ny kantineløsning lansert hos DNB",
-    date: "1. mars 2026",
-    category: "Nyheter",
-    image: newsKantine,
-  },
-];
-
 export function Aktuelt() {
+  const featured = articles[0];
+  const listItems = articles.slice(1, 3);
+
   return (
     <section className="bg-white py-20 lg:py-28">
       <div className={CONTAINER}>
         <SectionHead
           kicker="Aktuelt"
           title="Siste nytt fra Helt Opplagt"
-          lede="Nyheter, priser og livet på Store Stensrud Gård."
+          lede="Nyheter, miljøarbeid og livet på Store Stensrud Gård."
           action={
             <Pill to="/aktuelt" variant="outline">
               Alle nyheter
@@ -44,14 +29,11 @@ export function Aktuelt() {
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           {/* Featured — the gård */}
-          <Link
-            to="/tjenester/catering/helt-opplagt-pa-garden"
-            className="group block"
-          >
+          <Link to={`/aktuelt/${featured.slug}`} className="group block">
             <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem]">
               <img
-                src={grillingImg}
-                alt="Helt Opplagt på gården, Store Stensrud Gård"
+                src={featured.image}
+                alt={featured.imageAlt}
                 className="absolute inset-0 h-full w-full object-cover object-[center_35%] transition-transform duration-500 group-hover:scale-105"
               />
               <span className="absolute left-4 top-4 rounded-full bg-white/90 px-4 py-1.5 text-[12px] font-semibold text-navy backdrop-blur">
@@ -75,27 +57,27 @@ export function Aktuelt() {
             </span>
           </Link>
 
-          {/* News list */}
+          {/* The next real stories */}
           <div className="flex flex-col gap-5">
             {listItems.map((item) => (
               <Link
-                key={item.title}
-                to="/aktuelt"
+                key={item.slug}
+                to={`/aktuelt/${item.slug}`}
                 className="group flex items-center gap-5 rounded-[1.5rem] bg-cloud/60 p-4 transition-colors hover:bg-cloud sm:p-5"
               >
                 <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-[1rem] sm:h-24 sm:w-24">
                   <img
                     src={item.image}
-                    alt={item.title}
+                    alt={item.imageAlt}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 text-[12px] font-semibold">
-                    <span className="text-brand">{item.category}</span>
-                    <span className="text-navy/25">·</span>
-                    <span className="text-navy/45">{item.date}</span>
-                  </div>
+                  <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-brand">
+                    {item.category}
+                  </span>
                   <h4 className="mt-1.5 text-[16px] font-semibold leading-snug text-navy transition-colors group-hover:text-brand">
                     {item.title}
                   </h4>

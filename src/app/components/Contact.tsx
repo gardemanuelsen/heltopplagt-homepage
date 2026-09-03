@@ -1,18 +1,43 @@
-import { Mail, Phone, MapPin, ArrowRight, Calendar } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  ArrowRight,
+  Calendar,
+  ChevronDown,
+  Clock,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { CONTAINER, Kicker } from "./site";
 
 const services = ["Lunsj", "Kantine", "Catering", "Frukt", "Inneklima", "Renhold"];
 
+/* Real contact details from heltopplagt.no/kontakt. */
 const contactItems = [
-  { icon: Phone, label: "Telefon", value: "02346", href: "tel:02346" },
+  {
+    icon: Phone,
+    label: "Telefon",
+    value: "02346 (fra utlandet: +47 22 76 37 60)",
+    href: "tel:02346",
+  },
   {
     icon: Mail,
     label: "E-post",
     value: "bli@heltopplagt.no",
     href: "mailto:bli@heltopplagt.no",
   },
-  { icon: MapPin, label: "Adresse", value: "Oslo, Norge", href: undefined },
+  {
+    icon: MapPin,
+    label: "Adresse",
+    value: "Slimeveien 2b, 1275 Oslo",
+    href: "https://maps.app.goo.gl/QtSdi3VgGdhP9QE86",
+  },
+  {
+    icon: Clock,
+    label: "Åpningstider",
+    value: "08.00–16.00, mandag–fredag",
+    href: undefined,
+  },
 ];
 
 interface ContactProps {
@@ -24,16 +49,27 @@ const CHIP_ON =
 const CHIP_OFF =
   "rounded-full border border-navy/20 px-4 py-2 text-[13px] font-semibold text-navy/60 transition-colors hover:border-brand hover:text-brand";
 const FIELD =
-  "w-full rounded-xl border border-navy/15 bg-cloud/50 px-4 py-3 text-[15px] text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-brand focus:bg-white";
+  "w-full rounded-xl border border-navy/15 bg-cloud/50 px-4 py-2.5 text-[15px] text-navy outline-none transition-colors placeholder:text-navy/35 focus:border-brand focus:bg-white";
 const LABEL = "mb-1.5 block text-[13px] font-medium text-navy/70";
 
 export function Contact({ initialServices }: ContactProps) {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<"form" | "booking">("form");
+  const servicesRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     if (initialServices) setSelectedServices(initialServices);
   }, [initialServices]);
+
+  /* Close the mobile service dropdown on outside clicks (details doesn't). */
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const el = servicesRef.current;
+      if (el?.open && !el.contains(e.target as Node)) el.removeAttribute("open");
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
   const toggleCheckbox = (value: string) => {
     setSelectedServices((prev) =>
@@ -86,6 +122,9 @@ export function Contact({ initialServices }: ContactProps) {
                   <a
                     key={item.label}
                     href={item.href}
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="flex items-center gap-4 transition-opacity hover:opacity-80"
                   >
                     {body}
@@ -117,7 +156,8 @@ export function Contact({ initialServices }: ContactProps) {
                     : "text-navy/50 hover:text-navy")
                 }
               >
-                <Mail className="h-4 w-4" strokeWidth={2.25} />
+                {/* Icon hidden on mobile — the tabs are too tight for both. */}
+                <Mail className="hidden h-4 w-4 sm:block" strokeWidth={2.25} />
                 Kontaktskjema
               </button>
               <button
@@ -132,18 +172,20 @@ export function Contact({ initialServices }: ContactProps) {
                     : "text-navy/50 hover:text-navy")
                 }
               >
-                <Calendar className="h-4 w-4" strokeWidth={2.25} />
+                <Calendar className="hidden h-4 w-4 sm:block" strokeWidth={2.25} />
                 Book et møte
               </button>
             </div>
 
             {activeTab === "form" ? (
+              /* Short fields pair up two-across even on mobile, so the form
+                 stays compact instead of stacking every field full-width. */
               <form
                 key="form"
                 onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col gap-5 motion-safe:transition-opacity motion-safe:duration-200 starting:opacity-0"
+                className="flex flex-col gap-4 motion-safe:transition-opacity motion-safe:duration-200 starting:opacity-0"
               >
-                <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid grid-cols-2 gap-4">
                   <label className="block">
                     <span className={LABEL}>Navn</span>
                     <input
@@ -164,19 +206,20 @@ export function Contact({ initialServices }: ContactProps) {
                   </label>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className={LABEL}>E-post</span>
-                    <input
-                      type="email"
-                      name="email"
-                      className={`${FIELD} validator`}
-                      placeholder="din@epost.no"
-                    />
-                    <p className="validator-hint hidden">
-                      Skriv inn en gyldig e-postadresse
-                    </p>
-                  </label>
+                <label className="block">
+                  <span className={LABEL}>E-post</span>
+                  <input
+                    type="email"
+                    name="email"
+                    className={`${FIELD} validator`}
+                    placeholder="din@epost.no"
+                  />
+                  <p className="validator-hint hidden">
+                    Skriv inn en gyldig e-postadresse
+                  </p>
+                </label>
+
+                <div className="grid grid-cols-2 gap-4">
                   <label className="block">
                     <span className={LABEL}>Telefon</span>
                     <input
@@ -192,13 +235,67 @@ export function Contact({ initialServices }: ContactProps) {
                       Skriv inn et gyldig telefonnummer
                     </p>
                   </label>
+                  <label className="block">
+                    <span className={LABEL}>Antall ansatte</span>
+                    <input
+                      type="number"
+                      name="employees"
+                      inputMode="numeric"
+                      min={1}
+                      className={`${FIELD} tabular-nums`}
+                      placeholder="F.eks. 25"
+                    />
+                  </label>
                 </div>
 
                 <div>
                   <span className="mb-2.5 block text-[13px] font-medium text-navy/70">
                     Jeg er interessert i
                   </span>
-                  <div className="flex flex-wrap gap-2">
+
+                  {/* Mobile: the six pill toggles took three rows, so they
+                      collapse into one input-styled multi-select dropdown. */}
+                  <details ref={servicesRef} className="dropdown w-full sm:hidden">
+                    <summary
+                      className={`${FIELD} flex cursor-pointer list-none items-center justify-between gap-2 [&::-webkit-details-marker]:hidden`}
+                    >
+                      <span
+                        className={
+                          "truncate " +
+                          (selectedServices.length > 0
+                            ? "text-navy"
+                            : "text-navy/35")
+                        }
+                      >
+                        {selectedServices.length > 0
+                          ? selectedServices.join(", ")
+                          : "Velg tjenester"}
+                      </span>
+                      <ChevronDown
+                        className="h-4 w-4 flex-shrink-0 text-navy/50"
+                        strokeWidth={2.25}
+                      />
+                    </summary>
+                    <div className="dropdown-content z-20 mt-2 w-full rounded-xl border border-navy/10 bg-white p-2 shadow-[0_16px_36px_-12px_rgba(13,43,64,0.25)]">
+                      {services.map((service) => (
+                        <label
+                          key={service}
+                          className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] font-medium text-navy hover:bg-cloud"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedServices.includes(service)}
+                            onChange={() => toggleCheckbox(service)}
+                            className="h-4 w-4"
+                          />
+                          {service}
+                        </label>
+                      ))}
+                    </div>
+                  </details>
+
+                  {/* Desktop keeps the pill toggles. */}
+                  <div className="hidden flex-wrap gap-2 sm:flex">
                     {services.map((service) => {
                       const on = selectedServices.includes(service);
                       return (
@@ -220,7 +317,7 @@ export function Contact({ initialServices }: ContactProps) {
                   <span className={LABEL}>Melding</span>
                   <textarea
                     name="message"
-                    rows={4}
+                    rows={3}
                     className={`${FIELD} resize-none`}
                     placeholder="Beskriv dine behov..."
                   />

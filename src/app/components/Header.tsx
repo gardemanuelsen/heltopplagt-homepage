@@ -106,8 +106,10 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Below lg the services collapse into a dropdown. */}
-        <details ref={servicesRef} className="dropdown lg:hidden">
+        {/* Between sm and lg the services collapse into a dropdown. On phones
+            it is hidden entirely — the fullscreen menu covers the services,
+            and the dropdown was redundant next to it. */}
+        <details ref={servicesRef} className="dropdown hidden sm:block lg:hidden">
           <summary className="flex cursor-pointer list-none items-center gap-1 text-[14px] font-medium text-navy/70 transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
             Tjenester
             <ChevronDown className="h-4 w-4" strokeWidth={2.25} />
@@ -196,10 +198,11 @@ export function Header() {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 py-10 sm:px-8 sm:py-14">
-            <div className="mx-auto grid max-w-[1000px] gap-10 sm:grid-cols-2 sm:gap-16">
+          {/* Compact on mobile so all links fit without scrolling. */}
+          <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-14">
+            <div className="mx-auto grid max-w-[1000px] gap-6 sm:grid-cols-2 sm:gap-16">
               <nav>
-                <p className="mb-5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50">
+                <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:mb-5">
                   <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
                   Tjenester
                 </p>
@@ -215,7 +218,7 @@ export function Header() {
                             : "0ms",
                         }}
                         className={
-                          "inline-block py-1.5 font-lato text-3xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-4xl " +
+                          "inline-block py-0.5 font-lato text-xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:py-1.5 sm:text-4xl " +
                           (menuExpanded
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-3 opacity-0")
@@ -229,7 +232,7 @@ export function Header() {
               </nav>
 
               <nav>
-                <p className="mb-5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50">
+                <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:mb-5">
                   <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
                   Om Helt Opplagt
                 </p>
@@ -245,7 +248,7 @@ export function Header() {
                             : "0ms",
                         }}
                         className={
-                          "inline-block py-1.5 font-lato text-3xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:text-4xl " +
+                          "inline-block py-0.5 font-lato text-xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:py-1.5 sm:text-4xl " +
                           (menuExpanded
                             ? "translate-x-0 opacity-100"
                             : "-translate-x-3 opacity-0")

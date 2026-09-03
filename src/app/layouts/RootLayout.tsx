@@ -3,15 +3,21 @@ import { Outlet, useLocation } from "react-router";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
-/** Scroll to top on route change (unless navigating to an in-page anchor). */
+/**
+ * Scroll to top on route change — unless navigating to an in-page anchor, or
+ * the navigation opted out via `state: { preserveScroll: true }` (the variant
+ * switcher on sub-service pages, where a slug change is a content swap, not a
+ * new page). The state sticks to the history entry, so back/forward between
+ * switched slugs also skips the forced scroll — which is what we want there.
+ */
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, state } = useLocation();
 
   useEffect(() => {
-    if (!hash) {
+    if (!hash && !(state as { preserveScroll?: boolean } | null)?.preserveScroll) {
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+  }, [pathname, hash, state]);
 
   return null;
 }

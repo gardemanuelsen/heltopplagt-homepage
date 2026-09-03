@@ -98,7 +98,9 @@ export function Footer() {
             <Mail className="h-4 w-4 text-aqua" strokeWidth={2} />
             bli@heltopplagt.no
           </a>
-          <p className="mt-1.5 text-[14px] text-white/50">Oslo, Norge</p>
+          <p className="mt-1.5 text-[14px] text-white/50">
+            Slimeveien 2b, 1275 Oslo
+          </p>
           <Pill to="/kontakt" className="mt-6">
             Send oss en melding
           </Pill>

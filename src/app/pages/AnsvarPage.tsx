@@ -1,165 +1,165 @@
-import {
-  Leaf,
-  Recycle,
-  Heart,
-  Users,
-  Sprout,
-  ShieldCheck,
-} from "lucide-react";
-import { PageHero, SectionHeader } from "../components/PageHero";
-import { CtaSection } from "../components/CtaSection";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router";
+import { CONTAINER, Kicker, Pill } from "../components/site";
+import { Head } from "../components/ServicePage";
 import { useDocumentMeta } from "../../lib/use-document-meta";
 
-const initiatives = [
+/*
+ * Content is verbatim from heltopplagt.no/samfunnsansvar and its sub-pages
+ * (miljo, arbeidstrening, nettverk-etter-soning, norskkurs). The previous
+ * page's invented claims ("80 % norske råvarer", five dated goals, HACCP
+ * badge) are removed — everything below is documented on the live site.
+ */
+
+const miljoTiltak = [
   {
-    icon: Leaf,
-    title: "Bærekraftig innkjøp",
-    description:
-      "Vi prioriterer lokale og økologiske leverandører for alle våre produkter. Over 80% av våre råvarer kommer fra norske produsenter.",
+    title: "Miljøfyrtårn siden 2014",
+    body: "Systematisk arbeid med miljøtiltak i hverdagen gjorde oss til en Miljøfyrtårn-sertifisert bedrift i 2014. Vår miljøgruppe, med ansatte fra alle avdelinger, kvalitetssikrer miljøtiltakene løpende.",
   },
   {
-    icon: Recycle,
-    title: "Avfallshåndtering",
-    description:
-      "Vi har implementert omfattende kildesortering og resirkulering i alle våre kantiner. Matavfall komposteres eller brukes til biogassproduksjon.",
+    title: "Miljøvennlige gjenbrukskurver",
+    body: "Vi benytter utelukkende flettede gjenbrukskurver, laget av en familiebedrift i en liten landsby i fjellene på Filippinene.",
   },
   {
-    icon: Heart,
-    title: "Sosialt ansvar",
-    description:
-      "Vi donerer overskuddsmat til lokale veldedighetsorganisasjoner og støtter sosiale prosjekter i Oslo-området.",
+    title: "Kildesortering",
+    body: "Alle avdelinger kildesorterer avfall. All papp komprimeres og leveres til gjenbruk — vi returnerer over 1 tonn emballasje i uken.",
   },
   {
-    icon: Users,
-    title: "Ansattes velferd",
-    description:
-      "Vi investerer i våre ansatte gjennom opplæring, gode arbeidsforhold og muligheter for karriereutvikling.",
+    title: "Ingenting går til spille",
+    body: "Frukt som sorteres ut i kvalitetskontrollen, men som er fullt brukbar, gis til barnehager og organisasjoner som Fattighuset og Gatebarnas far. Resten går til heste- og grisefôr samt biogass.",
+  },
+  {
+    title: "CO2-nøytral virksomhet",
+    body: "Vi fører årlig klimaregnskap etter GHG-protokollen og kjøper FN-godkjente CO2-kvoter for alle våre utslipp — gjennom Gold Standard-prosjektet i Mali, der husholdninger får energieffektive og rentbrennende kjøkkenovner.",
+  },
+  {
+    title: "Gjenbruk av energi",
+    body: "All oppvarming i bygget vårt på Bjørnholt er basert på gjenbruk av energi fra forbrenningsanlegget på Klemetsrud, og kjølingen gjøres med energigjerrig varmepumpeteknologi.",
+  },
+  {
+    title: "Vaskbare filtre",
+    body: "Inneklimaavdelingen skifter nær 20 000 filtre hvert år. I stedet for å kaste dem bruker vi vaskbare filtre som renses i vår egen vaskehall og brukes igjen — omtrent som med panteflasker.",
+  },
+  {
+    title: "Nullutslipp på transport innen 2030",
+    body: "Med Ford E-Transit elvarebiler, elektriske firmabiler og egen ladeinfrastruktur er innkjøp av rene fossilbiler til transportavdelingen historie.",
   },
 ];
 
-const goals = [
-  "Redusere matsvinn med 50% innen 2027",
-  "100% fornybar energi i alle våre fasiliteter innen 2026",
-  "Kun bruk av miljøvennlige rengjøringsprodukter",
-  "Samarbeide med minst 5 nye lokale leverandører årlig",
-  "Donere minimum 1000 måltider til trengende per år",
-];
-
-const certifications = [
+const sosialt = [
   {
-    icon: Sprout,
-    title: "Miljøfyrtårn",
-    description: "Miljøsertifisering",
+    title: "Arbeidstrening",
+    body: "I samarbeid med arbeidsmarkedsbedrifter på Østlandet kan du som kunde få fruktkurvene dine pakket av en bedrift med varig tilrettelagte arbeidsplasser (VTA) — i dag Stiftelsen Radarveien, avdeling Skredderstua arbeidssenter. Kurvene er like våre andre, men spesielt merket.",
   },
   {
-    icon: ShieldCheck,
-    title: "HACCP",
-    description: "Mattrygghet",
+    title: "Nettverk etter soning",
+    body: "Vi har stor tro på mennesket — også de som trenger en ny sjanse. Sammen med Røde Kors i Oslo tilbyr vi praksisplasser til tidligere innsatte, med oppfølging fra Røde Kors' frivillige. Fungerer arbeidsforholdet, ansetter vi personen fast.",
+  },
+  {
+    title: "Norskkurs for ansatte",
+    body: "Sammen med Folkeuniversitetet tilbyr vi norskkurs med gratis lærebøker til 45 av våre ansatte. Undervisningen er rettet mot arbeidet de utfører — og gir i tillegg til språkkunnskaper et sterkere fellesskap.",
+  },
+  {
+    title: "En hånd til ukrainske flyktninger",
+    body: "Vi tilbyr arbeid, interne fadderordninger og norskkurs til ukrainske flyktninger, i dialog med den ukrainske ambassaden, NAV og europratsya.com.",
   },
 ];
 
 export function AnsvarPage() {
   useDocumentMeta(
-    "Ansvar",
-    "Hos Helt Opplagt er bærekraft en naturlig del av alt vi gjør, fra råvarene vi kjøper inn til menneskene som leverer tjenestene."
+    "Samfunnsansvar",
+    "Miljøfyrtårn siden 2014, CO2-nøytral drift, arbeidstrening og nettverk etter soning: slik tar Helt Opplagt ansvar for miljø, mennesker og samfunn."
   );
 
   return (
     <div className="min-h-dvh bg-white">
-      <PageHero
-        eyebrow="Samfunnsansvar"
-        title={
-          <>
-            Ansvar for miljø,{" "}
-            <span className="text-[#0078C4] italic font-light">
-              mennesker og samfunn
-            </span>
-          </>
-        }
-        description="Hos Helt Opplagt er bærekraft en naturlig del av alt vi gjør — fra råvarene vi kjøper inn til menneskene som leverer tjenestene."
-      />
-
-      {/* Initiatives */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <SectionHeader
-            eyebrow="Våre initiativer"
-            title={
-              <>
-                Konkrete tiltak,
-                <br />
-                ikke bare fine ord
-              </>
-            }
-          />
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {initiatives.map((initiative, index) => {
-              const Icon = initiative.icon;
-              return (
-                <div
-                  key={index}
-                  className="group border border-gray-200 rounded-2xl p-8 hover:border-[#0078C4]/40 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-all duration-300"
-                >
-                  <div className="w-12 h-12 bg-[#f5f9fc] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#0078C4] transition-colors duration-300">
-                    <Icon
-                      className="w-6 h-6 text-[#0078C4] group-hover:text-white transition-colors duration-300"
-                      strokeWidth={1.75}
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-2.5">
-                    {initiative.title}
-                  </h3>
-                  <p className="text-[15px] text-gray-600 leading-relaxed">
-                    {initiative.description}
-                  </p>
-                </div>
-              );
-            })}
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden bg-cloud text-navy">
+        <span
+          aria-hidden="true"
+          className="livery-puzzle aspect-[100/129] -right-20 -bottom-12 w-44 rotate-[12deg] bg-lime/15 lg:-right-10 lg:w-64"
+        />
+        <div className={`${CONTAINER} relative z-10 py-14 lg:py-20`}>
+          <Kicker>Samfunnsansvar</Kicker>
+          <h1 className="mt-4 max-w-[46rem] font-lato text-[34px] font-light leading-[1.08] tracking-[-0.01em] text-navy sm:text-[42px] lg:text-[48px]">
+            Vi kan ikke redde verden alene — men vi bidrar der vi kan
+          </h1>
+          <p className="mt-5 max-w-[42rem] text-[15px] leading-relaxed text-navy/65 lg:text-[17px]">
+            Vi har alltid hatt stort fokus på miljøtiltak — for klima og natur,
+            men også i et sosialt perspektiv. Vi jobber kontinuerlig med å finne
+            smarte løsninger som sparer ressurser og miljø, og håper å inspirere
+            andre til å gjøre det samme.
+          </p>
+          <div className="mt-7">
+            <Pill
+              href="https://heltopplagt.no/download_file/view/455/236"
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Les klimaregnskapet vårt
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+            </Pill>
           </div>
         </div>
       </section>
 
-      {/* Goals */}
-      <section className="bg-[rgb(17,31,55)] py-24 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="max-w-[1280px] mx-auto px-8 grid lg:grid-cols-[1fr_1.4fr] gap-14 relative z-[2]">
-          <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-0.5 bg-[#0078C4]" />
-              <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#66aedc]">
-                Våre mål
-              </span>
-            </div>
-            <h2 className="text-3xl lg:text-[40px] font-bold text-white tracking-tight leading-[1.1] mb-5">
-              Dette har vi
-              <br />
-              forpliktet oss til
-            </h2>
-            <p className="text-[16px] text-white/55 leading-relaxed">
-              Målene våre er konkrete og målbare — og vi rapporterer åpent på
-              fremdriften.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {goals.map((goal, index) => (
+      {/* Miljø */}
+      <section className="bg-white py-16 lg:py-24">
+        <div className={CONTAINER}>
+          <Head
+            title="Miljøansvaret vårt"
+            proof="Konkrete tiltak i hele driften — fra gjenbrukskurver og kildesortering til CO2-nøytralitet."
+          />
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-7">
+            {miljoTiltak.map((t) => (
               <div
-                key={index}
-                className="flex items-center gap-5 bg-white/[0.05] border border-white/10 rounded-xl px-6 py-5 hover:bg-white/[0.08] transition-colors"
+                key={t.title}
+                className="rounded-[1.5rem] bg-cloud/60 p-7"
               >
-                <span className="text-[15px] font-bold text-[#0078C4] bg-white/[0.06] border border-white/10 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-                  0{index + 1}
-                </span>
-                <p className="text-[15px] text-white/85 leading-relaxed">
-                  {goal}
+                <h3 className="font-lato text-[19px] font-bold text-navy">
+                  {t.title}
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-navy/65">
+                  {t.body}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <Link
+              to="/aktuelt/helt-opplagt-samarbeider-med-ford-pa-veien-mot-nullutslipp"
+              className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand"
+            >
+              Les om overgangen til elektriske varebiler
+              <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Sosialt ansvar */}
+      <section className="relative isolate overflow-hidden bg-sand py-16 lg:py-24">
+        <span
+          aria-hidden="true"
+          className="livery-puzzle aspect-[100/129] -left-16 -bottom-12 w-40 -rotate-[15deg] bg-amber/15 lg:-left-8 lg:w-60"
+        />
+        <div className={`${CONTAINER} relative z-10`}>
+          <Head
+            title="Mennesker og samfunn"
+            proof="Vi tror på menneskene — og gir muligheter til dem som trenger en ny sjanse."
+          />
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-7">
+            {sosialt.map((t) => (
+              <div
+                key={t.title}
+                className="rounded-[1.5rem] bg-white p-7 shadow-[0_1px_2px_rgba(13,43,64,0.06)]"
+              >
+                <h3 className="font-lato text-[19px] font-bold text-navy">
+                  {t.title}
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-navy/65">
+                  {t.body}
                 </p>
               </div>
             ))}
@@ -167,43 +167,41 @@ export function AnsvarPage() {
         </div>
       </section>
 
-      {/* Certifications */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center mb-14">
-            <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[#0078C4] mb-2.5">
-              Dokumentert kvalitet
-            </p>
-            <h2 className="text-3xl lg:text-[40px] font-bold text-gray-900 tracking-tight leading-[1.1]">
-              Sertifiseringer og standarder
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {certifications.map((certification, index) => {
-              const Icon = certification.icon;
-              return (
-                <div
-                  key={index}
-                  className="border border-gray-200 rounded-2xl p-8 text-center hover:border-[#0078C4]/40 hover:shadow-[0_12px_32px_rgba(0,120,196,0.08)] transition-all duration-300"
-                >
-                  <div className="w-14 h-14 bg-[#f5f9fc] rounded-xl flex items-center justify-center mx-auto mb-5">
-                    <Icon className="w-7 h-7 text-[#0078C4]" strokeWidth={1.75} />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-1.5">
-                    {certification.title}
-                  </h3>
-                  <p className="text-[15px] text-gray-600">
-                    {certification.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+      {/* Sertifiseringer og medlemskap */}
+      <section className="bg-white py-16 lg:py-20">
+        <div className={CONTAINER}>
+          <Head
+            title="Sertifiseringer og medlemskap"
+            proof="Dokumentert — ikke bare fine ord."
+          />
+          <ul className="mt-8 grid max-w-[820px] grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+              {
+                name: "Miljøfyrtårn",
+                detail: "Sertifisert siden 2014",
+              },
+              {
+                name: "Grønt Punkt",
+                detail: "Medlem, med EL-returavtale",
+              },
+              {
+                name: "GLOBALG.A.P.",
+                detail: "Fruktleverandørene våre er tilknyttet",
+              },
+            ].map((c) => (
+              <li
+                key={c.name}
+                className="rounded-[1.5rem] border border-navy/10 p-6 text-center"
+              >
+                <p className="font-lato text-[18px] font-bold text-navy">
+                  {c.name}
+                </p>
+                <p className="mt-1 text-[13px] text-navy/55">{c.detail}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
-
-      <CtaSection />
     </div>
   );
 }
