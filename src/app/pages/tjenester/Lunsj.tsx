@@ -1,8 +1,4 @@
-import {
-  ContentBlock,
-  ServicePage,
-  ServicePageData,
-} from "../../components/ServicePage";
+import { ServicePage, ServicePageData } from "../../components/ServicePage";
 import heroImg from "../../../images/lunsj/lunsj.png";
 import openingImg from "../../../images/hero/web/hero-lunsj.jpg";
 /* NOT div/web/lunsj.jpg — that is the same shot as the hero. */
@@ -20,31 +16,6 @@ import golunsjenImg from "../../../images/lunsj/cards/golunsjen.jpg";
 import superlunsjenImg from "../../../images/lunsj/cards/superlunsjen.jpg";
 
 const thumbs = "https://heltopplagt.no/application/files/cache/thumbnails";
-
-/*
- * Shared blocks for the three lunch-box sub-pages. The boxes are variants of
- * the same service, so the ordering argument and the logistics are identical —
- * only name, price and level differ. (The "Velg lunsjen som passer best…"
- * sentence from the live site is trimmed: the variant switcher embodies it.)
- */
-const LUNSJ_BULLETS = {
-  type: "bullets",
-  heading: "Ved å bestille lunsj fra oss får du:",
-  items: [
-    "Sunn lunsj levert helt inn på spiserommet før kl. 11 hver dag.",
-    "Et enkelt, variert og spennende måltid.",
-    "Effektivisert lunsjavviklingen, og du sparer tid og penger.",
-    "Et sosialt avbrekk i en travel hverdag, til fast tid hver eneste dag.",
-    "Bedre tid til viktige arbeidsoppgaver. Vi tar oss av lunsjen!",
-  ],
-} satisfies ContentBlock;
-
-const LUNSJ_LOGISTICS = {
-  type: "text",
-  paragraphs: [
-    "Vi kommer daglig med en eske som inneholder ferskt brød, dagens pålegg, grønnsaker, frukt og drikke. Noen ting, som for eksempel smør og syltetøy, kommer mandager og er ment å vare utover uken, mens det aller meste er dagens pålegg for at dere skal slippe å rydde det samme pålegget ut og inn av kjøleskapet hver dag. Lunsjkurven leveres helt inn på deres spiserom, og våre kunder opplever at de sparer masse verdifull tid med våre løsninger.",
-  ],
-} satisfies ContentBlock;
 
 export const lunsjData: ServicePageData = {
   path: "/tjenester/lunsj",
@@ -107,12 +78,14 @@ export const lunsjData: ServicePageData = {
          should show whole, un-cropped. */
       layout: "grid",
       items: [
+        /* Card copy = the opening lines of each box's live page
+           (heltopplagt.no/lunsj/lunsjkurver-1/<slug>). */
         {
           name: "Hverdagslunsjen",
           tag: "Rimelig",
           spec: "Den enkle lunsjen",
           description:
-            "Ferskt brød, dagens pålegg, grønnsaker og frukt — fordelene ved en ordnet lunsj, til lavest mulig pris.",
+            "Vår enkleste og rimeligste lunsjordning. Passer for dere som ønsker å spare penger, men samtidig ha noe som er ferskere og friskere enn matpakke.",
           image: hverdagslunsjenImg,
           to: "/tjenester/lunsj/hverdagslunsjen",
         },
@@ -121,7 +94,7 @@ export const lunsjData: ServicePageData = {
           tag: "Populær",
           spec: "Mest valgt",
           description:
-            "Den populære mellomvarianten med mer variasjon i pålegg og tilbehør.",
+            "Vår mest populære lunsjordning. God og variert, fersk og frisk. Et tidsbesparende og lønnsomt alternativ til å handle mat i butikken.",
           image: golunsjenImg,
           to: "/tjenester/lunsj/golunsjen",
         },
@@ -130,7 +103,7 @@ export const lunsjData: ServicePageData = {
           tag: "Luksuriøs",
           spec: "Vårt flaggskip",
           description:
-            "Kun våre flotteste brød- og påleggsvarianter, med hyppige innslag av karbonader, roastbiff, kokte egg, fiskekaker og kyllingvinger. Ferskpresset juice, eventuelt melk.",
+            "Vårt flaggskip blant selvbetjente lunsjordninger. Luksuriøst og velsmakende, godt og variert. Et fristende utvalg for dere som ønsker å gjøre noe ekstra ut av lunsjen.",
           image: superlunsjenImg,
           to: "/tjenester/lunsj/superlunsjen",
         },
@@ -227,41 +200,96 @@ export const lunsjData: ServicePageData = {
   ],
   subServices: [
     /*
-     * The three lunch boxes — variants of the same offering, so each page
-     * carries the shared blocks plus its own name, level and price. They
-     * replace the old combined "lunsjesker" sub-page (routes.tsx redirects
-     * the retired URL here). Descriptions from the catalog, prices from the
-     * live site's lunsjesker cards.
+     * The three lunch boxes — variants of the same offering. Copy is taken
+     * verbatim from heltopplagt.no/lunsj/lunsjkurver-1/<slug> (2026-09-04),
+     * with obvious typos in the source normalised ("Lunsjesjen" →
+     * "Lunsjesken", "variet" → "variert"). The live pages end with a "fyll inn
+     * skjema under" line; that is covered by the page's own closing action.
+     * They replace the old combined "lunsjesker" sub-page (routes.tsx
+     * redirects the retired URL here).
      */
     {
       slug: "hverdagslunsjen",
       title: "Hverdagslunsjen",
       variantOf: "lunsjesker",
-      priceNote: "Fra kr 32,- pr hode / dag",
+      priceNote: "Ca. 32 kr per person/dag",
       description:
-        "Ferskt brød, dagens pålegg, grønnsaker og frukt — fordelene ved en ordnet lunsj, til lavest mulig pris.",
+        "Vår enkleste og rimeligste lunsjordning. Passer for dere som ønsker å spare penger, men samtidig ha noe som er ferskere og friskere enn matpakke. Leveres i enheter tilpasset ca 5 pers.",
       image: hverdagslunsjenImg,
-      content: [LUNSJ_BULLETS, LUNSJ_LOGISTICS],
+      content: [
+        {
+          type: "bullets",
+          items: [
+            "Variert og sunt brød + margarin. Brødet kan leveres ferskt oppskåret.",
+            "2–3 typer pålegg hver dag; enkle og rimelige kjøtt- og fiskepålegg, hel gulost/brunost, syltetøy, leverpostei, italiensk salat. I tillegg leverer vi kokte egg hver fredag.",
+            "Juice/melk.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Hverdagslunsjen koster ca. 32 kr per person/dag. Lunsjesken leveres helt inn til ønsket rom, hver dag før kl 11.",
+            "Husk at det går an å gjøre tilleggsbestillinger ved behov/ønske.",
+          ],
+        },
+      ],
     },
     {
       slug: "golunsjen",
       title: "Go'lunsjen",
       variantOf: "lunsjesker",
-      priceNote: "Fra kr 50,- pr hode / dag",
+      priceNote: "Ca. 50 kr per person/dag",
       description:
-        "Den populære mellomvarianten med mer variasjon i pålegg og tilbehør.",
+        "Vår mest populære lunsjordning. God og variert, fersk og frisk. Et tidsbesparende og lønnsomt alternativ til å handle mat i butikken. Passer fra ca 5 pers og oppover.",
       image: golunsjenImg,
-      content: [LUNSJ_BULLETS, LUNSJ_LOGISTICS],
+      content: [
+        {
+          type: "bullets",
+          items: [
+            "Variert og sunt brød + margarin. Brødet kan leveres ferdig oppskåret.",
+            "Flere typer pålegg hver dag, varieres med 50 rullerende menyer. Her er vi innom de fleste kjente typer kjøtt- og fiskepålegg, majones, kaviar, assorterte skivede oster, smøre- og kremoster, italiensk- og skalldyrsalater, syltetøy, leverpostei og mye mer.",
+            "Ekstra fredagsmeny. Varierer mellom karbonader, roastbiff, kokte egg, fiskekaker og kyllingvinger.",
+            "Friske grønnsaker: tomat/agurk/salat/paprika.",
+            "Juice/melk.",
+            "1 frukt til hver er inkludert, men bytt gjerne ut med våre flotte fruktkurver.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Go'lunsjen koster ca. 50 kr per person/dag. Lunsjesken leveres helt inn til ønsket rom, hver dag før kl 11.",
+            "Husk at det går an å gjøre tilleggsbestillinger ved behov/ønske.",
+          ],
+        },
+      ],
     },
     {
       slug: "superlunsjen",
       title: "Superlunsjen",
       variantOf: "lunsjesker",
-      priceNote: "Fra kr 61,- pr hode / dag",
+      priceNote: "Ca. 61 kr per person/dag",
       description:
-        "Kun våre flotteste brød- og påleggsvarianter, med hyppige innslag av karbonader, roastbiff, kokte egg, fiskekaker og kyllingvinger. Ferskpresset juice, eventuelt melk.",
+        "Vårt flaggskip blant selvbetjente lunsjordninger. Luksuriøst og velsmakende, godt og variert. Et fristende utvalg for dere som ønsker å gjøre noe ekstra ut av lunsjen. Passer fra ca 5 pers og oppover.",
       image: superlunsjenImg,
-      content: [LUNSJ_BULLETS, LUNSJ_LOGISTICS],
+      content: [
+        {
+          type: "bullets",
+          items: [
+            "Inneholder kun våre flotteste brød- og påleggsvarianter.",
+            "Like variert, men mer eksklusive råvarer enn Go'lunsjen.",
+            "Med hyppige innslag av flott pålegg som karbonader, roastbiff, kokte egg, fiskekaker og kyllingvinger.",
+            "Godt og friskt utvalg av grønnsaker.",
+            "Ferskpresset juice, eventuelt melk.",
+            "Vi anbefaler å kombinere med våre flotte fruktkurver.",
+          ],
+        },
+        {
+          type: "text",
+          paragraphs: [
+            "Superlunsjen koster ca. 61 kr per person/dag. Lunsjesken leveres helt inn til ønsket rom, hver dag før kl 11.",
+          ],
+        },
+      ],
     },
     {
       slug: "ferdige-fat",
