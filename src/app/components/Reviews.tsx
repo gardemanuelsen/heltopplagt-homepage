@@ -2,13 +2,20 @@ import { useEffect, useRef } from "react";
 import { Quote, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { CONTAINER, Pill, SectionHead } from "./site";
 import { reviews } from "../../lib/reviews";
+import { useReveal } from "../../lib/motion/useReveal";
+import { useSplitReveal } from "../../lib/motion/useSplitReveal";
 
 const COUNT = reviews.length;
 /** Three copies back to back so there's always a real card to scroll to in either direction; the middle copy is "home". */
 const loopedReviews = [...reviews, ...reviews, ...reviews];
 
 export function Reviews() {
+  const sectionRef = useRef<HTMLElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
+
+  /* Heading rises out of its mask; the cards fade up as a staggered batch. */
+  useSplitReveal(sectionRef);
+  useReveal(sectionRef, { stagger: 0.08 });
   const activeRef = useRef(COUNT);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pollToken = useRef(0);
@@ -77,7 +84,10 @@ export function Reviews() {
   }
 
   return (
-    <section className="relative isolate overflow-hidden bg-sand py-20 lg:py-28">
+    <section
+      ref={sectionRef}
+      className="relative isolate overflow-hidden bg-sand py-20 lg:py-28"
+    >
       {/* Puzzle motif — warm amber tint on the warm ground, off the left edge. */}
       <span
         aria-hidden="true"
@@ -116,6 +126,7 @@ export function Reviews() {
 
         <div
           ref={rowRef}
+          data-reveal-stagger
           className="mt-12 flex gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {loopedReviews.map((review, index) => (

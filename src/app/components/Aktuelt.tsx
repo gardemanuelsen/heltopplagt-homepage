@@ -1,7 +1,10 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 import { Link } from "react-router";
 import { CONTAINER, Pill, SectionHead } from "./site";
 import { articles } from "../../lib/articles";
+import { useReveal } from "../../lib/motion/useReveal";
+import { useSplitReveal } from "../../lib/motion/useSplitReveal";
 
 /**
  * Homepage teaser for Aktuelt, driven by the real article data in
@@ -9,11 +12,15 @@ import { articles } from "../../lib/articles";
  * it's the most visual, evergreen story; the next two articles fill the list.
  */
 export function Aktuelt() {
+  const ref = useRef<HTMLElement>(null);
+  useSplitReveal(ref);
+  useReveal(ref, { stagger: 0.12 });
+
   const featured = articles[0];
   const listItems = articles.slice(1, 3);
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section ref={ref} className="bg-white py-20 lg:py-28">
       <div className={CONTAINER}>
         <SectionHead
           kicker="Aktuelt"
@@ -29,7 +36,7 @@ export function Aktuelt() {
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           {/* Featured — the gård */}
-          <Link to={`/aktuelt/${featured.slug}`} className="group block">
+          <Link to={`/aktuelt/${featured.slug}`} data-reveal className="group block">
             <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem]">
               <img
                 src={featured.image}
@@ -58,7 +65,7 @@ export function Aktuelt() {
           </Link>
 
           {/* The next real stories */}
-          <div className="flex flex-col gap-5">
+          <div data-reveal-stagger className="flex flex-col gap-5">
             {listItems.map((item) => (
               <Link
                 key={item.slug}

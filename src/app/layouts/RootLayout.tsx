@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { ScrollTriggerRefresher } from "../../lib/motion/ScrollTriggerRefresher";
 
 /**
  * Scroll to top on route change — unless navigating to an in-page anchor, or
@@ -26,9 +27,10 @@ export function RootLayout() {
   return (
     <div className="min-h-dvh bg-white">
       <ScrollToTop />
+      <ScrollTriggerRefresher />
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-base-100 focus:text-base-content focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-btn focus:bg-white focus:px-4 focus:py-2 focus:text-navy focus:shadow-lg"
       >
         Hopp til hovedinnhold
       </a>

@@ -11,52 +11,10 @@ import { Link } from "react-router";
 export const LIVERY_CONTAINER =
   "mx-auto w-full max-w-[1440px] 2xl:max-w-[1560px] 3xl:max-w-[1680px] 4xl:max-w-[1800px] 5xl:max-w-[1920px] px-6 sm:px-8 2xl:px-12 3xl:px-16 4xl:px-20 5xl:px-24";
 
-export interface LiveryService {
-  name: string;
-  href: string;
-  /** One checkable fact — a real client or a documented capability. Never invented. */
-  proof: string;
-  blurb: string;
-}
-
-export const SERVICES: LiveryService[] = [
-  {
-    name: "Frukt",
-    href: "/tjenester/frukt",
-    proof: "Frukt til Vinmonopolet siden 2018",
-    blurb: "Fersk kurv, levert daglig eller etter behov. Den enkleste starten.",
-  },
-  {
-    name: "Lunsj",
-    href: "/tjenester/lunsj",
-    proof: "Lunsjordning for Team Verksted, Follo",
-    blurb: "Lønnsomme, velsmakende ordninger for fem personer og oppover.",
-  },
-  {
-    name: "Kantine",
-    href: "/tjenester/kantine",
-    proof: "Full kantinedrift for Kronos Titan",
-    blurb: "Vi tar hele lunsjavviklingen — også der dere ikke har eget kjøkken.",
-  },
-  {
-    name: "Catering",
-    href: "/tjenester/catering",
-    proof: "Alt laget i vårt eget kjøkken",
-    blurb: "Varmmat, salater, påsmurt og møtemat — fra bunnen, levert klart.",
-  },
-  {
-    name: "Inneklima",
-    href: "/tjenester/inneklima",
-    proof: "Ren luft uten byggtekniske endringer",
-    blurb: "Riktig temperatur og renere luft, montert uten inngrep i bygget.",
-  },
-  {
-    name: "Renhold",
-    href: "/tjenester/renhold",
-    proof: "Renhold for Schibsted Trykk Oslo",
-    blurb: "Rene lokaler gir bedre trivsel og lavere sykefravær. Fast rute, fast folk.",
-  },
-];
+/* The service data now lives in src/lib/services.ts; re-exported here for the
+   pages that still import it from this module. */
+export { SERVICES } from "../../lib/services";
+export type { Service as LiveryService } from "../../lib/services";
 
 /**
  * Small stencil-cut plate: a tracked-caps label. Overlays photo panels and tags cards.

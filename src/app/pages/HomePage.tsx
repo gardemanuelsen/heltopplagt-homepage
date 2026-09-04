@@ -1,17 +1,17 @@
 /*
- * Helt Opplagt homepage — "Opplagt" refresh (2026-09-01). Calm, airy,
- * photo-forward, per the reference language of compass-group.no, detrestuer.no
- * and incworks.no.
- *
- * Section grounds carry the rhythm (no hairline seams): white hero + logo
- * strip → cloud (pale blue) services → white about → sand (warm) reviews →
- * white aktuelt → navy contact panel → navy footer. Headings are Lato Light,
- * body Inter; every action is a pill; the arch photo crop (hero, About) is the
- * one signature shape.
+ * Helt Opplagt homepage (2026-09-04). A deliberate mix, per the user's review:
+ *   - "Poster" pieces (components/poster.tsx, Lato Light clamp scale, hard
+ *     corners): Header, References (logo marquee), Services (sticky photo +
+ *     ruled rows with giant numerals), Contact (navy block).
+ *   - "Opplagt" pieces (components/site.tsx, pills, arch photo crops, tinted
+ *     grounds): Hero, About, Reviews, Aktuelt, Footer.
+ * Every section runs the GSAP motion from src/lib/motion/ (split headings,
+ * staggered reveals, count-up, parallax, marquee), all behind
+ * prefers-reduced-motion.
  *
  * Order: what we deliver (Services) → who we are (About) → what customers say
  * (Reviews) → latest (Aktuelt) → get in touch (Contact), with the customer
- * logos promoted to a trust strip directly under the hero.
+ * logos as a trust band directly under the hero.
  */
 import { Hero } from "../components/Hero";
 import { Services } from "../components/Services";

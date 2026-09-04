@@ -1,6 +1,8 @@
 import { ExternalLink, Mail, Phone } from "lucide-react";
+import { useRef } from "react";
 import { Link } from "react-router";
 import logoSrc from "../../images/logo.png";
+import { useReveal } from "../../lib/motion/useReveal";
 import { CONTAINER, Pill } from "./site";
 import { SERVICES } from "./livery";
 
@@ -17,12 +19,16 @@ const HEADING =
   "mb-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/45";
 
 export function Footer() {
+  const ref = useRef<HTMLElement>(null);
+  useReveal(ref, { stagger: 0.08 });
+
   return (
-    <footer className="bg-navy text-white">
+    <footer ref={ref} className="bg-navy text-white">
       {/* Two columns already on mobile, so the link lists sit side by side
           instead of stacking into one long scroll. Brand and contact span
           the full width until the four-column layout kicks in on lg. */}
       <div
+        data-reveal-stagger
         className={`${CONTAINER} grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-[1.6fr_1fr_1fr_1.3fr] lg:gap-10 lg:py-20`}
       >
         <div className="col-span-2 lg:col-span-1">

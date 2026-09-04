@@ -1,4 +1,5 @@
-import { ServicePage, ServicePageData } from "../../components/ServicePage";
+import type { ServicePageData } from "../../components/ServicePage";
+import { ServicePagePoster } from "../../components/ServicePagePoster";
 import packehallImg from "../../../images/frukt/frukt2.png";
 import pakkerImg from "../../../images/frukt/frukt.png";
 import heroFruktImg from "../../../images/hero/web/hero-frukt.jpg";
@@ -475,6 +476,8 @@ export const fruktData: ServicePageData = {
   ],
 };
 
+/* Frukt is the first service on the poster template; the other five still
+   render through ServicePage until they are migrated. */
 export function FruktPage() {
-  return <ServicePage data={fruktData} />;
+  return <ServicePagePoster data={fruktData} />;
 }

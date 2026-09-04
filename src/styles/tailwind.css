@@ -129,6 +129,15 @@
    * brand phrase — never for headings, UI or body copy.
    */
   --font-payoff: "Titillium Web", "Inter", system-ui, sans-serif;
+
+  /*
+   * "Poster" system (2026-09-04 homepage): hard shapes, two radii only.
+   *   rounded-btn   — buttons, fields, chips, tabs, small plates
+   *   rounded-photo — every photo that is not full-bleed
+   */
+  --radius-btn: 4px;
+  --radius-photo: 8px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /*
@@ -300,6 +309,93 @@
   @media (prefers-reduced-motion: reduce) {
     .livery-sheen::after { transition: none; }
   }
+}
+
+/*
+ * POSTER TYPE SCALE (2026-09-04 homepage). Six display sizes, all Lato Light
+ * (400 for the smallest), fluid via clamp() so no breakpoint classes are
+ * needed. The scale IS the design: retune it here, not per component.
+ *   display-hero  the homepage H1                       42px → 112px
+ *   display-1     section H2s                           40px →  88px
+ *   display-2     service names, menu links, feature H3 32px →  64px
+ *   display-3     card/row titles                       24px →  40px
+ *   quote-scale   the single review quote               22px →  40px
+ *   numeral(-sm)  statistics and index numerals
+ *   payoff-hero   the footer payoff line (payoff face)
+ *   label-caps    kickers and small labels (Inter)
+ */
+@utility display-hero {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(2.625rem, 7.2vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+@utility display-1 {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 5.5vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+@utility display-2 {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+@utility display-3 {
+  font-family: var(--font-lato);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+@utility quote-scale {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(1.375rem, 2.6vw, 2.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+@utility numeral {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(4rem, 10vw, 11rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+@utility numeral-sm {
+  font-family: var(--font-lato);
+  font-weight: 300;
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  line-height: 0.85;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+@utility payoff-hero {
+  font-family: var(--font-payoff);
+  font-weight: 900;
+  font-size: clamp(2.75rem, 8.5vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+@utility label-caps {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+/* Soft edges for the logo marquee so the track fades in and out of view. */
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
 /*

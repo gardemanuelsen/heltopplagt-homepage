@@ -1,258 +1,230 @@
-import {
-  Apple,
-  ChefHat,
-  ChevronDown,
-  ExternalLink,
-  Mail,
-  Menu,
-  Phone,
-  Sandwich,
-  Sparkles,
-  UtensilsCrossed,
-  Wind,
-  X,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ExternalLink, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import logoSrc from "../../images/logo.png";
-import { CONTAINER } from "./site";
-import { SERVICES } from "./livery";
+import { COMPANY_LINKS, SERVICES } from "../../lib/services";
+import { gsap, useGSAP, MOTION_OK } from "../../lib/motion/gsap";
+import { useHeaderHide } from "../../lib/motion/useHeaderHide";
+import { Button, Index, Label, SQUARE_BTN, WRAP } from "./poster";
 
-/** One icon per service for the small-screen dropdown. */
-const SERVICE_ICONS: Record<string, LucideIcon> = {
-  Frukt: Apple,
-  Lunsj: Sandwich,
-  Kantine: UtensilsCrossed,
-  Catering: ChefHat,
-  Inneklima: Wind,
-  Renhold: Sparkles,
-};
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-const secondaryLinks = [
-  { label: "Om oss", to: "/om-oss" },
-  { label: "Referanser", to: "/referanser" },
-  { label: "Aktuelt", to: "/aktuelt" },
-  { label: "Ansvar", to: "/ansvar" },
-  { label: "Karriere", to: "/karriere" },
-  { label: "Kontakt", to: "/kontakt" },
-];
-
-const MENU_POPOVER_ID = "header-menu-popover";
-const MENU_LINK_STEP = 45;
-const MENU_SECOND_COLUMN_START = 150;
-
-function menuLinkDelay(row: number, col: number) {
-  return col === 0
-    ? row * MENU_LINK_STEP
-    : MENU_SECOND_COLUMN_START + row * MENU_LINK_STEP;
-}
-
-function closeMenu() {
-  const el = document.getElementById(MENU_POPOVER_ID) as
-    | (HTMLElement & { hidePopover?: () => void })
-    | null;
-  el?.hidePopover?.();
-}
-
+/**
+ * Compact white bar (logo, the six services at lg+, phone, "Kontakt oss",
+ * "Meny") that hides on scroll down and returns on scroll up, plus a
+ * full-screen navy menu dialog where the services are set as giant numbered
+ * links. React state, no Popover API, no daisyUI.
+ */
 export function Header() {
-  const menuRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDetailsElement>(null);
-  const [menuExpanded, setMenuExpanded] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const closingRef = useRef(false);
+  const closeRef = useRef<() => void>(() => {});
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const { show } = useHeaderHide(headerRef, { disabled: open });
 
-  /* The <details>-based dropdown doesn't close on outside clicks by itself. */
+  /* A navigation always closes the menu, instantly. */
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      const el = servicesRef.current;
-      if (el?.open && !el.contains(e.target as Node)) el.removeAttribute("open");
-    };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
-  }, []);
+    setOpen(false);
+  }, [pathname]);
 
+  /* Open/close motion. `revertOnUpdate` clears the previous context when
+     `open` flips, so a half-finished tween never lingers. */
+  const { contextSafe } = useGSAP(
+    () => {
+      const panel = panelRef.current;
+      if (!open || !panel) return;
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.from(panel, { yPercent: -100, duration: 0.6, ease: "expo.out" });
+        gsap.from("[data-menu-link]", {
+          y: 32,
+          opacity: 0,
+          stagger: 0.04,
+          duration: 0.6,
+          delay: 0.15,
+        });
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [open], scope: panelRef, revertOnUpdate: true }
+  );
+
+  closeRef.current = contextSafe(() => {
+    if (closingRef.current) return;
+    const panel = panelRef.current;
+    if (!panel || !window.matchMedia(MOTION_OK).matches) {
+      setOpen(false);
+      return;
+    }
+    closingRef.current = true;
+    gsap.to(panel, {
+      yPercent: -100,
+      duration: 0.4,
+      ease: "power3.in",
+      onComplete: () => {
+        closingRef.current = false;
+        setOpen(false);
+      },
+    });
+  });
+
+  /* Dialog behaviour: scroll lock, Esc, focus in, focus trap, focus back. */
   useEffect(() => {
-    const el = menuRef.current;
-    if (!el) return;
-    const onToggle = (e: Event) => {
-      const newState = (e as unknown as { newState?: string }).newState;
-      if (newState === "open") {
-        setMenuExpanded(false);
-        requestAnimationFrame(() => setMenuExpanded(true));
+    if (!open) return;
+    closingRef.current = false;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeBtnRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeRef.current();
         return;
       }
-      setMenuExpanded(false);
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const items = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
-    el.addEventListener("toggle", onToggle);
-    return () => el.removeEventListener("toggle", onToggle);
-  }, []);
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKey);
+      menuBtnRef.current?.focus({ preventScroll: true });
+    };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-navy/8 bg-white/95 backdrop-blur">
-      <div className={`${CONTAINER} flex h-[4.5rem] items-center gap-5 lg:gap-7`}>
-        <Link to="/" className="flex-shrink-0">
-          <img src={logoSrc} alt="Helt Opplagt" className="h-8 object-contain" />
-        </Link>
-
-        {/* The six services, directly clickable (lg+). Page links live in the menu. */}
-        <nav aria-label="Tjenester" className="hidden items-center gap-4 lg:flex xl:gap-6">
-          {SERVICES.map((s) => (
-            <Link
-              key={s.href}
-              to={s.href}
-              className="text-[14px] font-medium text-navy/70 transition-colors hover:text-brand"
-            >
-              {s.name}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Between sm and lg the services collapse into a dropdown. On phones
-            it is hidden entirely — the fullscreen menu covers the services,
-            and the dropdown was redundant next to it. */}
-        <details ref={servicesRef} className="dropdown hidden sm:block lg:hidden">
-          <summary className="flex cursor-pointer list-none items-center gap-1 text-[14px] font-medium text-navy/70 transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
-            Tjenester
-            <ChevronDown className="h-4 w-4" strokeWidth={2.25} />
-          </summary>
-          <ul className="dropdown-content menu z-[60] mt-3 w-52 rounded-2xl border border-navy/10 bg-white p-2 shadow-[0_16px_36px_-12px_rgba(13,43,64,0.25)]">
-            {SERVICES.map((s) => {
-              const Icon = SERVICE_ICONS[s.name] ?? ChevronDown;
-              return (
-                <li key={s.href}>
-                  <Link
-                    to={s.href}
-                    onClick={() => servicesRef.current?.removeAttribute("open")}
-                    className="flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-[14px] font-medium text-navy hover:bg-cloud hover:text-brand"
-                  >
-                    <Icon
-                      className="h-4 w-4 flex-shrink-0 text-brand"
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    />
-                    {s.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </details>
-
-        <div className="ml-auto flex items-center gap-2.5 sm:gap-3">
-          <a
-            href="tel:02346"
-            className="hidden items-center gap-2 text-[14px] font-semibold text-navy transition-colors hover:text-brand md:flex"
-          >
-            <Phone className="h-4 w-4 text-brand" strokeWidth={2.25} />
-            02346
-          </a>
-
-          <Link
-            to="/kontakt"
-            className="hidden items-center justify-center rounded-full bg-brand px-5 py-2.5 text-[13.5px] font-semibold text-white transition-colors hover:bg-brand-deep sm:inline-flex"
-          >
-            Kontakt oss
+    <>
+      <header
+        ref={headerRef}
+        onFocusCapture={show}
+        className="sticky top-0 z-50 h-16 border-b border-navy/10 bg-white"
+      >
+        <div className={`${WRAP} flex h-full items-center gap-6`}>
+          <Link to="/" className="flex-shrink-0">
+            <img src={logoSrc} alt="Helt Opplagt" className="h-7 w-auto object-contain" />
           </Link>
 
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-navy/20 px-4 py-2.5 text-[13.5px] font-semibold text-navy transition-colors hover:border-brand hover:text-brand"
-            {...({ popovertarget: MENU_POPOVER_ID } as Record<string, string>)}
-          >
-            <Menu className="h-4 w-4" />
-            Meny
-          </button>
-        </div>
-      </div>
+          {/* The six services, directly clickable at lg+. Page links live in the menu. */}
+          <nav aria-label="Tjenester" className="hidden items-center gap-6 lg:flex xl:gap-8">
+            {SERVICES.map((s) => (
+              <Link
+                key={s.href}
+                to={s.href}
+                className="relative py-1 text-[14px] font-medium text-navy/75 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 after:ease-out-expo hover:text-navy hover:after:scale-x-100"
+              >
+                {s.name}
+              </Link>
+            ))}
+          </nav>
 
-      {/* Full-page menu */}
-      <div
-        ref={menuRef}
-        className="modal z-[70]"
-        id={MENU_POPOVER_ID}
-        {...({ popover: "auto" } as Record<string, string>)}
-      >
+          <div className="ml-auto flex items-center gap-3">
+            <a
+              href="tel:02346"
+              className="hidden items-center gap-2 text-[14px] font-semibold text-navy transition-colors hover:text-brand md:inline-flex"
+            >
+              <Phone className="h-4 w-4 text-brand" strokeWidth={2.25} />
+              02346
+            </a>
+            <span className="hidden sm:inline-flex">
+              <Button to="/kontakt" size="sm">
+                Kontakt oss
+              </Button>
+            </span>
+            <button
+              ref={menuBtnRef}
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-expanded={open}
+              aria-controls="site-menu"
+              className="inline-flex h-10 items-center gap-2 rounded-btn border border-navy/25 px-4 text-[14px] font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
+            >
+              <Menu className="h-4 w-4" strokeWidth={2.25} />
+              Meny
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {open && (
         <div
-          className={
-            "modal-box flex h-full max-h-none w-full max-w-none flex-col rounded-none bg-navy p-0 text-white transition-[scale,opacity] duration-300 ease-out " +
-            (menuExpanded ? "scale-100 opacity-100" : "scale-95 opacity-0")
-          }
+          id="site-menu"
+          ref={panelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Meny"
+          className="fixed inset-0 z-[70] flex flex-col bg-navy text-white"
         >
-          <div className="flex h-[4.5rem] flex-shrink-0 items-center justify-between border-b border-white/10 px-6 sm:px-8">
-            <Link to="/" onClick={closeMenu} className="flex-shrink-0">
+          <div
+            className={`${WRAP} flex h-16 flex-shrink-0 items-center justify-between border-b border-white/10`}
+          >
+            <Link to="/" className="flex-shrink-0">
               <img
                 src={logoSrc}
                 alt="Helt Opplagt"
-                className="h-8 object-contain brightness-0 invert"
+                className="h-7 w-auto object-contain brightness-0 invert"
               />
             </Link>
             <button
+              ref={closeBtnRef}
               type="button"
+              onClick={() => closeRef.current()}
               aria-label="Lukk meny"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition-colors hover:border-white hover:bg-white/10"
-              {...({
-                popovertarget: MENU_POPOVER_ID,
-                popovertargetaction: "hide",
-              } as Record<string, string>)}
+              className={`${SQUARE_BTN} h-10 w-10 border-white/30 text-white hover:bg-white hover:text-navy`}
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4" strokeWidth={2.25} />
             </button>
           </div>
 
-          {/* Compact on mobile so all links fit without scrolling. */}
-          <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-14">
-            <div className="mx-auto grid max-w-[1000px] gap-6 sm:grid-cols-2 sm:gap-16">
-              <nav>
-                <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:mb-5">
-                  <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
-                  Tjenester
-                </p>
-                <ul className="flex flex-col gap-1">
+          <div className="flex-1 overflow-y-auto">
+            <div className={`${WRAP} grid gap-12 py-10 sm:grid-cols-12 sm:py-16`}>
+              <nav aria-label="Tjenester" className="sm:col-span-7">
+                <Label tone="white">Tjenester</Label>
+                <ul className="mt-6">
                   {SERVICES.map((s, i) => (
-                    <li key={s.href} className="overflow-hidden">
+                    <li key={s.href}>
                       <Link
                         to={s.href}
-                        onClick={closeMenu}
-                        style={{
-                          transitionDelay: menuExpanded
-                            ? `${menuLinkDelay(i, 0)}ms`
-                            : "0ms",
-                        }}
-                        className={
-                          "inline-block py-0.5 font-lato text-xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:py-1.5 sm:text-4xl " +
-                          (menuExpanded
-                            ? "translate-x-0 opacity-100"
-                            : "-translate-x-3 opacity-0")
-                        }
+                        data-menu-link
+                        className="group flex items-baseline gap-4 py-1.5 sm:py-2.5"
                       >
-                        {s.name}
+                        <Index n={i + 1} className="text-[13px] text-white/50" />
+                        <span className="display-2 transition-colors group-hover:text-aqua">
+                          {s.name}
+                        </span>
                       </Link>
                     </li>
                   ))}
                 </ul>
               </nav>
 
-              <nav>
-                <p className="mb-2.5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:mb-5">
-                  <span aria-hidden="true" className="text-[14px] font-bold text-aqua">/</span>
-                  Om Helt Opplagt
-                </p>
-                <ul className="flex flex-col gap-1">
-                  {secondaryLinks.map((l, i) => (
-                    <li key={l.to} className="overflow-hidden">
+              <nav aria-label="Om Helt Opplagt" className="sm:col-span-5">
+                <Label tone="white">Om Helt Opplagt</Label>
+                <ul className="mt-6">
+                  {COMPANY_LINKS.map((l) => (
+                    <li key={l.to}>
                       <Link
                         to={l.to}
-                        onClick={closeMenu}
-                        style={{
-                          transitionDelay: menuExpanded
-                            ? `${menuLinkDelay(i, 1)}ms`
-                            : "0ms",
-                        }}
-                        className={
-                          "inline-block py-0.5 font-lato text-xl font-light tracking-[-0.01em] transition-[translate,opacity,color] duration-300 ease-out hover:text-aqua sm:py-1.5 sm:text-4xl " +
-                          (menuExpanded
-                            ? "translate-x-0 opacity-100"
-                            : "-translate-x-3 opacity-0")
-                        }
+                        data-menu-link
+                        className="display-3 block py-1 transition-colors hover:text-aqua sm:py-1.5"
                       >
                         {l.label}
                       </Link>
@@ -263,18 +235,20 @@ export function Header() {
             </div>
           </div>
 
-          <div className="flex flex-shrink-0 flex-col items-start justify-between gap-4 border-t border-white/10 px-6 py-6 sm:flex-row sm:items-center sm:px-8">
-            <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+          <div
+            className={`${WRAP} flex flex-shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/10 py-5 sm:py-6`}
+          >
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 sm:gap-x-8">
               <a
                 href="mailto:bli@heltopplagt.no"
-                className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-aqua"
+                className="flex items-center gap-2 text-[14px] text-white/70 transition-colors hover:text-aqua"
               >
                 <Mail className="h-4 w-4" />
                 bli@heltopplagt.no
               </a>
               <a
                 href="tel:02346"
-                className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-aqua"
+                className="flex items-center gap-2 text-[14px] font-semibold text-white/70 transition-colors hover:text-aqua"
               >
                 <Phone className="h-4 w-4" />
                 02346
@@ -284,24 +258,14 @@ export function Header() {
               href="https://www.linkedin.com/company/helt-opplagt"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition-colors hover:border-aqua hover:text-aqua"
               aria-label="LinkedIn"
+              className={`${SQUARE_BTN} h-10 w-10 border-white/30 text-white hover:border-aqua hover:text-aqua`}
             >
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
         </div>
-        <div className="modal-backdrop">
-          <button
-            {...({
-              popovertarget: MENU_POPOVER_ID,
-              popovertargetaction: "hide",
-            } as Record<string, string>)}
-          >
-            close
-          </button>
-        </div>
-      </div>
-    </header>
+      )}
+    </>
   );
 }

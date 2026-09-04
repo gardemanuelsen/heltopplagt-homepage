@@ -63,6 +63,7 @@ export function SectionHead({
       <div className="min-w-0 max-w-[46rem]">
         <Kicker onDark={onDark}>{kicker}</Kicker>
         <h2
+          data-split
           className={
             "mt-4 font-lato text-[30px] font-light leading-[1.12] tracking-[-0.01em] sm:text-[38px] lg:text-[44px] " +
             (onDark ? "text-white" : "text-navy")
